@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # adding files
 add_library(tinysdl 
-src/init.cpp
+src/window.cpp
 ) 
 
 target_include_directories(tinysdl
