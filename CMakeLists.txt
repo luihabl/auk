@@ -9,10 +9,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(tinysdl 
 src/window.cpp
 src/log.cpp
+src/graphics.cpp
+src/third_party/glad.c
 ) 
 
 target_include_directories(tinysdl
 PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/third_party>
 )
 
 if (NOT DEFINED SDL2_INCLUDE_DIRS OR NOT DEFINED SDL2_LIBRARIES)

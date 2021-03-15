@@ -1,11 +1,11 @@
 #pragma once 
-#include <string>
 #include <SDL.h>
 
 namespace TinySDL {
     namespace Window {
-        void init(std::string name, int w, int h);
+        void init(char * name, int w, int h);
         void close();
-        SDL_Window * get();
+        SDL_Window * get_window();
+        SDL_GLContext * get_context();
     }
 }
