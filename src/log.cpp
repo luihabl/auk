@@ -1,10 +1,12 @@
 #include <log.h>
-#include <iostream> 
-#include <memory>
-#include <string>
-#include <stdexcept>
+#include <stdarg.h>
+#include <stdio.h>
 
 using namespace TinySDL;
+
+#ifndef LOG_MSG_LEN
+#define LOG_MSG_LEN 1024
+#endif
 
 namespace {
     Log::Level current_log_level;
@@ -14,41 +16,66 @@ void Log::set_level(Log::Level level) {
     current_log_level = level;
 }
 
-template<typename ... T>
-void Log::print(Log::Level level, const std::string& format, T ... args ) {
-    if (level <= current_log_level)
-        std::cout << Log::string_format(format, args ... ) << std::endl;
-}
 
-template<typename ... T>
-void Log::debug(const std::string& format, T ... args ) {
-    Log::print(Log::Level::Debug, format, args ... );
-}
+void Log::print(char * msg, ... ) {
 
-template<typename ... T>
-void Log::info(const std::string& format, T ... args ) {
-    Log::print(Log::Level::Info, format, args ... );
-}
-
-template<typename ... T>
-void Log::warn(const std::string& format, T ... args ) {
-    Log::print(Log::Level::Warning, format, args ... );
-}
-
-template<typename ... T>
-void Log::error(const std::string& format, T ... args ) {
-    Log::print(Log::Level::Error, format, args ... );
-}
-
-
-template<typename ... T>
-std::string Log::string_format( const std::string& format, T ... args )
-{
-    int size = snprintf( nullptr, 0, format.c_str(), args ... ) + 1;
-    if( size <= 0 ) throw std::runtime_error( "Error during formatting." ); 
+    char formatted_msg[LOG_MSG_LEN];
     
-    std::unique_ptr<char[]> buf( new char[ size ] ); 
-    snprintf( buf.get(), size, format.c_str(), args ... );
-    
-    return std::string( buf.get(), buf.get() + size - 1 );
+    va_list args;
+    va_start(args, msg);
+    const auto r = vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
+    va_end(args);
+
+    printf("%s\n", formatted_msg);
+}
+
+void Log::print(char * msg, va_list args ) {
+    char formatted_msg[LOG_MSG_LEN];
+    const auto r = vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
+    printf("%s\n", formatted_msg);
+}
+
+void Log::log(Log::Level level, char * msg, ...) {
+    if (level > current_log_level) return;
+
+    va_list args;
+    va_start(args, msg);
+    Log::print(msg, args);
+    va_end(args);
+}
+
+void Log::debug(char * msg, ...) {
+    if (Log::Level::Debug > current_log_level) return;
+
+    va_list args;
+    va_start(args, msg);
+    Log::print(msg, args);
+    va_end(args);
+}
+
+void Log::info(char * msg, ...) {
+    if (Log::Level::Info > current_log_level) return;
+
+    va_list args;
+    va_start(args, msg);
+    Log::print(msg, args);
+    va_end(args);
+}
+
+void Log::warn(char * msg, ...) {
+    if (Log::Level::Warning > current_log_level) return;
+
+    va_list args;
+    va_start(args, msg);
+    Log::print(msg, args);
+    va_end(args);
+}
+
+void Log::error(char * msg, ...) {
+    if (Log::Level::Error > current_log_level) return;
+
+    va_list args;
+    va_start(args, msg);
+    Log::print(msg, args);
+    va_end(args);
 }
