@@ -1,9 +1,8 @@
-#include <window.h>
-#include <log.h>
-#include <graphics/graphics.h>
 #include <SDL.h>
 
-
+#include "tinysdl/core/window.h"
+#include "tinysdl/core/log.h"
+#include "tinysdl/graphics/graphics.h"
 
 using namespace TinySDL;
 

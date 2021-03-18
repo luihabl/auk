@@ -2,5 +2,5 @@
 
 #include <SDL.h>
 
-#include <window.h>
-#include <log.h>
+#include "tinysdl/core/window.h"
+#include "tinysdl/core/log.h"

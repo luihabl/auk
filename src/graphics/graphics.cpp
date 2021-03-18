@@ -1,8 +1,8 @@
-#include <graphics/graphics.h>
-#include <log.h>
-
 #include <SDL.h>
 #include <glad/glad.h>
+
+#include "tinysdl/graphics/graphics.h"
+#include "tinysdl/core/log.h"
 
 
 using namespace TinySDL;

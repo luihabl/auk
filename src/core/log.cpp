@@ -1,6 +1,7 @@
-#include <log.h>
 #include <stdarg.h>
 #include <stdio.h>
+
+#include "tinysdl/core/log.h"
 
 using namespace TinySDL;
 
