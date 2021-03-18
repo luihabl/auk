@@ -12,6 +12,7 @@ src/core/window.cpp
 src/core/log.cpp
 
 src/graphics/graphics.cpp
+src/graphics/shader.cpp
 
 src/ext/glad.c
 
