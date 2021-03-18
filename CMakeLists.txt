@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(tinysdl 
 src/window.cpp
 src/log.cpp
-src/graphics.cpp
+src/graphics/graphics.cpp
 src/third_party/glad.c
 ) 
 

@@ -1,6 +1,6 @@
 #include <window.h>
 #include <log.h>
-#include <graphics.h>
+#include <graphics/graphics.h>
 #include <SDL.h>
 
 
