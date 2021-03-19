@@ -5,10 +5,6 @@
 
 using namespace TinySDL;
 
-#ifndef LOG_MSG_LEN
-#define LOG_MSG_LEN 1024
-#endif
-
 namespace {
     Log::Level current_log_level;
 }
@@ -48,35 +44,51 @@ void Log::log(Log::Level level, char * msg, ...) {
 void Log::debug(char * msg, ...) {
     if (Log::Level::Debug > current_log_level) return;
 
+    char formatted_msg[LOG_MSG_LEN];
+
     va_list args;
     va_start(args, msg);
-    Log::print(msg, args);
+    vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
     va_end(args);
+
+    printf(COLOR_BLUE "DEBUG: %s\n" COLOR_RESET, formatted_msg);
 }
 
 void Log::info(char * msg, ...) {
     if (Log::Level::Info > current_log_level) return;
 
+    char formatted_msg[LOG_MSG_LEN];
+
     va_list args;
     va_start(args, msg);
-    Log::print(msg, args);
+    vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
     va_end(args);
+
+    printf("%s\n", formatted_msg);
 }
 
 void Log::warn(char * msg, ...) {
     if (Log::Level::Warning > current_log_level) return;
 
+    char formatted_msg[LOG_MSG_LEN];
+
     va_list args;
     va_start(args, msg);
-    Log::print(msg, args);
+    vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
     va_end(args);
+
+    printf(COLOR_YELLOW "WARNING: %s\n" COLOR_RESET, formatted_msg);
 }
 
 void Log::error(char * msg, ...) {
     if (Log::Level::Error > current_log_level) return;
 
+    char formatted_msg[LOG_MSG_LEN];
+
     va_list args;
     va_start(args, msg);
-    Log::print(msg, args);
+    vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
     va_end(args);
+
+    printf(COLOR_RED "ERROR: %s\n" COLOR_RESET, formatted_msg);
 }

@@ -10,7 +10,7 @@ void Shader::init() {
     this->id = glCreateProgram();
 }
 
-Shader & Shader::use() {
+Shader & Shader::use() {   
     glUseProgram(this->id);
     return *this;
 }
@@ -18,9 +18,9 @@ Shader & Shader::use() {
 void Shader::add_shader(const char* source, GLenum type) {
 
     unsigned int id_shader = glCreateShader(type);
-    GLint code_length = strlen(source);
+    GLint source_len = (GLint) strlen(source);
 
-    glShaderSource(id_shader, 1, &source, &code_length);
+    glShaderSource(id_shader, 1, &source, &source_len);
     glCompileShader(id_shader);
 
     int success;
@@ -33,3 +33,4 @@ void Shader::add_shader(const char* source, GLenum type) {
  
     glAttachShader(id, id_shader);
 }
+

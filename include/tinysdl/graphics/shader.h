@@ -9,6 +9,7 @@ namespace TinySDL {
             Shader() = default;
 
             unsigned int id;
+            bool compiled = false;
             
             Shader & use();
             
