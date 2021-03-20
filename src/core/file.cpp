@@ -19,6 +19,6 @@ std::string File::read(std::string file_path) {
         return(contents);
     }
     
-    Log::error("Could not find: %s", file_path);
+    Log::error("File does not exist: %s", file_path.c_str());
     return "";
 }

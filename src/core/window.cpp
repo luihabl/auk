@@ -31,8 +31,8 @@ SDL_Window * Window::init(char * name, int w, int h, int x, int y, uint32_t flag
     SDL_GetVersion(&sdl_version);
     Log::info("SDL %i.%i.%i", sdl_version.major, sdl_version.minor, sdl_version.patch);
 
+    //Initializing Open GL
     context = SDL_GL_CreateContext( window );
-
     Graphics::load_gl_functions();
 
     return window;

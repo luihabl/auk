@@ -106,7 +106,8 @@ Shader Shader::from_file(const char* vertex_path, const char* frag_path, const c
     if(geom_path != nullptr)
         geom_src   = File::read(geom_path);
 
-    shader.compile_all(vertex_src.c_str(), frag_src.c_str(), geom_path != nullptr ? geom_src.c_str() : nullptr);
+    if (frag_src != "" && vertex_src != "")
+        shader.compile_all(vertex_src.c_str(), frag_src.c_str(), geom_path != nullptr ? geom_src.c_str() : nullptr);
     return shader;    
 }
 

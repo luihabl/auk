@@ -14,9 +14,9 @@ src/core/file.cpp
 
 src/graphics/graphics.cpp
 src/graphics/shader.cpp
+src/graphics/texture.cpp
 
 src/ext/glad.c
-
 ) 
 
 target_include_directories(tinysdl
