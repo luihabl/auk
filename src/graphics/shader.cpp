@@ -3,11 +3,37 @@
 
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/core/log.h"
+#include "tinysdl/core/file.h"
+
+constexpr char* default_vertex_src = "#version 460\n\
+in mediump vec3 point;\n\
+in mediump vec2 texcoord;\n\
+out mediump vec2 UV;\n\
+void main()\n\
+{\n\
+  gl_Position = vec4(point, 1);\n\
+  UV = texcoord;\n\
+}";
+
+constexpr char* default_frag_src = "#version 460\n\
+in mediump vec2 UV;\n\
+out mediump vec3 fragColor;\n\
+uniform sampler2D tex;\n\
+void main()\n\
+{\n\
+  fragColor = texture(tex, UV).rgb;\n\
+}";
 
 using namespace TinySDL;
 
-Shader & Shader::use() {   
-    glUseProgram(this->id);
+Shader & Shader::use() {
+    if(this->compiled) {
+        glUseProgram(this->id);
+    }        
+    else {
+        Log::warn("Trying to use empty shader.");
+    }
+        
     return *this;
 }
 
@@ -66,7 +92,19 @@ Shader Shader::from_source(const char* vertex_src, const char* frag_src, const c
     return shader;
 }
 
-Shader Shader::from_file(const char* vertex_path, const char* frag_path, const char*  geom_path = nullptr) {
+Shader Shader::from_file(const char* vertex_path, const char* frag_path, const char*  geom_path) {
     Shader shader;
-    
+    std::string vertex_src, frag_src, geom_src;
+
+    vertex_src = File::read(vertex_path);
+    frag_src   = File::read(frag_path);
+    if(geom_path != nullptr)
+        geom_src   = File::read(geom_path);
+
+    shader.compile_all(vertex_src.c_str(), frag_src.c_str(), geom_path != nullptr ? geom_src.c_str() : nullptr);
+    return shader;    
+}
+
+Shader Shader::default_sprite_shaders() {
+    return from_source(default_vertex_src, default_frag_src);
 }

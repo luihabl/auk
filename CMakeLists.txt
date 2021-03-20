@@ -10,6 +10,7 @@ add_library(tinysdl
 
 src/core/window.cpp
 src/core/log.cpp
+src/core/file.cpp
 
 src/graphics/graphics.cpp
 src/graphics/shader.cpp

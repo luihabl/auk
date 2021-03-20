@@ -5,6 +5,8 @@
 namespace TinySDL {
     class Shader {
         public:
+            Shader() = default;
+            
             unsigned int id;
             bool compiled = false;
             
@@ -19,7 +21,6 @@ namespace TinySDL {
             static Shader default_sprite_shaders();
 
         private: 
-            Shader() = default;
             unsigned int add(const char* source, GLenum type);
             void compile_all(const char* vertex_src, const char* frag_src, const char*  geom_src = nullptr);
     };
