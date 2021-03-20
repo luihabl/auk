@@ -4,6 +4,9 @@
 #include "tinysdl/core/log.h"
 #include "tinysdl/graphics/graphics.h"
 
+#define OPENGL_VERSION_MAJOR 4
+#define OPENGL_VERSION_MINOR 6
+
 using namespace TinySDL;
 
 namespace {
@@ -11,21 +14,28 @@ namespace {
     SDL_GLContext context;
 }
 
-void Window::init(char * name, int w, int h ) {
+SDL_Window * Window::init(char * name, int w, int h, int x, int y, uint32_t flags) {
     
     Log::setup();
     
     //Initializing SDL
     SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, OPENGL_VERSION_MAJOR);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, OPENGL_VERSION_MINOR);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     
-    window = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow(name, x, y, w, h, flags);
 
     SDL_version sdl_version;
     SDL_GetVersion(&sdl_version);
     Log::info("SDL %i.%i.%i", sdl_version.major, sdl_version.minor, sdl_version.patch);
 
     context = SDL_GL_CreateContext( window );
-    Graphics::init();
+
+    Graphics::load_gl_functions();
+
+    return window;
 }
 
 void Window::close() {

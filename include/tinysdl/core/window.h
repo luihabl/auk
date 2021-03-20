@@ -3,7 +3,7 @@
 
 namespace TinySDL {
     namespace Window {
-        void init(char * name, int w, int h);
+        SDL_Window * init(char * name, int w, int h, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, uint32_t flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
         void close();
         SDL_Window * get_window();
         SDL_GLContext * get_context();

@@ -2,6 +2,6 @@
 
 namespace TinySDL {
     namespace Graphics {
-        void init();
+        void load_gl_functions();
     }
 }

@@ -11,6 +11,7 @@ namespace TinySDL {
             bool compiled = false;
             
             Shader & use();
+            void del();
             
             void set_float(const char * name, float value);
             void set_int(const char * name, int value);

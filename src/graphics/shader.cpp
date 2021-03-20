@@ -37,6 +37,11 @@ Shader & Shader::use() {
     return *this;
 }
 
+void Shader::del() {
+    glDeleteProgram(this->id);
+    compiled = false;
+}
+
 unsigned int Shader::add(const char* src, GLenum type) {
 
     unsigned int id_shader = glCreateShader(type);
