@@ -4,6 +4,7 @@
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/core/log.h"
 #include "tinysdl/core/file.h"
+#include "tinysdl/math/matrix.h"
 
 constexpr char* default_vertex_src = "#version 460\n\
 in mediump vec3 point;\n\
@@ -113,4 +114,12 @@ Shader Shader::from_file(const char* vertex_path, const char* frag_path, const c
 
 Shader Shader::default_sprite_shaders() {
     return from_source(default_vertex_src, default_frag_src);
+}
+
+void Shader::set_mat4x4(const char * name, Mat4x4 & mat){
+    glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, mat.data);
+}
+
+void Shader::set_vec3(const char * name, Vec3 & vec){
+    glUniform3f(glGetUniformLocation(this->id, name), vec[0], vec[1], vec[2]);
 }

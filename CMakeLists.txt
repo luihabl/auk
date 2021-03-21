@@ -15,6 +15,7 @@ src/core/file.cpp
 src/graphics/graphics.cpp
 src/graphics/shader.cpp
 src/graphics/texture.cpp
+src/graphics/renderer.cpp
 
 src/ext/glad.c
 ) 

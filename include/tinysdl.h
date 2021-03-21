@@ -8,5 +8,6 @@
 
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
+#include "tinysdl/graphics/renderer.h"
 
 #include "tinysdl/math/matrix.h"
