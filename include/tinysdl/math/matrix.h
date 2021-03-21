@@ -212,5 +212,20 @@ namespace TinySDL {
 
             mat = matmul(mat, scl);
         }
+
+        inline Mat4x4 ortho(float left, float right, float bottom, float top, float z_near, float z_far) {
+            Mat4x4 ortho_mat = Mat4x4::identity();
+
+            ortho_mat[0 * 4 + 0] =   2.0f / (right - left);
+            ortho_mat[1 * 4 + 1] =   2.0f / (top   - bottom);
+            ortho_mat[2 * 4 + 2] = - 2.0f / (z_far - z_near);
+
+            ortho_mat[0 * 4 + 3] = - (right + left)   / (right - left);
+            ortho_mat[1 * 4 + 3] = - (top   + bottom) / (top   - bottom);
+            ortho_mat[2 * 4 + 3] = - (z_far + z_near) / (z_far - z_near);
+
+            return ortho_mat;
+        }
+
     }
 }
