@@ -146,7 +146,7 @@ namespace TinySDL {
 
         for(size_t i = 0; i < M; i++)
             for(size_t j = 0; j < M; j++)
-                if(i==j) id_matrix.data[i * M + j] = 1.0f;
+                if(i==j) id_matrix.data[i + j * M] = 1.0f;
         
         return id_matrix; 
     }
@@ -155,7 +155,7 @@ namespace TinySDL {
     void Matrix<T, M, N>::print() {
         for(size_t i = 0; i < M; i++){
             for(size_t j = 0; j < N; j++) {
-                Log::print("%f\t", data[i * N + j]);
+                Log::print("%f\t", data[i + j * N]);
             }
             Log::print("\n");
         }
