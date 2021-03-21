@@ -9,14 +9,14 @@ namespace TinySDL {
         void free_image_data();
 
         unsigned char * data = nullptr;
-        int w, h, n_comp = 0;        
+        int w = 0, h = 0, n_comp = 0;        
     };
 
     class SpriteTexture {
         public:
             SpriteTexture() = default;
             unsigned int id;
-            int w, h;
+            int w = 0, h = 0;
 
             void bind();
             static SpriteTexture from_file(const char * path);
