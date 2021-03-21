@@ -185,44 +185,44 @@ namespace TinySDL {
         inline void translate(Mat4x4 & mat, float x, float y, float z) {
 
             Mat4x4 trans = Mat4x4::identity();
-            trans[0 * 4 + 3] += x;
-            trans[1 * 4 + 3] += y;
-            trans[2 * 4 + 3] += z;
+            trans[0 + 3 * 4] += x;
+            trans[1 + 3 * 4] += y;
+            trans[2 + 3 * 4] += z;
 
-            mat = matmul(mat, trans);
+            mat = matmul(trans, mat);
         }
 
         inline void rotate(Mat4x4 & mat, float radians) {
             
             Mat4x4 rot = Mat4x4::identity();
-            rot[0 * 4 + 0] = cos(radians);
-            rot[1 * 4 + 0] = sin(radians);
-            rot[0 * 4 + 1] = -sin(radians);
-            rot[1 * 4 + 1] = cos(radians);
+            rot[0 + 0 * 4] = cos(radians);
+            rot[1 + 0 * 4] = sin(radians);
+            rot[0 + 1 * 4] = -sin(radians);
+            rot[1 + 1 * 4] = cos(radians);
 
-            mat = matmul(mat, rot);
+            mat = matmul(rot, mat);
         }
 
         inline void scale(Mat4x4 & mat, float sx, float sy, float sz) {
 
             Mat4x4 scl = Mat4x4::identity();
-            scl[0 * 4 + 0] = sx;
-            scl[1 * 4 + 1] = sy;
-            scl[2 * 4 + 2] = sz; 
+            scl[0 + 0 * 4] = sx;
+            scl[1 + 1 * 4] = sy;
+            scl[2 + 2 * 4] = sz; 
 
-            mat = matmul(mat, scl);
+            mat = matmul(scl, mat);
         }
 
         inline Mat4x4 ortho(float left, float right, float bottom, float top, float z_near, float z_far) {
             Mat4x4 ortho_mat = Mat4x4::identity();
 
-            ortho_mat[0 * 4 + 0] =   2.0f / (right - left);
-            ortho_mat[1 * 4 + 1] =   2.0f / (top   - bottom);
-            ortho_mat[2 * 4 + 2] = - 2.0f / (z_far - z_near);
+            ortho_mat[0 + 0 * 4] =   2.0f / (right - left);
+            ortho_mat[1 + 1 * 4] =   2.0f / (top   - bottom);
+            ortho_mat[2 + 2 * 4] = - 2.0f / (z_far - z_near);
 
-            ortho_mat[0 * 4 + 3] = - (right + left)   / (right - left);
-            ortho_mat[1 * 4 + 3] = - (top   + bottom) / (top   - bottom);
-            ortho_mat[2 * 4 + 3] = - (z_far + z_near) / (z_far - z_near);
+            ortho_mat[0 + 3 * 4] = - (right + left)   / (right - left);
+            ortho_mat[1 + 3 * 4] = - (top   + bottom) / (top   - bottom);
+            ortho_mat[2 + 3 * 4] = - (z_far + z_near) / (z_far - z_near);
 
             return ortho_mat;
         }
