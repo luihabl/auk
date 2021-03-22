@@ -123,7 +123,7 @@ void Shader::set_int(const char * name, int value) {
 
 
 void Shader::set_mat4x4(const char * name, Mat4x4 & mat){
-    glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, mat.data);
+    glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, mat.data.data());
 }
 
 void Shader::set_vec3(const char * name, Vec3 & vec){

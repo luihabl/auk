@@ -12,9 +12,8 @@ namespace TinySDL {
 
     template <typename T, size_t M, size_t N>
     struct Matrix {            
-        Matrix() { data = new T[M * N]; shape = {M, N};};
+        Matrix() = default;
         Matrix(const Matrix & other); 
-        ~Matrix() { delete[] data; };
         
         Matrix & operator= (const Matrix & other);
         T operator[](size_t i) const {return data[i];}
@@ -28,8 +27,8 @@ namespace TinySDL {
         size_t memsize(){return sizeof(T) * M * N;}
         void print();
 
-        std::array<size_t, 2> shape = {0, 0};
-        T * data = nullptr;
+        const std::array<size_t, 2> shape {M, N};
+        std::array<T, M * N> data;
 
         static Matrix zeros();
         static Matrix ones();
@@ -45,22 +44,13 @@ namespace TinySDL {
     
     template <typename T, size_t M, size_t N>
     Matrix<T, M, N>::Matrix(const Matrix<T, M, N> & other) {
-        shape = other.shape;
-        data = new T[shape[0] * shape[1]];
-        for(size_t i=0; i<(shape[0] * shape[1]); i++) data[i] = other.data[i];
+        data = other.data;
     }
 
     template <typename T, size_t M, size_t N>
     Matrix<T, M, N> & Matrix<T, M, N>::operator= (const Matrix<T, M, N> & other) {
-        if (this != &other) {
-            shape = other.shape;
-            
-            delete[] data;
-            data = new T[shape[0] * shape[1]];
-            
-            for(size_t i=0; i<(shape[0] * shape[1]); i++) 
-                data[i] = other.data[i];
-        }
+        if (this != &other) 
+            data = other.data;
         return *this;
     }
 
@@ -122,23 +112,22 @@ namespace TinySDL {
 
     template <typename T, size_t M, size_t N>
     Matrix<T, M, N> Matrix<T, M, N>::zeros() {
-        Matrix<T, M, N> new_matrix = Matrix<T, M, N>();
-        for(size_t i=0; i < M * N; i++) 
-            new_matrix.data[i] = 0;
+        Matrix<T, M, N> new_matrix;
+        new_matrix.data.fill(0.0f);
         return new_matrix; 
     }
 
     template <typename T, size_t M, size_t N>
     Matrix<T, M, N> Matrix<T, M, N>::ones() {
-        Matrix<T, M, N> new_matrix = Matrix<T, M, N>();
-        for(size_t i=0; i<(new_matrix.shape[0] * new_matrix.shape[1]); i++) 
-            new_matrix.data[i] = 1.0;
+        Matrix<T, M, N> new_matrix;
+        new_matrix.data.fill(1.0f);
         return new_matrix; 
     }
 
     template <typename T, size_t M, size_t N>
     Matrix<T, M, N> Matrix<T, M, N>::identity() {
-        Matrix<T, M, N> id_matrix = Matrix<T, M, N>::zeros();
+        Matrix<T, M, N> id_matrix;
+        id_matrix.data.fill(0.0f);
         if( M != N ) {
             Log::warn("Trying to create non-square identity matrix");
             return id_matrix;
@@ -164,7 +153,7 @@ namespace TinySDL {
     namespace MatrixMath{
 
         template <size_t M>
-        inline float dot(Matrix<float, M, 1> & a, Matrix<float, M, 1> & b) {
+        inline float dot(const Matrix<float, M, 1> & a, const Matrix<float, M, 1> & b) {
             float sum = 0;
             for(size_t i=0; i<M; i++) 
                 sum += a.data[i] * b.data[i];
@@ -172,35 +161,38 @@ namespace TinySDL {
         }
 
         template <size_t M>
-        inline Matrix<float, M, M> matmul(Matrix<float, M, M> & a, Matrix<float, M, M> & b) {
+        inline Matrix<float, M, M> matmul(const Matrix<float, M, M> & a, const Matrix<float, M, M> & b) {
             // Only supports square matrices for the moment
             Matrix<float, M, M> prod = Matrix<float, M, M>::zeros();
             for(size_t i = 0; i < M; i++)
                 for(size_t j = 0; j < M; j++)
                     for(size_t k = 0; k < M; k++)
-                        prod.data[i * M + j] += a.data[i * M + k] * b.data[k * M + j];
+                        prod.data[i  + j * M] += a.data[i + k * M] * b.data[k + j * M];
             return prod;
         }
 
         inline void translate(Mat4x4 & mat, float x, float y, float z) {
 
             Mat4x4 trans = Mat4x4::identity();
-            trans[0 + 3 * 4] += x;
-            trans[1 + 3 * 4] += y;
-            trans[2 + 3 * 4] += z;
+            trans.data[0 + 3 * 4] = x;
+            trans.data[1 + 3 * 4] = y;
+            trans.data[2 + 3 * 4] = z;
 
-            mat = matmul(trans, mat);
+            mat = matmul(mat, trans);
         }
 
         inline void rotate(Mat4x4 & mat, float radians) {
             
             Mat4x4 rot = Mat4x4::identity();
-            rot[0 + 0 * 4] = cos(radians);
-            rot[1 + 0 * 4] = sin(radians);
-            rot[0 + 1 * 4] = -sin(radians);
-            rot[1 + 1 * 4] = cos(radians);
+            float c = cos(radians);
+            float s = sin(radians);
+            
+            rot[0 + 0 * 4] =  c;
+            rot[1 + 0 * 4] =  s;
+            rot[0 + 1 * 4] = -s;
+            rot[1 + 1 * 4] =  c;
 
-            mat = matmul(rot, mat);
+            mat = matmul(mat, rot);
         }
 
         inline void scale(Mat4x4 & mat, float sx, float sy, float sz) {
@@ -210,7 +202,7 @@ namespace TinySDL {
             scl[1 + 1 * 4] = sy;
             scl[2 + 2 * 4] = sz; 
 
-            mat = matmul(scl, mat);
+            mat = matmul(mat, scl);
         }
 
         inline Mat4x4 ortho(float left, float right, float bottom, float top, float z_near, float z_far) {
