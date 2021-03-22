@@ -49,10 +49,12 @@ void SpriteRenderer::draw(SpriteTexture & tex, Vec2 pos, Vec2 size, float rot, V
     shader.use();
 
     Mat4x4 model = Mat4x4::identity();
+    
+    MatrixMath::translate(model, pos[0], pos[1], 0.0f); 
     MatrixMath::translate(model, 0.5f * size[0], 0.5f * size[1], 0.0f); 
     MatrixMath::rotate(model, rot);
     MatrixMath::translate(model, -0.5f * size[0], -0.5f * size[1], 0.0f); 
-    MatrixMath::translate(model, size[0], size[1], 1.0f);
+    MatrixMath::scale(model, size[0], size[1], 1.0f);
 
     shader.set_mat4x4("model", model);
     shader.set_vec3("spriteColor", color);
