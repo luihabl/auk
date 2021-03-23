@@ -116,11 +116,9 @@ Shader Shader::default_sprite_shaders() {
     return from_source(default_vertex_src, default_frag_src);
 }
 
-
 void Shader::set_int(const char * name, int value) {
     glUniform1i(glGetUniformLocation(this->id, name), value);
 }
-
 
 void Shader::set_mat4x4(const char * name, Mat4x4 & mat){
     glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, mat.data.data());

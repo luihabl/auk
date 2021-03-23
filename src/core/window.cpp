@@ -25,6 +25,7 @@ SDL_Window * Window::init(char * name, int w, int h, int x, int y, uint32_t flag
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, OPENGL_VERSION_MAJOR);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, OPENGL_VERSION_MINOR);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
     
     window = SDL_CreateWindow(name, x, y, w, h, flags);
 
@@ -35,6 +36,7 @@ SDL_Window * Window::init(char * name, int w, int h, int x, int y, uint32_t flag
     //Initializing Open GL
     context = SDL_GL_CreateContext( window );
     Graphics::load_gl_functions();
+    Graphics::setup_gl_debug();
 
     return window;
 }
