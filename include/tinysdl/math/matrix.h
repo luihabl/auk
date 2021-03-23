@@ -14,8 +14,11 @@ namespace TinySDL {
     struct Matrix {            
         Matrix() = default;
         Matrix(const Matrix & other); 
-        
-        Matrix & operator= (const Matrix & other);
+        Matrix(const std::array<T, N*M> arr) {data=arr;}
+        template <typename... A> 
+        Matrix(A... values): data{values...} {};
+
+        Matrix & operator= (const Matrix & other);        
         T operator[](size_t i) const {return data[i];}
         T & operator[](size_t i) {return data[i];}
         Matrix operator+ (const Matrix & other);
