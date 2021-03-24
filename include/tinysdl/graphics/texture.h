@@ -12,26 +12,16 @@ namespace TinySDL {
         int w = 0, h = 0, n_comp = 0;        
     };
 
-    class SpriteTexture {
+    class Texture {
         public:
-            SpriteTexture() = default;
+            Texture() = default;
+            Texture(int w, int h, int n_comp, unsigned char * data);
             unsigned int id;
             int w = 0, h = 0;
 
             void bind();
-            static SpriteTexture from_file(const char * path);
-            static SpriteTexture from_sprite(Sprite * spr);
+            static Texture from_file(const char * path);
+            static Texture from_sprite(Sprite * spr);
+            static Texture empty(int w, int h);
     };
-
-    class TargetTexture {
-        public: 
-            TargetTexture(int w, int h);
-            unsigned int id, fbo_id;
-            int w = 0, h = 0;
-
-            void begin();
-            void end();
-    };
-
-
 }

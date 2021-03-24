@@ -21,21 +21,17 @@ void Sprite::free_image_data() {
     data = nullptr;
 }
 
-void SpriteTexture::bind() {
+void Texture::bind() {
     glBindTexture(GL_TEXTURE_2D, this->id);
 }
 
-SpriteTexture SpriteTexture::from_sprite(Sprite * spr) {
-    SpriteTexture spr_tex;
-    spr_tex.w = spr->w;
-    spr_tex.h = spr->h;
+Texture::Texture(int w, int h, int n_comp, unsigned char * data) {
+    glGenTextures(1, &this->id);
 
-    glGenTextures(1, &spr_tex.id);
+    glBindTexture(GL_TEXTURE_2D, this->id);
 
-    glBindTexture(GL_TEXTURE_2D, spr_tex.id);
-
-    GLint format = spr->n_comp == 3 ? GL_RGB : GL_RGBA;
-    glTexImage2D(GL_TEXTURE_2D, 0, format, spr->w, spr->h, 0, format, GL_UNSIGNED_BYTE, spr->data);
+    GLint format = n_comp == 3 ? GL_RGB : GL_RGBA;
+    glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data);
 
     // add a way to set these parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -44,41 +40,18 @@ SpriteTexture SpriteTexture::from_sprite(Sprite * spr) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glBindTexture(GL_TEXTURE_2D, 0);
-
-    return spr_tex;
 }
 
-SpriteTexture SpriteTexture::from_file(const char * path) {
+
+Texture Texture::from_sprite(Sprite * spr) {
+    return Texture(spr->w, spr->h, spr->n_comp, spr->data);
+}
+
+Texture Texture::from_file(const char * path) {
     Sprite spr(path);
-    return SpriteTexture::from_sprite(&spr);
+    return Texture(spr.w, spr.h, spr.n_comp, spr.data);
 }
 
-TargetTexture::TargetTexture(int w, int h) {
-    
-    glGenFramebuffers(1, &this->fbo_id);
-    glBindFramebuffer(GL_FRAMEBUFFER, this->fbo_id);
-
-    glGenTextures(1, &this->id); 
-    glBindTexture(GL_TEXTURE_2D, this->id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-
-    // add a way to set these parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, this->id, 0);
-
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+Texture Texture::empty(int w, int h) {
+       return Texture(w, h, 3, NULL); 
 }
-
-void TargetTexture::begin() {
-    glBindFramebuffer(GL_FRAMEBUFFER, this->fbo_id);
-    glViewport(0, 0, this->w, this->h);
-}
-
-void TargetTexture::end() {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-

@@ -44,8 +44,7 @@ void SpriteRenderer::init() {
 
 }
 
-
-void SpriteRenderer::draw(SpriteTexture & tex, Vec2 pos, Vec2 size, float rot, Vec3 color) {
+void SpriteRenderer::draw(Texture & tex, Vec2 pos, Vec2 size, float rot, Vec3 color) {
     shader.use();
 
     Mat4x4 model = Mat4x4::identity();
