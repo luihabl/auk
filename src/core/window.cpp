@@ -35,6 +35,7 @@ SDL_Window * Window::init(char * name, int w, int h, int x, int y, uint32_t flag
 
     //Initializing Open GL
     context = SDL_GL_CreateContext( window );
+    SDL_GL_MakeCurrent(window, context);
     Graphics::load_gl_functions();
     Graphics::setup_gl_debug();
 

@@ -110,6 +110,8 @@ void TargetRenderer::init(int w, int h) {
 
 void TargetRenderer::begin() {
     glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void TargetRenderer::end() {
