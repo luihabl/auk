@@ -33,7 +33,9 @@ SpriteTexture SpriteTexture::from_sprite(Sprite * spr) {
     glGenTextures(1, &spr_tex.id);
 
     glBindTexture(GL_TEXTURE_2D, spr_tex.id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, spr->w, spr->h, 0, GL_RGB, GL_UNSIGNED_BYTE, spr->data);
+
+    GLint format = spr->n_comp == 3 ? GL_RGB : GL_RGBA;
+    glTexImage2D(GL_TEXTURE_2D, 0, format, spr->w, spr->h, 0, format, GL_UNSIGNED_BYTE, spr->data);
 
     // add a way to set these parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
