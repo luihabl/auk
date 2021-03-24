@@ -23,5 +23,14 @@ namespace TinySDL {
             static SpriteTexture from_sprite(Sprite * spr);
     };
 
+    class TargetTexture {
+        public: 
+            TargetTexture(int w, int h);
+            unsigned int id, fbo_id;
+            int w = 0, h = 0;
+
+            void bind();
+    };
+
 
 }
