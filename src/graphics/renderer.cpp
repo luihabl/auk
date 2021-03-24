@@ -78,6 +78,9 @@ void TargetRenderer::init(int w, int h) {
     target = Texture::empty(w, h);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, target.id, 0);
 
+    GLenum draw_buffers[1] = {GL_COLOR_ATTACHMENT0};
+	glDrawBuffers(1, draw_buffers);
+
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     unsigned int vbo;
