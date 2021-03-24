@@ -65,3 +65,62 @@ void SpriteRenderer::draw(Texture & tex, Vec2 pos, Vec2 size, float rot, Vec3 co
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
 }
+
+TargetRenderer::TargetRenderer(int w, int h) {
+    this->init(w, h);
+}
+
+void TargetRenderer::init(int w, int h) {
+
+    glGenFramebuffers(1, &this->fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
+
+    target = Texture::empty(w, h);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, target.id, 0);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    unsigned int vbo;
+    float vertices[] = {
+        // pos        // tex
+        -1.0f, -1.0f, 0.0f, 0.0f,
+         1.0f,  1.0f, 1.0f, 1.0f,
+        -1.0f,  1.0f, 0.0f, 1.0f,
+
+        -1.0f, -1.0f, 0.0f, 0.0f,
+         1.0f, -1.0f, 1.0f, 0.0f,
+         1.0f,  1.0f, 1.0f, 1.0f
+    };
+
+    glGenVertexArrays(1, &this->quad_vao);
+    glGenBuffers(1, &vbo);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindVertexArray(this->quad_vao);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
+void TargetRenderer::begin() {
+    glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
+}
+
+void TargetRenderer::end() {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); 
+}
+
+void TargetRenderer::draw() {
+    glActiveTexture(GL_TEXTURE0);
+    this->target.bind();
+    glBindVertexArray(this->quad_vao);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+}
+
+TargetRenderer::~TargetRenderer() {
+    glDeleteVertexArrays(1, &this->quad_vao);
+}

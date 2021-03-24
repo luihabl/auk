@@ -17,15 +17,19 @@ namespace TinySDL {
             void init();
     };
 
-    // struct TargetRenderer {
-    //     TargetRenderer(Shader & shader);
-    //     ~TargetRenderer();
-    //     void draw(TargetTexture & tex);
+    struct TargetRenderer {
+        TargetRenderer() = default;
+        TargetRenderer(int w, int h);
+        ~TargetRenderer();
+        void begin();
+        void end();
+        void draw();
     
-    //     private: 
-    //         Shader shader;
-    //         unsigned int quad_vao;
-    //         void init();
-    // };
+        private: 
+            Texture target;
+            unsigned int fbo;
+            unsigned int quad_vao;
+            void init(int w, int h);
+    };
 
 }
