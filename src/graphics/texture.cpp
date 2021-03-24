@@ -62,16 +62,23 @@ TargetTexture::TargetTexture(int w, int h) {
     glBindTexture(GL_TEXTURE_2D, this->id);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
 
-
+    // add a way to set these parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, this->id, 0);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void TargetTexture::bind() {
+void TargetTexture::begin() {
     glBindFramebuffer(GL_FRAMEBUFFER, this->fbo_id);
     glViewport(0, 0, this->w, this->h);
 }
+
+void TargetTexture::end() {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+

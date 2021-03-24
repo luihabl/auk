@@ -29,7 +29,8 @@ namespace TinySDL {
             unsigned int id, fbo_id;
             int w = 0, h = 0;
 
-            void bind();
+            void begin();
+            void end();
     };
 
 
