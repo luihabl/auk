@@ -10,5 +10,6 @@ namespace TinySDL {
         void APIENTRY gl_debug_callback(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message, const void *user_param);
         
         void clear(Vec4 color);
+        void viewport(int w, int h);
     }
 }
