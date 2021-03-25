@@ -4,6 +4,7 @@
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/math/matrix.h"
+#include "tinysdl/graphics/graphics.h"
 
 using namespace TinySDL;
 
@@ -110,8 +111,6 @@ void TargetRenderer::init(int w, int h) {
 
 void TargetRenderer::begin() {
     glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void TargetRenderer::end() {
