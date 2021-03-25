@@ -11,5 +11,6 @@ namespace TinySDL {
         
         void clear(Vec4 color);
         void viewport(int w, int h);
+        void viewport(int x, int y, int w, int h);
     }
 }

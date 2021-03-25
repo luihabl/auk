@@ -76,3 +76,7 @@ void Graphics::clear(Vec4 color) {
 void Graphics::viewport(int w, int h) {
     glViewport(0, 0, w, h);
 }
+
+void Graphics::viewport(int x, int y, int w, int h) {
+    glViewport(x, y, w, h);
+}
