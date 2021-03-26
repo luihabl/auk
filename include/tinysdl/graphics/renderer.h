@@ -24,9 +24,11 @@ namespace TinySDL {
         void begin();
         void end();
         void draw();
+        
+        Texture target;
     
         private: 
-            Texture target;
+
             unsigned int fbo;
             unsigned int quad_vao;
             void init(int w, int h);
