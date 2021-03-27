@@ -3,13 +3,14 @@
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/matrix/matrix.h"
+#include "tinysdl/matrix/color.h"
 
 namespace TinySDL {
 
     struct SpriteRenderer {
         SpriteRenderer(Shader & shader);
         ~SpriteRenderer();
-        void draw(Texture & tex, Vec2 pos, Vec2 size = (Vec2::ones() * 10.0f), float rot = 0.0f, Vec3 color = Vec3::ones());
+        void draw(const Texture & tex, const Vec2 & pos, const Vec2 & size, float rot = 0.0f, const Color & color = Color::white);
 
         private: 
             Shader shader;

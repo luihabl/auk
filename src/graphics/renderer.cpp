@@ -4,6 +4,7 @@
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/matrix/matrix.h"
+#include "tinysdl/matrix/color.h"
 #include "tinysdl/graphics/graphics.h"
 
 using namespace TinySDL;
@@ -45,7 +46,7 @@ void SpriteRenderer::init() {
 
 }
 
-void SpriteRenderer::draw(Texture & tex, Vec2 pos, Vec2 size, float rot, Vec3 color) {
+void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, const Vec2 & size, float rot, const Color & color) {
     shader.use();
 
     Mat4x4 model = Mat4x4::identity();

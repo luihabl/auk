@@ -21,7 +21,7 @@ void Sprite::free_image_data() {
     data = nullptr;
 }
 
-void Texture::bind() {
+void Texture::bind() const {
     glBindTexture(GL_TEXTURE_2D, this->id);
 }
 

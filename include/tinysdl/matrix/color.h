@@ -14,6 +14,9 @@ namespace TinySDL {
         Color(float r, float g, float b, float a = 1.0f);
         float r() const, g() const, b() const, a() const;
 
+        operator Vec3() const {return Vec3(r(), g(), b());}
+        operator Vec4() const {return Vec4(r(), g(), b(), a());}
+
         static const Color black;
         static const Color white;
     };

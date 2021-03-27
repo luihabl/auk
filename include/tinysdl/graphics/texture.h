@@ -19,7 +19,7 @@ namespace TinySDL {
             unsigned int id;
             int w = 0, h = 0;
 
-            void bind();
+            void bind() const;
             static Texture from_file(const char * path);
             static Texture from_sprite(Sprite * spr);
             static Texture empty(int w, int h);

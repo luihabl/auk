@@ -116,14 +116,14 @@ Shader Shader::default_sprite_shaders() {
     return from_source(default_vertex_src, default_frag_src);
 }
 
-void Shader::set_int(const char * name, int value) {
+void Shader::set_int(const char * name, const int & value) const {
     glUniform1i(glGetUniformLocation(this->id, name), value);
 }
 
-void Shader::set_mat4x4(const char * name, Mat4x4 & mat){
+void Shader::set_mat4x4(const char * name, const Mat4x4 & mat) const {
     glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, mat.data.data());
 }
 
-void Shader::set_vec3(const char * name, Vec3 & vec){
+void Shader::set_vec3(const char * name, const Vec3 & vec) const {
     glUniform3f(glGetUniformLocation(this->id, name), vec[0], vec[1], vec[2]);
 }
