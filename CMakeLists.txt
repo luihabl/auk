@@ -8,9 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # adding files
 add_library(tinysdl 
 
-src/core/window.cpp
-src/core/log.cpp
-src/core/file.cpp
+src/platform/window.cpp
+src/platform/log.cpp
+src/platform/file.cpp
 
 src/graphics/graphics.cpp
 src/graphics/shader.cpp

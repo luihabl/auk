@@ -1,7 +1,7 @@
 #pragma once 
 
 #include <glad/glad.h>
-#include "tinysdl/math/matrix.h"
+#include "tinysdl/matrix/matrix.h"
 
 namespace TinySDL {
     class Shader {

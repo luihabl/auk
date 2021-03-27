@@ -2,9 +2,9 @@
 #include <glad/glad.h>
 
 #include "tinysdl/graphics/shader.h"
-#include "tinysdl/core/log.h"
-#include "tinysdl/core/file.h"
-#include "tinysdl/math/matrix.h"
+#include "tinysdl/platform/log.h"
+#include "tinysdl/platform/file.h"
+#include "tinysdl/matrix/matrix.h"
 
 constexpr char* default_vertex_src = "#version 460\n\
 in mediump vec3 point;\n\

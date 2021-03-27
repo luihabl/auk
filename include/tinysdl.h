@@ -3,12 +3,12 @@
 #include <SDL.h>
 #include <glad/glad.h>
 
-#include "tinysdl/core/window.h"
-#include "tinysdl/core/log.h"
+#include "tinysdl/platform/window.h"
+#include "tinysdl/platform/log.h"
 
 #include "tinysdl/graphics/graphics.h"
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/graphics/renderer.h"
 
-#include "tinysdl/math/matrix.h"
+#include "tinysdl/matrix/matrix.h"

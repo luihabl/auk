@@ -4,7 +4,7 @@
     #include <windows.h>
 #endif
 
-#include "tinysdl/core/log.h"
+#include "tinysdl/platform/log.h"
 
 #define LOG_COLOR_RESET   "\033[0m"
 #define LOG_COLOR_RED     "\033[31m"     

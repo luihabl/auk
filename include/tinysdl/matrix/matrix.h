@@ -3,7 +3,7 @@
 #include <cmath>
 #include <array>
 
-#include "tinysdl/core/log.h"
+#include "tinysdl/platform/log.h"
 
 // M : rows
 // N : columns

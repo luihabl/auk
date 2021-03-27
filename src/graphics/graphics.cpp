@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 
 #include "tinysdl/graphics/graphics.h"
-#include "tinysdl/core/log.h"
+#include "tinysdl/platform/log.h"
 
 
 using namespace TinySDL;

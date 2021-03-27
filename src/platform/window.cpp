@@ -1,7 +1,7 @@
 #include <SDL.h>
 
-#include "tinysdl/core/window.h"
-#include "tinysdl/core/log.h"
+#include "tinysdl/platform/window.h"
+#include "tinysdl/platform/log.h"
 #include "tinysdl/graphics/graphics.h"
 
 #define OPENGL_VERSION_MAJOR 4

@@ -1,8 +1,8 @@
 #include <string>
 #include <fstream>
 
-#include "tinysdl/core/file.h"
-#include "tinysdl/core/log.h"
+#include "tinysdl/platform/file.h"
+#include "tinysdl/platform/log.h"
 
 using namespace TinySDL; 
 

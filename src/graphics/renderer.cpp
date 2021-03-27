@@ -3,7 +3,7 @@
 #include "tinysdl/graphics/renderer.h"
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
-#include "tinysdl/math/matrix.h"
+#include "tinysdl/matrix/matrix.h"
 #include "tinysdl/graphics/graphics.h"
 
 using namespace TinySDL;
