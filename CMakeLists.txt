@@ -17,12 +17,12 @@ src/graphics/shader.cpp
 src/graphics/texture.cpp
 src/graphics/renderer.cpp
 
-src/ext/glad.cpp
+src/external/glad.cpp
 ) 
 
 target_include_directories(tinysdl
 PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tinysdl/ext>
+PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tinysdl/external>
 )
 
 if (NOT DEFINED SDL2_INCLUDE_DIRS OR NOT DEFINED SDL2_LIBRARIES)
