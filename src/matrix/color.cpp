@@ -20,19 +20,19 @@ Color::Color(int rgb, float a) {
     // add parsing here
 }
 
-float Color::r() {
+float Color::r() const {
     return ((float) data[0]) / 255.0f;
 }
 
-float Color::g() {
+float Color::g() const {
     return ((float) data[1]) / 255.0f;
 }
 
-float Color::b() {
+float Color::b() const {
     return ((float) data[2]) / 255.0f;
 }
 
-float Color::a() {
+float Color::a() const {
     return ((float) data[3]) / 255.0f;
 }
 

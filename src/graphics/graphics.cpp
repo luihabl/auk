@@ -68,7 +68,7 @@ void APIENTRY Graphics::gl_debug_callback(GLenum source, GLenum type, unsigned i
     std::cout << std::endl;
 }
 
-void Graphics::clear(Color c) {
+void Graphics::clear(const Color & c) {
     glClearColor(c.r(), c.g(), c.b(), c.a()); 
     glClear(GL_COLOR_BUFFER_BIT); 
 }
