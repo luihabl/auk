@@ -38,6 +38,8 @@ namespace TinySDL {
         static Matrix identity();
     };
 
+    template <typename T, size_t M> using Vec = Matrix<T, M, 1>;
+
     typedef Matrix<float, 2, 1> Vec2;
     typedef Matrix<float, 3, 1> Vec3;
     typedef Matrix<float, 4, 1> Vec4;

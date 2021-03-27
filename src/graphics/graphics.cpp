@@ -3,7 +3,7 @@
 
 #include "tinysdl/graphics/graphics.h"
 #include "tinysdl/platform/log.h"
-
+#include "tinysdl/matrix/color.h"
 
 using namespace TinySDL;
 
@@ -68,8 +68,8 @@ void APIENTRY Graphics::gl_debug_callback(GLenum source, GLenum type, unsigned i
     std::cout << std::endl;
 }
 
-void Graphics::clear(Vec4 color) {
-    glClearColor(color[0], color[1], color[2], color[3]); 
+void Graphics::clear(Color c) {
+    glClearColor(c.r(), c.g(), c.b(), c.a()); 
     glClear(GL_COLOR_BUFFER_BIT); 
 }
 

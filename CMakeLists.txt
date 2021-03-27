@@ -17,6 +17,8 @@ src/graphics/shader.cpp
 src/graphics/texture.cpp
 src/graphics/renderer.cpp
 
+src/matrix/color.cpp
+
 src/external/glad.cpp
 ) 
 

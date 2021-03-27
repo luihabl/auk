@@ -12,3 +12,4 @@
 #include "tinysdl/graphics/renderer.h"
 
 #include "tinysdl/matrix/matrix.h"
+#include "tinysdl/matrix/color.h"
