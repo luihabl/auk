@@ -11,7 +11,10 @@
 namespace TinySDL {
 
     template <typename T, size_t M, size_t N>
-    struct Matrix {            
+    struct Matrix {  
+
+        std::array<T, M * N> data;
+
         Matrix() = default;
         Matrix(const Matrix & other); 
         Matrix(const std::array<T, N*M> arr) {data=arr;}
@@ -29,9 +32,6 @@ namespace TinySDL {
 
         size_t memsize(){return sizeof(T) * M * N;}
         void print();
-
-        const std::array<size_t, 2> shape {M, N};
-        std::array<T, M * N> data;
 
         static Matrix zeros();
         static Matrix ones();

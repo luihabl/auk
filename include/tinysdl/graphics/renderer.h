@@ -27,7 +27,7 @@ namespace TinySDL {
         void end();
         void draw();
         
-        Texture target;
+        Texture tex;
     
         private: 
 

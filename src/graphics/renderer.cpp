@@ -101,8 +101,8 @@ void TargetRenderer::init(int w, int h) {
     glGenFramebuffers(1, &this->fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, this->fbo);
 
-    target = Texture::empty(w, h);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, target.id, 0);
+    tex = Texture::empty(w, h);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex.id, 0);
 
     GLenum draw_buffers[1] = {GL_COLOR_ATTACHMENT0};
 	glDrawBuffers(1, draw_buffers);
@@ -144,7 +144,7 @@ void TargetRenderer::end() {
 
 void TargetRenderer::draw() {
     glActiveTexture(GL_TEXTURE0);
-    this->target.bind();
+    this->tex.bind();
     glBindVertexArray(this->quad_vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
