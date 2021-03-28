@@ -25,7 +25,7 @@ void Texture::bind() const {
     glBindTexture(GL_TEXTURE_2D, this->id);
 }
 
-Texture::Texture(int w, int h, int n_comp, unsigned char * data) {
+Texture::Texture(int w, int h, int n_comp, unsigned char * data) : w(w), h(h){
     glGenTextures(1, &this->id);
 
     glBindTexture(GL_TEXTURE_2D, this->id);
