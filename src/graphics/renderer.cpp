@@ -68,6 +68,30 @@ void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, const Vec2 & si
     glBindVertexArray(0);
 }
 
+void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, float scale, float rot, const Color & color) {
+    shader.use();
+
+    Mat4x4 model = Mat4x4::identity();
+    Vec2 size = {scale * (float) tex.w, scale * (float) tex.h};
+    
+    MatrixMath::translate(model, pos[0], pos[1], 0.0f); 
+    MatrixMath::translate(model, 0.5f * size[0], 0.5f * size[1], 0.0f); 
+    MatrixMath::rotate(model, rot);
+    MatrixMath::translate(model, -0.5f * size[0], -0.5f * size[1], 0.0f); 
+    MatrixMath::scale(model, size[0], size[1], 1.0f);
+
+    shader.set_mat4x4("model", model);
+    shader.set_vec3("spriteColor", color);
+
+    glActiveTexture(GL_TEXTURE0);
+    tex.bind();
+
+    glBindVertexArray(this->quad_vao);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+}
+
+
 TargetRenderer::TargetRenderer(int w, int h) {
     this->init(w, h);
 }

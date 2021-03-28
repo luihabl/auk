@@ -11,6 +11,7 @@ namespace TinySDL {
         SpriteRenderer(Shader & shader);
         ~SpriteRenderer();
         void draw(const Texture & tex, const Vec2 & pos, const Vec2 & size, float rot = 0.0f, const Color & color = Color::white);
+        void draw(const Texture & tex, const Vec2 & pos, float scale = 1.0f, float rot = 0.0f, const Color & color = Color::white);
 
         private: 
             Shader shader;
