@@ -11,6 +11,7 @@ add_library(tinysdl
 src/platform/window.cpp
 src/platform/log.cpp
 src/platform/file.cpp
+src/platform/time.cpp
 
 src/graphics/graphics.cpp
 src/graphics/shader.cpp
