@@ -1,14 +1,13 @@
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
 #include <glad/glad.h>
 
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/platform/log.h"
+#include "tinysdl/platform/file.h"
 
 using namespace TinySDL;
 
 Sprite::Sprite(const char * path) {
-    this->data = stbi_load(path, &this->w, &this->h, &this->n_comp, 0);
+    this->data = File::load_image(path, &this->w, &this->h, &this->n_comp);
     if(!data) Log::error("File does not exist: %s", path);
 }
 
@@ -17,7 +16,7 @@ Sprite::~Sprite() {
 }
 
 void Sprite::free_image_data() {
-    stbi_image_free(data);
+    File::free_image(data);
     data = nullptr;
 }
 
