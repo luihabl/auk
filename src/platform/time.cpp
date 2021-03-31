@@ -8,6 +8,10 @@ uint32_t Time::get_time_ms() {
     return SDL_GetTicks();
 }
 
+void Time::wait(uint32_t ms) {
+    SDL_Delay(ms);
+}
+
 uint32_t SimpleTimer::get_time_ms() {
     if (is_paused) return pause_time;
     else return Time::get_time_ms() - start_time;
