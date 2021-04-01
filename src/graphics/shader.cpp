@@ -124,6 +124,10 @@ void Shader::set_mat4x4(const char * name, const Mat4x4 & mat) const {
     glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, mat.data.data());
 }
 
+void Shader::set_vec2(const char * name, const Vec2 & vec) const {
+    glUniform2f(glGetUniformLocation(this->id, name), vec[0], vec[1]);
+}
+
 void Shader::set_vec3(const char * name, const Vec3 & vec) const {
     glUniform3f(glGetUniformLocation(this->id, name), vec[0], vec[1], vec[2]);
 }
