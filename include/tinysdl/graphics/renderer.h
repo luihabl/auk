@@ -25,14 +25,14 @@ namespace TinySDL {
         ~TargetRenderer();
         void begin();
         void end();
-        void draw();
+        // void draw();
         
         Texture tex;
     
         private: 
 
             unsigned int fbo;
-            unsigned int quad_vao;
+            // unsigned int quad_vao;
             void init(int w, int h);
     };
 

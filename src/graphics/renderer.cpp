@@ -23,14 +23,11 @@ void SpriteRenderer::init() {
     glGenVertexArrays(1, &this->quad_vao);
     glBindVertexArray(this->quad_vao);
     
-    float vertices[] = { 
-        0.0f, 1.0f, 
+    float vertices[] = {
+        0.0f, 0.0f, 
         1.0f, 0.0f, 
-        0.0f, 0.0f,  
-
-        0.0f, 1.0f, 
         1.0f, 1.0f,
-        1.0f, 0.0f
+        0.0f, 1.0f 
     };
 
     GLuint vbo;
@@ -40,15 +37,22 @@ void SpriteRenderer::init() {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 
+    int indices[] = {
+        0, 2, 1,
+        0, 3, 2
+    };
+    
+    GLuint ebo;
+    glGenBuffers(1, &ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
 
     float tex_vertices[] = {
-        0.0f, 1.0f,
-        1.0f, 0.0f,
         0.0f, 0.0f, 
-
-        0.0f, 1.0f,
+        1.0f, 0.0f, 
         1.0f, 1.0f,
-        1.0f, 0.0f
+        0.0f, 1.0f 
     };
 
     GLuint tex_buffer;
@@ -81,7 +85,7 @@ void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, const Vec2 & si
     tex.bind();
 
     glBindVertexArray(this->quad_vao);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
@@ -104,7 +108,7 @@ void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, float scale, fl
     tex.bind();
 
     glBindVertexArray(this->quad_vao);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
@@ -126,29 +130,29 @@ void TargetRenderer::init(int w, int h) {
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    unsigned int vbo;
-    float vertices[] = {
-        // pos        // tex
-        -1.0f, -1.0f, 0.0f, 0.0f,
-         1.0f,  1.0f, 1.0f, 1.0f,
-        -1.0f,  1.0f, 0.0f, 1.0f,
+    // unsigned int vbo;
+    // float vertices[] = {
+    //     // pos        // tex
+    //     -1.0f, -1.0f, 0.0f, 0.0f,
+    //      1.0f,  1.0f, 1.0f, 1.0f,
+    //     -1.0f,  1.0f, 0.0f, 1.0f,
 
-        -1.0f, -1.0f, 0.0f, 0.0f,
-         1.0f, -1.0f, 1.0f, 0.0f,
-         1.0f,  1.0f, 1.0f, 1.0f
-    };
+    //     -1.0f, -1.0f, 0.0f, 0.0f,
+    //      1.0f, -1.0f, 1.0f, 0.0f,
+    //      1.0f,  1.0f, 1.0f, 1.0f
+    // };
 
-    glGenVertexArrays(1, &this->quad_vao);
-    glGenBuffers(1, &vbo);
+    // glGenVertexArrays(1, &this->quad_vao);
+    // glGenBuffers(1, &vbo);
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    // glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glBindVertexArray(this->quad_vao);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    // glBindVertexArray(this->quad_vao);
+    // glEnableVertexAttribArray(0);
+    // glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    // glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // glBindVertexArray(0);
 }
 
 void TargetRenderer::begin() {
@@ -159,14 +163,14 @@ void TargetRenderer::end() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0); 
 }
 
-void TargetRenderer::draw() {
-    glActiveTexture(GL_TEXTURE0);
-    this->tex.bind();
-    glBindVertexArray(this->quad_vao);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindVertexArray(0);
-}
+// void TargetRenderer::draw() {
+//     glActiveTexture(GL_TEXTURE0);
+//     this->tex.bind();
+//     glBindVertexArray(this->quad_vao);
+//     glDrawArrays(GL_TRIANGLES, 0, 6);
+//     glBindVertexArray(0);
+// }
 
 TargetRenderer::~TargetRenderer() {
-    glDeleteVertexArrays(1, &this->quad_vao);
+    // glDeleteVertexArrays(1, &this->quad_vao);
 }
