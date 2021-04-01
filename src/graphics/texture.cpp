@@ -52,5 +52,5 @@ Texture Texture::from_file(const char * path) {
 }
 
 Texture Texture::empty(int w, int h) {
-       return Texture(w, h, 3, NULL); 
+       return Texture(w, h, 4, NULL); 
 }

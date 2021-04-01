@@ -20,30 +20,47 @@ SpriteRenderer::~SpriteRenderer() {
 
 void SpriteRenderer::init() {
 
-    unsigned int vbo;
+    glGenVertexArrays(1, &this->quad_vao);
+    glBindVertexArray(this->quad_vao);
+    
     float vertices[] = { 
-        // pos      // tex
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 
+        0.0f, 1.0f, 
+        1.0f, 0.0f, 
+        0.0f, 0.0f,  
 
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f
+        0.0f, 1.0f, 
+        1.0f, 1.0f,
+        1.0f, 0.0f
     };
 
-    glGenVertexArrays(1, &this->quad_vao);
+    GLuint vbo;
     glGenBuffers(1, &vbo);
-
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glBindVertexArray(this->quad_vao);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+
+
+    float tex_vertices[] = {
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 0.0f, 
+
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        1.0f, 0.0f
+    };
+
+    GLuint tex_buffer;
+    glGenBuffers(1, &tex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, tex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(tex_vertices), tex_vertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+
+    
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
 }
 
 void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, const Vec2 & size, float rot, const Color & color) {
