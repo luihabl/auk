@@ -18,22 +18,5 @@ namespace TinySDL {
             unsigned int quad_vao;
             void init();
     };
-
-    struct TargetRenderer {
-        TargetRenderer() = default;
-        TargetRenderer(int w, int h);
-        ~TargetRenderer();
-        void begin();
-        void end();
-        // void draw();
-        
-        Texture tex;
     
-        private: 
-
-            unsigned int fbo;
-            // unsigned int quad_vao;
-            void init(int w, int h);
-    };
-
 }

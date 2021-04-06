@@ -38,7 +38,7 @@ SDL_Window * Window::init(char * name, int w, int h, int x, int y, uint32_t flag
     SDL_GL_MakeCurrent(window, context);
     Graphics::load_gl_functions();
     Graphics::setup_gl_debug();
-    SDL_GL_SetSwapInterval(1);
+    SDL_GL_SetSwapInterval(1); //using VSync
 
     return window;
 }
