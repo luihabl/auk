@@ -11,8 +11,8 @@ namespace TinySDL {
         public:
             SpriteRenderer(Shader & shader);
             ~SpriteRenderer();
-            void draw(const Texture & tex, const Vec2 & pos, const Vec2 & size, float rot = 0.0f, const Color & color = Color::white);
-            void draw(const Texture & tex, const Vec2 & pos, float scale = 1.0f, float rot = 0.0f, const Color & color = Color::white);
+            void draw(const Texture & tex, const Vec2 & pos, const Vec2 & size, float rot = 0.0f);
+            void draw(const Texture & tex, const Vec2 & pos, float scale = 1.0f, float rot = 0.0f);
             void draw_rect(const Texture & tex, const Vec2 & pos, Vec4 src_rect);
         
         private: 
@@ -21,8 +21,8 @@ namespace TinySDL {
             unsigned int uv_vbo_id;
 
             void gl_draw();
-            void set_uv(const Vec4 & src_rect);
-            Mat4x4 gen_model(const Vec2 & pos, const Vec2 & size, const float & rot);
+            void set_uv(const Vec4 & src_rect, const Texture & tex);
+            Mat4x4 gen_model(const Vec2 & pos, const Vec2 & size, const float & rot = 0.0f);
     };
 
 }
