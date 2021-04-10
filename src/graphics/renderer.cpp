@@ -52,21 +52,21 @@ SpriteRenderer::~SpriteRenderer() {
     glDeleteBuffers(1, &this->uv_vbo_id);
 }
 
-Mat4x4 SpriteRenderer::gen_model(const Vec2 & pos, const Vec2 & size, const float & rot) {
+Mat4x4 SpriteRenderer::gen_model(const Vec4 & dst_rect, const float & rot) {
     Mat4x4 model = Mat4x4::identity();
     
-    MatrixMath::translate(model, pos[0], pos[1], 0.0f); 
+    MatrixMath::translate(model, dst_rect[0], dst_rect[1], 0.0f); 
     if(rot != 0.0f){
-        MatrixMath::translate(model, 0.5f * size[0], 0.5f * size[1], 0.0f); 
+        MatrixMath::translate(model, 0.5f * dst_rect[2], 0.5f * dst_rect[3], 0.0f); 
         MatrixMath::rotate(model, rot);
-        MatrixMath::translate(model, -0.5f * size[0], -0.5f * size[1], 0.0f); 
+        MatrixMath::translate(model, -0.5f * dst_rect[2], -0.5f * dst_rect[3], 0.0f); 
     }
-    MatrixMath::scale(model, size[0], size[1], 1.0f);
+    MatrixMath::scale(model, dst_rect[2], dst_rect[3], 1.0f);
     
     return model;
 }
 
-void SpriteRenderer::gl_draw() {
+void SpriteRenderer::gl_draw_quad() {
     glBindVertexArray(this->quad_vao_id);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
@@ -87,46 +87,20 @@ void SpriteRenderer::set_uv(const Vec4 & src_rect, const Texture & tex) {
 }
 
 
-void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, const Vec2 & size, float rot) {
+void SpriteRenderer::draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot) {
     
     shader.use();
-    shader.set_mat4x4("model", gen_model(pos, size, rot));
+    shader.set_mat4x4("model", gen_model(dst_rect, rot));
 
     glActiveTexture(GL_TEXTURE0);
     tex.bind();
 
-    set_uv({0.0f, 0.0f, (float) tex.w, (float) tex.h}, tex); //x, y, w, h
-    
-    gl_draw();
-}
-
-
-void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, float scale, float rot) {
-
-    shader.use();
-    shader.set_mat4x4("model", gen_model(pos, {scale * (float) tex.w, scale * (float) tex.h}, rot));
-
-    glActiveTexture(GL_TEXTURE0);
-    tex.bind();
-
-    set_uv({0.0f, 0.0f, (float) tex.w, (float) tex.h}, tex); //x, y, w, h
-    
-    gl_draw();
-}
-
-
-
-void SpriteRenderer::draw_rect(const Texture & tex, const Vec2 & pos, Vec4 src_rect) {
-    shader.use();
-
-    shader.set_mat4x4("model", gen_model(pos, {src_rect[2], src_rect[3]}));
-
-    glActiveTexture(GL_TEXTURE0);
-    tex.bind();
-    
     set_uv(src_rect, tex); //x, y, w, h
     
-    gl_draw();
+    gl_draw_quad();
 }
 
+void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, float scale, float rot) {
+    draw(tex, {0.0f, 0.0f, (float) tex.w, (float) tex.h}, {pos[0], pos[1], scale * (float) tex.w, scale * (float) tex.h}, rot);
+}
 
