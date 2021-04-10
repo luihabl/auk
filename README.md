@@ -5,7 +5,7 @@ A minimal C++ toolset using SDL and OpenGL for 2D games
 ## Usage example
 
 The snipped bellow shows how to draw a sprite to the screen:
-```c++
+```cpp
 #include <tinysdl.h>
 
 using namespace TinySDL;
