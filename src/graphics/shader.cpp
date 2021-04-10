@@ -6,24 +6,22 @@
 #include "tinysdl/platform/file.h"
 #include "tinysdl/matrix/matrix.h"
 
-constexpr char* default_vertex_src = "#version 460\n\
-in mediump vec3 point;\n\
-in mediump vec2 texcoord;\n\
-out mediump vec2 UV;\n\
-void main()\n\
-{\n\
-  gl_Position = vec4(point, 1);\n\
-  UV = texcoord;\n\
-}";
+constexpr char* default_vertex_src = "#version 460 core\n\
+layout (location = 0) in vec2 vertex; \n\
+layout (location = 1) in vec2 tex_coords; \n\
+out vec2 uv;\n\
+uniform mat4 model;\n\
+uniform mat4 projection;\n\
+void main() {\n\
+uv = tex_coords;\n\
+gl_Position = projection * model * vec4(vertex.xy, 0.0, 1.0); }";
 
-constexpr char* default_frag_src = "#version 460\n\
-in mediump vec2 UV;\n\
-out mediump vec3 fragColor;\n\
-uniform sampler2D tex;\n\
-void main()\n\
-{\n\
-  fragColor = texture(tex, UV).rgb;\n\
-}";
+
+constexpr char* default_frag_src = "#version 460 core\n\
+in vec2 uv;\n\
+out vec4 color;\n\
+uniform sampler2D image;\n\
+void main() { color = texture(image, uv); }";
 
 using namespace TinySDL;
 
