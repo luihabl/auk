@@ -101,6 +101,6 @@ void SpriteRenderer::draw(const Texture & tex, const Vec4 & src_rect, const Vec4
 }
 
 void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, float scale, float rot) {
-    draw(tex, {0.0f, 0.0f, (float) tex.w, (float) tex.h}, {pos[0], pos[1], scale * (float) tex.w, scale * (float) tex.h}, rot);
+    draw(tex, tex.full_rect, {pos[0], pos[1], scale * (float) tex.w, scale * (float) tex.h}, rot);
 }
 

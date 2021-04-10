@@ -32,6 +32,8 @@ Texture::Texture(int w, int h, int n_comp, unsigned char * data) : w(w), h(h){
     GLint format = n_comp == 3 ? GL_RGB : GL_RGBA;
     glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data);
 
+    full_rect = {0.0f, 0.0f, (float) w, (float) h};
+
     // add a way to set these parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

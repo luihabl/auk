@@ -1,5 +1,7 @@
 #pragma once
 
+#include "tinysdl/matrix/matrix.h"
+
 namespace TinySDL {
 
     struct Sprite {
@@ -18,6 +20,7 @@ namespace TinySDL {
             Texture(int w, int h, int n_comp, unsigned char * data);
             unsigned int id;
             int w = 0, h = 0;
+            Vec4 full_rect;
 
             void bind() const;
             static Texture from_file(const char * path);
