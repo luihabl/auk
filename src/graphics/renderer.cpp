@@ -52,20 +52,6 @@ SpriteRenderer::~SpriteRenderer() {
     glDeleteBuffers(1, &this->uv_vbo_id);
 }
 
-Mat4x4 SpriteRenderer::gen_model(const Vec4 & dst_rect, const float & rot) {
-    Mat4x4 model = Mat4x4::identity();
-    
-    MatrixMath::translate(model, dst_rect[0], dst_rect[1], 0.0f); 
-    if(rot != 0.0f){
-        MatrixMath::translate(model, 0.5f * dst_rect[2], 0.5f * dst_rect[3], 0.0f); 
-        MatrixMath::rotate(model, rot);
-        MatrixMath::translate(model, -0.5f * dst_rect[2], -0.5f * dst_rect[3], 0.0f); 
-    }
-    MatrixMath::scale(model, dst_rect[2], dst_rect[3], 1.0f);
-    
-    return model;
-}
-
 void SpriteRenderer::gl_draw_quad() {
     glBindVertexArray(this->quad_vao_id);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -90,7 +76,7 @@ void SpriteRenderer::set_uv(const Vec4 & src_rect, const Texture & tex) {
 void SpriteRenderer::draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot) {
     
     shader.use();
-    shader.set_mat4x4("model", gen_model(dst_rect, rot));
+    shader.set_mat4x4("model", MatrixMath::gen_model(dst_rect, rot));
 
     glActiveTexture(GL_TEXTURE0);
     tex.bind();
@@ -104,3 +90,77 @@ void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, float scale, fl
     draw(tex, tex.full_rect, {pos[0], pos[1], scale * (float) tex.w, scale * (float) tex.h}, rot);
 }
 
+
+
+// ------------ SpriteBatch ------------
+
+SpriteBatch::SpriteBatch() {
+
+
+
+
+}
+
+
+void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot) {
+
+    Mat4x4 model = MatrixMath::gen_model(dst_rect, rot);
+
+    float vertices[] = {
+        0.0f, 0.0f, 
+        1.0f, 0.0f, 
+        1.0f, 1.0f,
+        0.0f, 1.0f 
+    };
+
+    Vertex v0;
+    v0.pos[0] = model.data[0 + 0 * 4] * 0.0f +  model.data[0 + 1 * 4] * 0.0f + model.data[0 + 3 * 4];
+    v0.pos[1] = model.data[1 + 0 * 4] * 0.0f +  model.data[1 + 1 * 4] * 0.0f + model.data[1 + 3 * 4];
+    v0.uv = {src_rect[0] / (float) tex.w, src_rect[1] / (float) tex.h};
+    push_vertex(v0);
+
+    Vertex v1;
+    v1.pos[0] = model.data[0 + 0 * 4] * 1.0f +  model.data[0 + 1 * 4] * 0.0f + model.data[0 + 3 * 4];
+    v1.pos[1] = model.data[1 + 0 * 4] * 1.0f +  model.data[1 + 1 * 4] * 0.0f + model.data[1 + 3 * 4];
+    v1.uv = {(src_rect[0] + src_rect[2]) / (float) tex.w,   src_rect[1] / (float) tex.h};
+    push_vertex(v1);
+
+    Vertex v2;
+    v2.pos[0] = model.data[0 + 0 * 4] * 1.0f +  model.data[0 + 1 * 4] * 1.0f + model.data[0 + 3 * 4];
+    v2.pos[1] = model.data[1 + 0 * 4] * 1.0f +  model.data[1 + 1 * 4] * 1.0f + model.data[1 + 3 * 4];
+    v2.uv = {(src_rect[0] + src_rect[2]) / (float) tex.w,  (src_rect[1] + src_rect[3]) / (float) tex.h};
+    push_vertex(v2);
+
+    Vertex v3;
+    v3.pos[0] = model.data[0 + 0 * 4] * 0.0f +  model.data[0 + 1 * 4] * 1.0f + model.data[0 + 3 * 4];
+    v3.pos[1] = model.data[1 + 0 * 4] * 0.0f +  model.data[1 + 1 * 4] * 1.0f + model.data[1 + 3 * 4];
+    v2.uv = {src_rect[0] / (float) tex.w, (src_rect[1] + src_rect[3]) / (float) tex.h};
+    push_vertex(v3);
+
+    //TODO: Push indices
+
+
+
+
+
+
+
+    // multiply model and vertices (only need x and y)
+    // send data
+
+
+}
+
+void SpriteBatch::push_vertex(const Vertex & vertex) {
+    // Do other stuff here
+
+    vertices.push_back(vertex);
+}
+
+void SpriteBatch::render() {
+
+    //Draw everything here
+
+    vertices.clear();
+    indices.clear();
+}

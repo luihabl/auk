@@ -5,6 +5,8 @@
 #include "tinysdl/matrix/matrix.h"
 #include "tinysdl/matrix/color.h"
 
+#include <vector>
+
 namespace TinySDL {
 
     class SpriteRenderer {
@@ -21,7 +23,28 @@ namespace TinySDL {
 
             void gl_draw_quad();
             void set_uv(const Vec4 & src_rect, const Texture & tex);
-            Mat4x4 gen_model(const Vec4 & dst_rect, const float & rot = 0.0f);
+            
     };
 
+
+    struct Vertex {
+        Vec2 pos;
+        Vec2 uv;
+    };
+
+    class SpriteBatch {
+        public:
+            SpriteBatch();
+            void draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f);
+            void render();
+
+        private:
+            std::vector<Vertex> vertices;
+            std::vector<int> indices;
+
+            void push_vertex(const Vertex & vertex);
+            
+
+
+    };
 }
