@@ -26,7 +26,6 @@ namespace TinySDL {
             
     };
 
-
     struct Vertex {
         Vec2 pos;
         Vec2 uv;
@@ -36,6 +35,7 @@ namespace TinySDL {
         public:
             SpriteBatch();
             void draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f);
+            void draw(const Texture & tex, const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot);
             void render(Shader & shader, Texture & tex);
 
         private:

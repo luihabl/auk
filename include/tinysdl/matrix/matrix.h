@@ -237,5 +237,25 @@ namespace TinySDL {
 
             return model;
         }
+
+        inline Mat4x4 gen_transform(const Vec2 & pos, const Vec2 & scale, const float & rot) 
+        {
+            Mat4x4 model = Mat4x4::identity();
+            MatrixMath::translate(model, pos.data[0], pos.data[1], 1.0f);
+            if(rot != 0.0f) 
+            {
+            // Fix origin
+            //     MatrixMath::translate(model, 0.5f * dst_rect[2], 0.5f * dst_rect[3], 0.0f); 
+                MatrixMath::rotate(model, rot);
+            //     MatrixMath::translate(model, -0.5f * dst_rect[2], -0.5f * dst_rect[3], 0.0f); 
+            }
+
+            MatrixMath::scale(model, scale.data[0], scale.data[1], 1.0f);
+            return model;
+        }
+
+
+
+
     }
 }

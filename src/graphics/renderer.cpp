@@ -130,6 +130,23 @@ void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & 
     push_vertex(0.0f, 1.0f, src_rect[0] / (float) tex.w, (src_rect[1] + src_rect[3]) / (float) tex.h, model);
 }
 
+void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot) {
+
+    Mat4x4 model = MatrixMath::gen_transform(pos, scale, rot);
+
+    unsigned int n = (unsigned int) vertices.size();
+    indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
+
+    const float w  = src_rect.data[2];
+    const float h  = src_rect.data[3];
+
+    push_vertex(0.0f, 0.0f, src_rect[0] / (float) tex.w, src_rect[1] / (float) tex.h, model);
+    push_vertex(w, 0.0f, (src_rect[0] + src_rect[2]) / (float) tex.w,   src_rect[1] / (float) tex.h, model);
+    push_vertex(w, h, (src_rect[0] + src_rect[2]) / (float) tex.w,  (src_rect[1] + src_rect[3]) / (float) tex.h, model);
+    push_vertex(0.0f, h, src_rect[0] / (float) tex.w, (src_rect[1] + src_rect[3]) / (float) tex.h, model);
+
+}
+
 void SpriteBatch::push_vertex(float x, float y, float uv_x, float uv_y, const Mat4x4 & model) {
     Vertex v;
     v.pos = {
