@@ -122,7 +122,11 @@ SpriteBatch::~SpriteBatch() {
     glDeleteBuffers(1, &ebo_id);
 }
 
-void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot, bool centered) {
+void SpriteBatch::set_texture(Texture * tex) {
+    current_tex = tex;
+}
+
+void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, bool centered) {
 
     const float w  = src_rect.data[2];
     const float h  = src_rect.data[3];
@@ -135,10 +139,10 @@ void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & 
     unsigned int n = (unsigned int) vertices.size();
     indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
 
-    push_tex_quad(w, h, (float) tex.w, (float) tex.h, src_rect, transform);
+    push_tex_quad(w, h, (float) current_tex->w, (float) current_tex->h, src_rect, transform);
 }
 
-void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
+void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
 
     const float w  = src_rect.data[2];
     const float h  = src_rect.data[3];
@@ -152,18 +156,16 @@ void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec2 & 
     unsigned int n = (unsigned int) vertices.size();
     indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
 
-    push_tex_quad(w, h, (float) tex.w, (float) tex.h, src_rect, transform);
+    push_tex_quad(w, h, (float) current_tex->w, (float) current_tex->h, src_rect, transform);
 }
 
 void SpriteBatch::push_tex_quad(float w, float h, float tex_w, float tex_h, const Vec4 & src_rect, const Mat4x4 & transform) {
-    
+
     push_vertex(0.0f, 0.0f, src_rect[0] / tex_w, src_rect[1] / tex_h, transform);
     push_vertex(w, 0.0f, (src_rect[0] + src_rect[2]) / tex_w,   src_rect[1] / tex_h, transform);
     push_vertex(w, h, (src_rect[0] + src_rect[2]) / tex_w,  (src_rect[1] + src_rect[3]) / tex_h, transform);
     push_vertex(0.0f, h, src_rect[0] / tex_w, (src_rect[1] + src_rect[3]) / tex_h, transform);
 }
-
-
 
 void SpriteBatch::push_vertex(float x, float y, float uv_x, float uv_y, const Mat4x4 & model) {
     Vertex v;
@@ -175,14 +177,13 @@ void SpriteBatch::push_vertex(float x, float y, float uv_x, float uv_y, const Ma
     vertices.push_back(v);
 }
 
-void SpriteBatch::render(Shader & shader, Texture & tex) {
-
-    // maybe can remove this afterwards vvvvvvv    
-    glActiveTexture(GL_TEXTURE0);
-    tex.bind();
-    // ^^^^^^^^^^
+void SpriteBatch::render() {
 
     glBindVertexArray(vao_id);
+
+    // Binding texture
+    glActiveTexture(GL_TEXTURE0);
+    current_tex->bind();
 
     // Uploading vertices
     glBindBuffer(GL_ARRAY_BUFFER, vbo_id);

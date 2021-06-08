@@ -36,10 +36,10 @@ namespace TinySDL {
             SpriteBatch();
             ~SpriteBatch();
             
-            // void draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f);
-            void draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f, bool centered = false);
-            void draw(const Texture & tex, const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot = 0.0f, bool centered = false);
-            void render(Shader & shader, Texture & tex);
+            void set_texture(Texture * tex);
+            void draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f, bool centered = false);
+            void draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot = 0.0f, bool centered = false);
+            void render();
 
         private:
             std::vector<Vertex> vertices;
@@ -49,10 +49,10 @@ namespace TinySDL {
             unsigned int vbo_id;
             unsigned int ebo_id;
 
+            Texture * current_tex;
+
             void push_vertex(float x, float y, float uv_x, float uv_y, const Mat4x4 & model);
             void push_tex_quad(float w, float h, float tex_w, float tex_h, const Vec4 & src_rect, const Mat4x4 & transform);
-            
-
-
+          
     };
 }

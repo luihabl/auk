@@ -200,7 +200,7 @@ namespace TinySDL {
             mat = matmul(rot, mat);
         }
 
-        inline void scale(Mat4x4 & mat, float sx, float sy, float sz) {
+        inline void scale2(Mat4x4 & mat, float sx, float sy, float sz) {
 
             Mat4x4 scl = Mat4x4::identity();
             scl[0 + 0 * 4] = sx;
@@ -210,7 +210,7 @@ namespace TinySDL {
             mat = matmul(mat, scl);
         }
 
-        inline void scale2(Mat4x4 & mat, float sx, float sy, float sz) {
+        inline void scale(Mat4x4 & mat, float sx, float sy, float sz) {
 
             Mat4x4 scl = Mat4x4::identity();
             scl[0 + 0 * 4] = sx;
@@ -244,31 +244,27 @@ namespace TinySDL {
                 MatrixMath::rotate(model, rot);
                 MatrixMath::translate(model, -0.5f * dst_rect[2], -0.5f * dst_rect[3], 0.0f); 
             }
-            MatrixMath::scale(model, dst_rect[2], dst_rect[3], 1.0f);
+            MatrixMath::scale2(model, dst_rect[2], dst_rect[3], 1.0f);
 
             return model;
         }
 
 
-        inline Mat4x4 gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) 
-        {
+        inline Mat4x4 gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
             Mat4x4 model = Mat4x4::identity();
 
-            // MatrixMath::translate(model, pos.data[0], pos.data[1], 1.0f);
-            
-            MatrixMath::translate(model, -origin.data[0], -origin.data[1], 1.0f);
-            MatrixMath::scale2(model, scale.data[0], scale.data[1], 1.0f);
-            
-            // MatrixMath::translate(model, pos.data[0], pos.data[1], 1.0f);
-            MatrixMath::rotate(model, rotation);
-            MatrixMath::translate(model, pos.data[0], pos.data[1], 1.0f);
-            // MatrixMath::translate(model, origin.data[0], origin.data[1], 1.0f);
+            if(origin.data[0] != 0 || origin.data[1] != 0)
+                MatrixMath::translate(model, -origin.data[0], -origin.data[1], 1.0f);
 
+            if(scale.data[0] != 1 || scale.data[1] != 1)
+                MatrixMath::scale(model, scale.data[0], scale.data[1], 1.0f);
             
-            
-            
-            
-            
+            if(rotation != 0)
+                MatrixMath::rotate(model, rotation);
+
+            if(pos.data[0] != 0 || pos.data[1] != 0) 
+                MatrixMath::translate(model, pos.data[0], pos.data[1], 1.0f);
+
             return model;
         }
 
