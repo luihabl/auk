@@ -97,14 +97,11 @@ void SpriteRenderer::draw(const Texture & tex, const Vec2 & pos, float scale, fl
 SpriteBatch::SpriteBatch() {
     
     glGenVertexArrays(1, &vao_id);
+    
     glBindVertexArray(vao_id);
-
 
     glGenBuffers(1, &vbo_id);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 1000, nullptr, GL_DYNAMIC_DRAW);
-
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, pos));
@@ -124,45 +121,23 @@ void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & 
 
     Mat4x4 model = MatrixMath::gen_model(dst_rect, rot);
 
-    // int n = (int) vertices.size()
-    // change to indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
+    unsigned int n = (unsigned int) vertices.size();
+    indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
 
-    indices.push_back((unsigned int) vertices.size() + 0);
-    indices.push_back((unsigned int) vertices.size() + 2);
-    indices.push_back((unsigned int) vertices.size() + 1);
-    indices.push_back((unsigned int) vertices.size() + 0);
-    indices.push_back((unsigned int) vertices.size() + 3);
-    indices.push_back((unsigned int) vertices.size() + 2);
-
-    Vertex v0;
-    v0.pos[0] = model.data[0 + 0 * 4] * 0.0f +  model.data[0 + 1 * 4] * 0.0f + model.data[0 + 3 * 4];
-    v0.pos[1] = model.data[1 + 0 * 4] * 0.0f +  model.data[1 + 1 * 4] * 0.0f + model.data[1 + 3 * 4];
-    v0.uv = {src_rect[0] / (float) tex.w, src_rect[1] / (float) tex.h};
-    vertices.push_back(v0);
-
-    Vertex v1;
-    v1.pos[0] = model.data[0 + 0 * 4] * 1.0f +  model.data[0 + 1 * 4] * 0.0f + model.data[0 + 3 * 4];
-    v1.pos[1] = model.data[1 + 0 * 4] * 1.0f +  model.data[1 + 1 * 4] * 0.0f + model.data[1 + 3 * 4];
-    v1.uv = {(src_rect[0] + src_rect[2]) / (float) tex.w,   src_rect[1] / (float) tex.h};
-    vertices.push_back(v1);
-
-    Vertex v2;
-    v2.pos[0] = model.data[0 + 0 * 4] * 1.0f +  model.data[0 + 1 * 4] * 1.0f + model.data[0 + 3 * 4];
-    v2.pos[1] = model.data[1 + 0 * 4] * 1.0f +  model.data[1 + 1 * 4] * 1.0f + model.data[1 + 3 * 4];
-    v2.uv = {(src_rect[0] + src_rect[2]) / (float) tex.w,  (src_rect[1] + src_rect[3]) / (float) tex.h};
-    vertices.push_back(v2);
-
-    Vertex v3;
-    v3.pos[0] = model.data[0 + 0 * 4] * 0.0f +  model.data[0 + 1 * 4] * 1.0f + model.data[0 + 3 * 4];
-    v3.pos[1] = model.data[1 + 0 * 4] * 0.0f +  model.data[1 + 1 * 4] * 1.0f + model.data[1 + 3 * 4];
-    v3.uv = {src_rect[0] / (float) tex.w, (src_rect[1] + src_rect[3]) / (float) tex.h};
-    vertices.push_back(v3);
+    push_vertex(0.0f, 0.0f, src_rect[0] / (float) tex.w, src_rect[1] / (float) tex.h, model);
+    push_vertex(1.0f, 0.0f, (src_rect[0] + src_rect[2]) / (float) tex.w,   src_rect[1] / (float) tex.h, model);
+    push_vertex(1.0f, 1.0f, (src_rect[0] + src_rect[2]) / (float) tex.w,  (src_rect[1] + src_rect[3]) / (float) tex.h, model);
+    push_vertex(0.0f, 1.0f, src_rect[0] / (float) tex.w, (src_rect[1] + src_rect[3]) / (float) tex.h, model);
 }
 
-void SpriteBatch::push_vertex(const Vertex & vertex) {
-    // Do other stuff here
-
-    
+void SpriteBatch::push_vertex(float x, float y, float uv_x, float uv_y, const Mat4x4 & model) {
+    Vertex v;
+    v.pos = {
+        model.data[0 + 0 * 4] * x +  model.data[0 + 1 * 4] * y + model.data[0 + 3 * 4],
+        model.data[1 + 0 * 4] * x +  model.data[1 + 1 * 4] * y + model.data[1 + 3 * 4]
+    };
+    v.uv = {uv_x, uv_y};
+    vertices.push_back(v);
 }
 
 void SpriteBatch::render(Shader & shader, Texture & tex) {
@@ -183,7 +158,7 @@ void SpriteBatch::render(Shader & shader, Texture & tex) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), indices.data(), GL_DYNAMIC_DRAW);
 
     //Draw everything
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*) 0);
+    glDrawElements(GL_TRIANGLES, (GLsizei) indices.size(), GL_UNSIGNED_INT, (void*) 0);
 
     glBindVertexArray(0);
 
