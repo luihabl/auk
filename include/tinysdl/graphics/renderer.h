@@ -50,6 +50,7 @@ namespace TinySDL {
             unsigned int ebo_id;
 
             void push_vertex(float x, float y, float uv_x, float uv_y, const Mat4x4 & model);
+            void push_tex_quad(float w, float h, float tex_w, float tex_h, const Vec4 & src_rect, const Mat4x4 & transform);
             
 
 
