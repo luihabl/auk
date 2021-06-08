@@ -116,30 +116,46 @@ SpriteBatch::SpriteBatch() {
     glBindVertexArray(0);
 }
 
+SpriteBatch::~SpriteBatch() {
+    glDeleteVertexArrays(1, &vao_id);
+    glDeleteBuffers(1, &vbo_id);
+    glDeleteBuffers(1, &ebo_id);
+}
 
-void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot) {
+void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot, bool centered) {
 
-    Mat4x4 model = MatrixMath::gen_model(dst_rect, rot);
+
+    Vec2 origin = Vec2::zeros();
+    if (centered) origin = {src_rect[2]/2.0f, src_rect[3]/2.0f};
+
+    Mat4x4 model = MatrixMath::gen_transform({dst_rect[0], dst_rect[1]}, {dst_rect[2], dst_rect[3]}, {0.0f, 0.0f}, rot);
 
     unsigned int n = (unsigned int) vertices.size();
     indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
 
+    //Drawing quad with texture
     push_vertex(0.0f, 0.0f, src_rect[0] / (float) tex.w, src_rect[1] / (float) tex.h, model);
     push_vertex(1.0f, 0.0f, (src_rect[0] + src_rect[2]) / (float) tex.w,   src_rect[1] / (float) tex.h, model);
     push_vertex(1.0f, 1.0f, (src_rect[0] + src_rect[2]) / (float) tex.w,  (src_rect[1] + src_rect[3]) / (float) tex.h, model);
     push_vertex(0.0f, 1.0f, src_rect[0] / (float) tex.w, (src_rect[1] + src_rect[3]) / (float) tex.h, model);
 }
 
-void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot) {
+void SpriteBatch::draw(const Texture & tex, const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
 
-    Mat4x4 model = MatrixMath::gen_transform(pos, scale, rot);
+
+    const float w  = src_rect.data[2];
+    const float h  = src_rect.data[3];
+    
+    Vec2 origin = Vec2::zeros();
+    if (centered) origin = {w/2.0f, h/2.0f};
+
+    
+    Mat4x4 model = MatrixMath::gen_transform(pos, scale, origin, rot);
 
     unsigned int n = (unsigned int) vertices.size();
     indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
 
-    const float w  = src_rect.data[2];
-    const float h  = src_rect.data[3];
-
+    //Drawing quad with texture
     push_vertex(0.0f, 0.0f, src_rect[0] / (float) tex.w, src_rect[1] / (float) tex.h, model);
     push_vertex(w, 0.0f, (src_rect[0] + src_rect[2]) / (float) tex.w,   src_rect[1] / (float) tex.h, model);
     push_vertex(w, h, (src_rect[0] + src_rect[2]) / (float) tex.w,  (src_rect[1] + src_rect[3]) / (float) tex.h, model);

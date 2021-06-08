@@ -34,8 +34,11 @@ namespace TinySDL {
     class SpriteBatch {
         public:
             SpriteBatch();
-            void draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f);
-            void draw(const Texture & tex, const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot);
+            ~SpriteBatch();
+            
+            // void draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f);
+            void draw(const Texture & tex, const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f, bool centered = false);
+            void draw(const Texture & tex, const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot = 0.0f, bool centered = false);
             void render(Shader & shader, Texture & tex);
 
         private:

@@ -183,7 +183,7 @@ namespace TinySDL {
             trans.data[1 + 3 * 4] = y;
             trans.data[2 + 3 * 4] = z;
 
-            mat = matmul(mat, trans);
+            mat = matmul(trans, mat);
         }
 
         inline void rotate(Mat4x4 & mat, float radians) {
@@ -197,7 +197,7 @@ namespace TinySDL {
             rot[0 + 1 * 4] = -s;
             rot[1 + 1 * 4] =  c;
 
-            mat = matmul(mat, rot);
+            mat = matmul(rot, mat);
         }
 
         inline void scale(Mat4x4 & mat, float sx, float sy, float sz) {
@@ -209,6 +209,17 @@ namespace TinySDL {
 
             mat = matmul(mat, scl);
         }
+
+        inline void scale2(Mat4x4 & mat, float sx, float sy, float sz) {
+
+            Mat4x4 scl = Mat4x4::identity();
+            scl[0 + 0 * 4] = sx;
+            scl[1 + 1 * 4] = sy;
+            scl[2 + 2 * 4] = sz; 
+
+            mat = matmul(scl, mat);
+        }
+
 
         inline Mat4x4 ortho(float left, float right, float bottom, float top, float z_near, float z_far) {
             Mat4x4 ortho_mat = Mat4x4::identity();
@@ -238,19 +249,26 @@ namespace TinySDL {
             return model;
         }
 
-        inline Mat4x4 gen_transform(const Vec2 & pos, const Vec2 & scale, const float & rot) 
+
+        inline Mat4x4 gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) 
         {
             Mat4x4 model = Mat4x4::identity();
-            MatrixMath::translate(model, pos.data[0], pos.data[1], 1.0f);
-            if(rot != 0.0f) 
-            {
-            // Fix origin
-            //     MatrixMath::translate(model, 0.5f * dst_rect[2], 0.5f * dst_rect[3], 0.0f); 
-                MatrixMath::rotate(model, rot);
-            //     MatrixMath::translate(model, -0.5f * dst_rect[2], -0.5f * dst_rect[3], 0.0f); 
-            }
 
-            MatrixMath::scale(model, scale.data[0], scale.data[1], 1.0f);
+            // MatrixMath::translate(model, pos.data[0], pos.data[1], 1.0f);
+            
+            MatrixMath::translate(model, -origin.data[0], -origin.data[1], 1.0f);
+            MatrixMath::scale2(model, scale.data[0], scale.data[1], 1.0f);
+            
+            // MatrixMath::translate(model, pos.data[0], pos.data[1], 1.0f);
+            MatrixMath::rotate(model, rotation);
+            MatrixMath::translate(model, pos.data[0], pos.data[1], 1.0f);
+            // MatrixMath::translate(model, origin.data[0], origin.data[1], 1.0f);
+
+            
+            
+            
+            
+            
             return model;
         }
 
