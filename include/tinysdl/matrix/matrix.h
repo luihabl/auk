@@ -157,6 +157,9 @@ namespace TinySDL {
 
     namespace MatrixMath{
 
+        static const Mat4x4 identity_4x4 = Mat4x4::identity();
+        static const Mat4x4 zeros_4x4 = Mat4x4::zeros();
+
         template <size_t M>
         inline float dot(const Matrix<float, M, 1> & a, const Matrix<float, M, 1> & b) {
             float sum = 0;
@@ -169,74 +172,101 @@ namespace TinySDL {
         inline Matrix<float, M, M> matmul(const Matrix<float, M, M> & a, const Matrix<float, M, M> & b) {
             // Only supports square matrices for the moment
             Matrix<float, M, M> prod = Matrix<float, M, M>::zeros();
-            for(size_t i = 0; i < M; i++)
-                for(size_t j = 0; j < M; j++)
-                    for(size_t k = 0; k < M; k++)
+            for(size_t j = 0; j < M; j++)
+                for(size_t k = 0; k < M; k++)
+                    for(size_t i = 0; i < M; i++)
                         prod.data[i  + j * M] += a.data[i + k * M] * b.data[k + j * M];
             return prod;
         }
 
+        //Unrolling loop just for 4x4 matrices
+inline Mat4x4 matmul4x4(Mat4x4 & a_mat, Mat4x4 & b_mat) {
+            Mat4x4 prod;
+            float * p = prod.data.data();
+            float * a = a_mat.data.data();
+            float * b = b_mat.data.data();
+
+            p[0] = a[0]  * b[0]  + a[4] * b[1]  + a[8]   * b[2]  + a[12] * b[3];
+            p[1] = a[1]  * b[0]  + a[5] * b[1]  + a[9]   * b[2]  + a[13] * b[3];
+            p[2] = a[2]  * b[0]  + a[6] * b[1]  + a[10]  * b[2]  + a[14] * b[3];
+            p[3] = a[3]  * b[0]  + a[7] * b[1]  + a[11]  * b[2]  + a[15] * b[3];
+            p[4] = a[0]  * b[4]  + a[4] * b[5]  + a[8]   * b[6]  + a[12] * b[7];
+            p[5] = a[1]  * b[4]  + a[5] * b[5]  + a[9]   * b[6]  + a[13] * b[7];
+            p[6] = a[2]  * b[4]  + a[6] * b[5]  + a[10]  * b[6]  + a[14] * b[7];
+            p[7] = a[3]  * b[4]  + a[7] * b[5]  + a[11]  * b[6]  + a[15] * b[7];
+            p[8] = a[0]  * b[8]  + a[4] * b[9]  + a[8]   * b[10] + a[12] * b[11];
+            p[9] = a[1]  * b[8]  + a[5] * b[9]  + a[9]   * b[10] + a[13] * b[11];
+            p[10] = a[2] * b[8]  + a[6] * b[9]  + a[10]  * b[10] + a[14] * b[11];
+            p[11] = a[3] * b[8]  + a[7] * b[9]  + a[11]  * b[10] + a[15] * b[11];
+            p[12] = a[0] * b[12] + a[4] * b[13] + a[8]   * b[14] + a[12] * b[15];
+            p[13] = a[1] * b[12] + a[5] * b[13] + a[9]   * b[14] + a[13] * b[15];
+            p[14] = a[2] * b[12] + a[6] * b[13] + a[10]  * b[14] + a[14] * b[15];
+            p[15] = a[3] * b[12] + a[7] * b[13] + a[11]  * b[14] + a[15] * b[15];
+
+        	return prod;
+        }
+
         inline void translate(Mat4x4 & mat, float x, float y, float z) {
 
-            Mat4x4 trans = Mat4x4::identity();
+            Mat4x4 trans = identity_4x4;
             trans.data[0 + 3 * 4] = x;
             trans.data[1 + 3 * 4] = y;
             trans.data[2 + 3 * 4] = z;
 
-            mat = matmul(trans, mat);
+            mat = matmul4x4(trans, mat);
         }
 
         inline void rotate(Mat4x4 & mat, float radians) {
             
-            Mat4x4 rot = Mat4x4::identity();
+            Mat4x4 rot = identity_4x4;
             float c = cos(radians);
             float s = sin(radians);
             
-            rot[0 + 0 * 4] =  c;
-            rot[1 + 0 * 4] =  s;
-            rot[0 + 1 * 4] = -s;
-            rot[1 + 1 * 4] =  c;
+            rot.data[0 + 0 * 4] =  c;
+            rot.data[1 + 0 * 4] =  s;
+            rot.data[0 + 1 * 4] = -s;
+            rot.data[1 + 1 * 4] =  c;
 
-            mat = matmul(rot, mat);
+            mat = matmul4x4(rot, mat);
         }
 
         inline void scale2(Mat4x4 & mat, float sx, float sy, float sz) {
 
-            Mat4x4 scl = Mat4x4::identity();
-            scl[0 + 0 * 4] = sx;
-            scl[1 + 1 * 4] = sy;
-            scl[2 + 2 * 4] = sz; 
+            Mat4x4 scl = identity_4x4;
+            scl.data[0 + 0 * 4] = sx;
+            scl.data[1 + 1 * 4] = sy;
+            scl.data[2 + 2 * 4] = sz; 
 
             mat = matmul(mat, scl);
         }
 
         inline void scale(Mat4x4 & mat, float sx, float sy, float sz) {
 
-            Mat4x4 scl = Mat4x4::identity();
-            scl[0 + 0 * 4] = sx;
-            scl[1 + 1 * 4] = sy;
-            scl[2 + 2 * 4] = sz; 
+            Mat4x4 scl = identity_4x4;
+            scl.data[0 + 0 * 4] = sx;
+            scl.data[1 + 1 * 4] = sy;
+            scl.data[2 + 2 * 4] = sz; 
 
-            mat = matmul(scl, mat);
+            mat = matmul4x4(scl, mat);
         }
 
 
         inline Mat4x4 ortho(float left, float right, float bottom, float top, float z_near, float z_far) {
-            Mat4x4 ortho_mat = Mat4x4::identity();
+            Mat4x4 ortho_mat = identity_4x4;
 
-            ortho_mat[0 + 0 * 4] =   2.0f / (right - left);
-            ortho_mat[1 + 1 * 4] =   2.0f / (top   - bottom);
-            ortho_mat[2 + 2 * 4] = - 2.0f / (z_far - z_near);
+            ortho_mat.data[0 + 0 * 4] =   2.0f / (right - left);
+            ortho_mat.data[1 + 1 * 4] =   2.0f / (top   - bottom);
+            ortho_mat.data[2 + 2 * 4] = - 2.0f / (z_far - z_near);
 
-            ortho_mat[0 + 3 * 4] = - (right + left)   / (right - left);
-            ortho_mat[1 + 3 * 4] = - (top   + bottom) / (top   - bottom);
-            ortho_mat[2 + 3 * 4] = - (z_far + z_near) / (z_far - z_near);
+            ortho_mat.data[0 + 3 * 4] = - (right + left)   / (right - left);
+            ortho_mat.data[1 + 3 * 4] = - (top   + bottom) / (top   - bottom);
+            ortho_mat.data[2 + 3 * 4] = - (z_far + z_near) / (z_far - z_near);
 
             return ortho_mat;
         }
 
         inline Mat4x4 gen_model(const Vec4 & dst_rect, const float & rot) {
-            Mat4x4 model = Mat4x4::identity();
+            Mat4x4 model = identity_4x4;
             
             MatrixMath::translate(model, dst_rect[0], dst_rect[1], 0.0f); 
             if(rot != 0.0f){
@@ -251,7 +281,7 @@ namespace TinySDL {
 
 
         inline Mat4x4 gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
-            Mat4x4 model = Mat4x4::identity();
+            Mat4x4 model = identity_4x4;
 
             if(origin.data[0] != 0 || origin.data[1] != 0)
                 MatrixMath::translate(model, -origin.data[0], -origin.data[1], 1.0f);

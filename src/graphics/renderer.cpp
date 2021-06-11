@@ -103,11 +103,15 @@ SpriteBatch::SpriteBatch() {
     glGenBuffers(1, &vbo_id);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
 
+    // ---- Adding vertex attributes here ----
+
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, pos));
 
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, uv));
+
+    // --------
 
     glGenBuffers(1, &ebo_id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
