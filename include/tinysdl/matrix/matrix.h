@@ -39,6 +39,11 @@ namespace TinySDL {
     };
 
     template <typename T, size_t M> using Vec = Matrix<T, M, 1>;
+    
+    template <typename T, size_t M, size_t N> using Matrix_std = std::array<T, M * N>;
+    template <typename T, size_t M> using Vec_std = Matrix_std<T, M, 1>;
+
+
 
     typedef Matrix<float, 2, 1> Vec2;
     typedef Matrix<float, 3, 1> Vec3;
