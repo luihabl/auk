@@ -10,7 +10,16 @@
 
 namespace TinySDL {
 
-    template <typename T, size_t M, size_t N> using Matrix = std::array<T, M * N>;
+    // template <typename T, size_t M, size_t N> using Matrix = std::array<T, M * N>;
+    
+    template <typename T, size_t M, size_t N>
+    struct Matrix : std::array<T, M * N> {
+
+        static Matrix zeros();
+        static Matrix ones();
+        static Matrix identity();
+    };
+
     template <typename T, size_t M> using Vec = Matrix<T, M, 1>;
     
     typedef Matrix<float, 2, 1> Vec2;
@@ -77,21 +86,21 @@ namespace TinySDL {
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> zeros() {
+    inline Matrix<T, M, N> Matrix<T, M, N>::zeros() {
         Matrix<T, M, N> new_matrix;
         new_matrix.fill(0.0f);
         return new_matrix; 
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> ones() {
+    inline Matrix<T, M, N> Matrix<T, M, N>::ones() {
         Matrix<T, M, N> new_matrix;
         new_matrix.fill(1.0f);
         return new_matrix; 
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> identity() {
+    inline Matrix<T, M, N> Matrix<T, M, N>::identity() {
         Matrix<T, M, N> id_matrix;
         id_matrix.fill(0.0f);
         if( M != N ) {
@@ -106,20 +115,10 @@ namespace TinySDL {
         return id_matrix; 
     }
 
-    template <typename T, size_t M, size_t N>
-    inline void print() {
-        for(size_t i = 0; i < M; i++){
-            for(size_t j = 0; j < N; j++) {
-                Log::print("%f\t", data[i + j * N]);
-            }
-            Log::print("\n");
-        }
-    }
-
     namespace MatrixMath{
 
-        static const Mat4x4 identity_4x4 = identity<float, 4, 4>();
-        static const Mat4x4 zeros_4x4 = zeros<float, 4, 4>();
+        static const Mat4x4 identity_4x4 = Mat4x4::identity();
+        static const Mat4x4 zeros_4x4 = Mat4x4::zeros();
 
         template <size_t M>
         inline float dot(const Matrix<float, M, 1> & a, const Matrix<float, M, 1> & b) {

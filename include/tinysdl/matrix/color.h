@@ -7,12 +7,11 @@ namespace TinySDL {
     
     struct Color : Vec<uint8_t, 4> {
         
-        // using Vec<uint8_t, 4>::array;
         Color() = default;
+        Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
+        // Color(int rgb, float a = 1.0f);
+        // Color(float r, float g, float b, float a = 1.0f);
 
-        Color(int rgb, float a = 1.0f);
-        Color(int r, int g, int b, int a = 255);
-        Color(float r, float g, float b, float a = 1.0f);
         float r() const, g() const, b() const, a() const;
 
         operator Vec3() const {return Vec3{r(), g(), b()};}

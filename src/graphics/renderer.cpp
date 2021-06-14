@@ -145,7 +145,7 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, 
     const float w  = src_rect[2];
     const float h  = src_rect[3];
 
-    Vec2 origin = zeros<float, 2, 1>();
+    Vec2 origin = Vec2::zeros();
     if (centered) origin = {w/2.0f, h/2.0f};
 
     Mat4x4 transform = MatrixMath::gen_transform({dst_rect[0], dst_rect[1]}, {dst_rect[2] / w, dst_rect[3] / h}, {0.0f, 0.0f}, rot);
@@ -161,7 +161,7 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & sca
     const float w  = src_rect[2];
     const float h  = src_rect[3];
     
-    Vec2 origin = zeros<float, 2, 1>();
+    Vec2 origin = Vec2::zeros();
     if (centered) origin = {w/2.0f, h/2.0f};
 
     
