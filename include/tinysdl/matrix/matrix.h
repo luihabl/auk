@@ -179,8 +179,8 @@ namespace TinySDL {
             return prod;
         }
 
-        //Unrolling loop just for 4x4 matrices
-inline Mat4x4 matmul4x4(Mat4x4 & a_mat, Mat4x4 & b_mat) {
+        //Optimized 4x4 matrix multiplication
+        inline Mat4x4 matmul4x4(Mat4x4 & a_mat, Mat4x4 & b_mat) {
             Mat4x4 prod;
             float * p = prod.data.data();
             float * a = a_mat.data.data();

@@ -105,12 +105,22 @@ SpriteBatch::SpriteBatch() {
 
     // ---- Adding vertex attributes here ----
 
+    //Vec2 Vertex.pos
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, pos));
 
+    //Vec2 Vertex.uv
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, uv));
 
+    //Color Vertex.color
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*) offsetof(Vertex, color));
+
+    //Vec<uint8_t, 3> Vertex.mpar
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 3, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*) offsetof(Vertex, cmix));
+    
     // --------
 
     glGenBuffers(1, &ebo_id);
@@ -178,6 +188,10 @@ void SpriteBatch::push_vertex(float x, float y, float uv_x, float uv_y, const Ma
         model.data[1 + 0 * 4] * x +  model.data[1 + 1 * 4] * y + model.data[1 + 3 * 4]
     };
     v.uv = {uv_x, uv_y};
+    v.color = Color::white;
+    
+    v.cmix = {255, 0, 0};
+
     vertices.push_back(v);
 }
 

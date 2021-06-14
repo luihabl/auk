@@ -29,6 +29,9 @@ namespace TinySDL {
     struct Vertex {
         Vec2 pos;
         Vec2 uv;
+        Color color;
+        //Vec<uint8_t, 3> mpar; //Color mixing parameters (0-255)
+        std::array<uint8_t, 3> cmix;
     };
 
     class SpriteBatch {
@@ -49,7 +52,7 @@ namespace TinySDL {
             unsigned int vbo_id;
             unsigned int ebo_id;
 
-            Texture * current_tex;
+            Texture * current_tex = nullptr;
 
             void push_vertex(float x, float y, float uv_x, float uv_y, const Mat4x4 & model);
             void push_tex_quad(float w, float h, float tex_w, float tex_h, const Vec4 & src_rect, const Mat4x4 & transform);
