@@ -28,6 +28,36 @@ namespace TinySDL {
     typedef Matrix<float, 2, 2> Mat2x2;
     typedef Matrix<float, 3, 3> Mat3x3;
     typedef Matrix<float, 4, 4> Mat4x4;
+
+        template <typename T, size_t M, size_t N>
+    inline Matrix<T, M, N> Matrix<T, M, N>::zeros() {
+        Matrix<T, M, N> new_matrix;
+        new_matrix.fill(0.0f);
+        return new_matrix; 
+    }
+
+    template <typename T, size_t M, size_t N>
+    inline Matrix<T, M, N> Matrix<T, M, N>::ones() {
+        Matrix<T, M, N> new_matrix;
+        new_matrix.fill(1.0f);
+        return new_matrix; 
+    }
+
+    template <typename T, size_t M, size_t N>
+    inline Matrix<T, M, N> Matrix<T, M, N>::identity() {
+        Matrix<T, M, N> id_matrix;
+        id_matrix.fill(0.0f);
+        if( M != N ) {
+            Log::warn("Trying to create non-square identity matrix");
+            return id_matrix;
+        }
+
+        for(size_t i = 0; i < M; i++)
+            for(size_t j = 0; j < M; j++)
+                if(i==j) id_matrix[i + j * M] = 1.0f;
+        
+        return id_matrix; 
+    }
     
     template <typename T, size_t M, size_t N>
     inline Matrix<T, M, N> operator+ (const Matrix<T, M, N> & other) {
@@ -83,36 +113,6 @@ namespace TinySDL {
         for (size_t i = 0; i < M * N; i++) 
             result[i] = other[i] * val;
         return result;
-    }
-
-    template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> Matrix<T, M, N>::zeros() {
-        Matrix<T, M, N> new_matrix;
-        new_matrix.fill(0.0f);
-        return new_matrix; 
-    }
-
-    template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> Matrix<T, M, N>::ones() {
-        Matrix<T, M, N> new_matrix;
-        new_matrix.fill(1.0f);
-        return new_matrix; 
-    }
-
-    template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> Matrix<T, M, N>::identity() {
-        Matrix<T, M, N> id_matrix;
-        id_matrix.fill(0.0f);
-        if( M != N ) {
-            Log::warn("Trying to create non-square identity matrix");
-            return id_matrix;
-        }
-
-        for(size_t i = 0; i < M; i++)
-            for(size_t j = 0; j < M; j++)
-                if(i==j) id_matrix[i + j * M] = 1.0f;
-        
-        return id_matrix; 
     }
 
     namespace MatrixMath{
@@ -190,15 +190,6 @@ namespace TinySDL {
             mat = matmul4x4(rot, mat);
         }
 
-        inline void scale2(Mat4x4 & mat, float sx, float sy, float sz) {
-
-            Mat4x4 scl = identity_4x4;
-            scl[0 + 0 * 4] = sx;
-            scl[1 + 1 * 4] = sy;
-            scl[2 + 2 * 4] = sz; 
-
-            mat = matmul4x4(mat, scl);
-        }
 
         inline void scale(Mat4x4 & mat, float sx, float sy, float sz) {
 
@@ -225,20 +216,6 @@ namespace TinySDL {
             return ortho_mat;
         }
 
-        inline Mat4x4 gen_model(const Vec4 & dst_rect, const float & rot) {
-            Mat4x4 model = identity_4x4;
-            
-            MatrixMath::translate(model, dst_rect[0], dst_rect[1], 0.0f); 
-            if(rot != 0.0f){
-                MatrixMath::translate(model, 0.5f * dst_rect[2], 0.5f * dst_rect[3], 0.0f); 
-                MatrixMath::rotate(model, rot);
-                MatrixMath::translate(model, -0.5f * dst_rect[2], -0.5f * dst_rect[3], 0.0f); 
-            }
-            MatrixMath::scale2(model, dst_rect[2], dst_rect[3], 1.0f);
-
-            return model;
-        }
-
 
         inline Mat4x4 gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
             Mat4x4 model = identity_4x4;
@@ -257,9 +234,6 @@ namespace TinySDL {
 
             return model;
         }
-
-
-
 
     }
 }

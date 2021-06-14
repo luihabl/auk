@@ -7,21 +7,32 @@
 #include "tinysdl/matrix/matrix.h"
 
 constexpr char* default_vertex_src = "#version 460 core\n\
-layout (location = 0) in vec2 vertex; \n\
-layout (location = 1) in vec2 tex_coords; \n\
+layout (location = 0) in vec2 vertex_pos;\n\
+layout (location = 1) in vec2 vertex_uv;\n\
+layout (location = 2) in vec4 vertex_color;\n\
+layout (location = 3) in vec3 vertex_cmix;\n\
 out vec2 uv;\n\
-uniform mat4 model;\n\
+out vec4 color;\n\
+out vec3 cmix;\n\
 uniform mat4 projection;\n\
 void main() {\n\
-uv = tex_coords;\n\
-gl_Position = projection * model * vec4(vertex.xy, 0.0, 1.0); }";
-
+uv = vertex_uv;\n\
+color = vertex_color;\n\
+cmix = vertex_cmix;\n\
+gl_Position = projection * vec4(vertex_pos.xy, 0.0, 1.0);\n\
+}";
 
 constexpr char* default_frag_src = "#version 460 core\n\
 in vec2 uv;\n\
-out vec4 color;\n\
+in vec4 color;\n\
+in vec3 cmix;\n\
+out vec4 output_color;\n\
 uniform sampler2D image;\n\
-void main() { color = texture(image, uv); }";
+void main()\n\
+{\n\
+    vec4 tex_color = texture(image, uv);\n\
+    output_color = tex_color * color * cmix.x + tex_color.a * color * cmix.y + color * cmix.z;\n\
+}";
 
 using namespace TinySDL;
 
