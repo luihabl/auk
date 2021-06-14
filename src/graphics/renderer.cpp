@@ -68,7 +68,7 @@ void SpriteRenderer::set_uv(const Vec4 & src_rect, const Texture & tex) {
     };
 
     glBindBuffer(GL_ARRAY_BUFFER, uv_vbo_id);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(uv.data), uv.data.data());
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(uv), uv.data());
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -142,10 +142,10 @@ void SpriteBatch::set_texture(Texture * tex) {
 
 void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, bool centered) {
 
-    const float w  = src_rect.data[2];
-    const float h  = src_rect.data[3];
+    const float w  = src_rect[2];
+    const float h  = src_rect[3];
 
-    Vec2 origin = Vec2::zeros();
+    Vec2 origin = zeros<float, 2, 1>();
     if (centered) origin = {w/2.0f, h/2.0f};
 
     Mat4x4 transform = MatrixMath::gen_transform({dst_rect[0], dst_rect[1]}, {dst_rect[2] / w, dst_rect[3] / h}, {0.0f, 0.0f}, rot);
@@ -158,10 +158,10 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, 
 
 void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
 
-    const float w  = src_rect.data[2];
-    const float h  = src_rect.data[3];
+    const float w  = src_rect[2];
+    const float h  = src_rect[3];
     
-    Vec2 origin = Vec2::zeros();
+    Vec2 origin = zeros<float, 2, 1>();
     if (centered) origin = {w/2.0f, h/2.0f};
 
     
@@ -184,8 +184,8 @@ void SpriteBatch::push_tex_quad(float w, float h, float tex_w, float tex_h, cons
 void SpriteBatch::push_vertex(float x, float y, float uv_x, float uv_y, const Mat4x4 & model) {
     Vertex v;
     v.pos = {
-        model.data[0 + 0 * 4] * x +  model.data[0 + 1 * 4] * y + model.data[0 + 3 * 4],
-        model.data[1 + 0 * 4] * x +  model.data[1 + 1 * 4] * y + model.data[1 + 3 * 4]
+        model[0 + 0 * 4] * x +  model[0 + 1 * 4] * y + model[0 + 3 * 4],
+        model[1 + 0 * 4] * x +  model[1 + 1 * 4] * y + model[1 + 3 * 4]
     };
     v.uv = {uv_x, uv_y};
     v.color = Color::white;

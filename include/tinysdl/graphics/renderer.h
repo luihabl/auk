@@ -31,7 +31,7 @@ namespace TinySDL {
         Vec2 uv;
         Color color;
         //Vec<uint8_t, 3> mpar; //Color mixing parameters (0-255)
-        Vec_std<uint8_t, 3> cmix;
+        Vec<uint8_t, 3> cmix;
     };
 
     class SpriteBatch {
