@@ -98,9 +98,7 @@ void SpriteBatch::draw_rect_fill(const Vec4 & rect, const Color & color) {
     push_vertex(0.0f, h, 0.0f, 0.0f, transform, color, {0, 0, 255});
 }
 
-
-
-void SpriteBatch::push_tex_quad(float w, float h, float tex_w, float tex_h, const Vec4 & src_rect, const Mat4x4 & transform) {
+inline void SpriteBatch::push_tex_quad(float w, float h, float tex_w, float tex_h, const Vec4 & src_rect, const Mat4x4 & transform) {
     
     unsigned int n = (unsigned int) vertices.size();
     indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
@@ -111,7 +109,7 @@ void SpriteBatch::push_tex_quad(float w, float h, float tex_w, float tex_h, cons
     push_vertex(0.0f, h, src_rect[0] / tex_w, (src_rect[1] + src_rect[3]) / tex_h, transform, Color::white, {255, 0, 0});
 }
 
-void SpriteBatch::push_vertex(const float & x, const float & y, const float & uv_x, const float & uv_y, const Mat4x4 & model, const Color & color, const ByteVec3 & cmix) {
+inline void SpriteBatch::push_vertex(const float & x, const float & y, const float & uv_x, const float & uv_y, const Mat4x4 & model, const Color & color, const ByteVec3 & cmix) {
     vertices.push_back({
         {model[0 + 0 * 4] * x +  model[0 + 1 * 4] * y + model[0 + 3 * 4],
          model[1 + 0 * 4] * x +  model[1 + 1 * 4] * y + model[1 + 3 * 4]},

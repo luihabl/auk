@@ -18,6 +18,13 @@ namespace TinySDL {
         static Matrix zeros();
         static Matrix ones();
         static Matrix identity();
+
+        Matrix operator+ (const Matrix & other);
+        Matrix operator- (const Matrix & other);
+        Matrix operator+ (T val);
+        Matrix operator* (const Matrix & other);
+        Matrix operator* (T val);
+
     };
 
     typedef Matrix<float, 2, 2> Mat2x2;
@@ -50,7 +57,7 @@ namespace TinySDL {
         Matrix<T, M, N> id_matrix;
         id_matrix.fill(0.0f);
         if( M != N ) {
-            Log::warn("Trying to create non-square identity matrix");
+            // Log::warn("Trying to create non-square identity matrix");
             return id_matrix;
         }
 
@@ -62,26 +69,26 @@ namespace TinySDL {
     }
     
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> operator+ (const Matrix<T, M, N> & other) {
+    inline Matrix<T, M, N> Matrix<T, M, N>::operator+ (const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = data()[i] + other[i];
+            result[i] = this->data()[i] + other[i];
         return result;
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> operator- (const Matrix<T, M, N> & other) {
+    inline Matrix<T, M, N> Matrix<T, M, N>::operator- (const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = data()[i] - other[i];
+            result[i] = this->data()[i] - other[i];
         return result;
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> operator+ (T val) {
+    inline Matrix<T, M, N> Matrix<T, M, N>::operator+ (T val) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = data()[i] + val;
+            result[i] = this->data()[i] + val;
         return result;
     }
 
@@ -94,18 +101,18 @@ namespace TinySDL {
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> operator* (const Matrix<T, M, N> & other) {
+    inline Matrix<T, M, N> Matrix<T, M, N>::operator* (const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = data()[i] * other[i];
+            result[i] = this->data()[i] * other[i];
         return result;
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> operator* (T val) {
+    inline Matrix<T, M, N> Matrix<T, M, N>::operator* (T val) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = data()[i] * val;
+            result[i] = this->data()[i] * val;
         return result;
     }
 
