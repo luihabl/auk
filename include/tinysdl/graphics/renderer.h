@@ -40,8 +40,12 @@ namespace TinySDL {
             ~SpriteBatch();
             
             void set_texture(Texture * tex);
+            
             void draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f, bool centered = false);
             void draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot = 0.0f, bool centered = false);
+            void draw_rect_fill(const Vec4 & rect, const Color & color);
+
+
             void render();
 
         private:
@@ -54,7 +58,7 @@ namespace TinySDL {
 
             Texture * current_tex = nullptr;
 
-            void push_vertex(float x, float y, float uv_x, float uv_y, const Mat4x4 & model);
+            void push_vertex(const float & x, const float & y, const float & uv_x, const float & uv_y, const Mat4x4 & model, const Color & color, const ByteVec3 & cmix);
             void push_tex_quad(float w, float h, float tex_w, float tex_h, const Vec4 & src_rect, const Mat4x4 & transform);
           
     };

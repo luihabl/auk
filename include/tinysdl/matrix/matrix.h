@@ -20,14 +20,16 @@ namespace TinySDL {
         static Matrix identity();
     };
 
-    template <typename T, size_t M> using Vec = Matrix<T, M, 1>;
-    
-    typedef Matrix<float, 2, 1> Vec2;
-    typedef Matrix<float, 3, 1> Vec3;
-    typedef Matrix<float, 4, 1> Vec4;
     typedef Matrix<float, 2, 2> Mat2x2;
     typedef Matrix<float, 3, 3> Mat3x3;
     typedef Matrix<float, 4, 4> Mat4x4;
+
+    template <typename T, size_t M> using Vec = Matrix<T, M, 1>;
+    typedef Vec<float, 2> Vec2;
+    typedef Vec<float, 3> Vec3;
+    typedef Vec<float, 4> Vec4;
+    typedef Vec<uint8_t, 3> ByteVec3;
+    typedef Vec<uint8_t, 4> ByteVec4;
 
     template <typename T, size_t M, size_t N>
     inline Matrix<T, M, N> Matrix<T, M, N>::zeros() {
