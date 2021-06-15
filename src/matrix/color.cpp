@@ -17,19 +17,19 @@ Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : Vec<uint8_t, 4>({r, g
 // }
 
 float Color::r() const {
-    return ((float) data()[0]) / 255.0f;
+    return ((float) _Elems[0]) / 255.0f;
 }
 
 float Color::g() const {
-    return ((float) data()[1]) / 255.0f;
+    return ((float) _Elems[1]) / 255.0f;
 }
 
 float Color::b() const {
-    return ((float) data()[2]) / 255.0f;
+    return ((float) _Elems[2]) / 255.0f;
 }
 
 float Color::a() const {
-    return ((float) data()[3]) / 255.0f;
+    return ((float) _Elems[3]) / 255.0f;
 }
 
 const Color Color::black = {0, 0, 0, 255};

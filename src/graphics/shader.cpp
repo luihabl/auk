@@ -15,11 +15,12 @@ out vec2 uv;\n\
 out vec4 color;\n\
 out vec3 cmix;\n\
 uniform mat4 projection;\n\
-void main() {\n\
-uv = vertex_uv;\n\
-color = vertex_color;\n\
-cmix = vertex_cmix;\n\
-gl_Position = projection * vec4(vertex_pos.xy, 0.0, 1.0);\n\
+void main()\n\
+{\n\
+    uv = vertex_uv;\n\
+    color = vertex_color;\n\
+    cmix = vertex_cmix;\n\
+    gl_Position = projection * vec4(vertex_pos.xy, 0.0, 1.0);\n\
 }";
 
 constexpr char* default_frag_src = "#version 460 core\n\

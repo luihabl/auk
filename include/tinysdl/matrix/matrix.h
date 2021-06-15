@@ -29,7 +29,7 @@ namespace TinySDL {
     typedef Matrix<float, 3, 3> Mat3x3;
     typedef Matrix<float, 4, 4> Mat4x4;
 
-        template <typename T, size_t M, size_t N>
+    template <typename T, size_t M, size_t N>
     inline Matrix<T, M, N> Matrix<T, M, N>::zeros() {
         Matrix<T, M, N> new_matrix;
         new_matrix.fill(0.0f);
