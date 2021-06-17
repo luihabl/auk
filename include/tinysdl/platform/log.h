@@ -22,14 +22,14 @@ namespace TinySDL {
         void set_level(Level level);
         void setup();
 
-        void print(char * msg, va_list args);
-        void print(char * msg, ...);
+        void print(const char * msg, va_list args);
+        void print(const char * msg, ...);
         
-        void log(Level level, char * msg, ...);
-        void debug(char * msg, ...);
-        void info(char * msg, ...);
-        void warn(char * msg, ...);
-        void error(char * msg, ...);
+        void log(Level level, const char * msg, ...);
+        void debug(const char * msg, ...);
+        void info(const char * msg, ...);
+        void warn(const char * msg, ...);
+        void error(const char * msg, ...);
 
     }
 } 

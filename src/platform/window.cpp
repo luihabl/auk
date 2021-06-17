@@ -14,7 +14,7 @@ namespace {
     SDL_GLContext context;
 }
 
-SDL_Window * Window::init(char * name, int w, int h, int x, int y, uint32_t flags, bool use_vsync) {
+SDL_Window * Window::init(const char * name, int w, int h, int x, int y, uint32_t flags, bool use_vsync) {
     
     //Setting up logging so that it has colors on Windows
     Log::setup();

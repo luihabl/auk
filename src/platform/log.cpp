@@ -31,7 +31,7 @@ void Log::setup() {
     #endif
 }
 
-void Log::print(char * msg, ... ) {
+void Log::print(const char * msg, ... ) {
 
     char formatted_msg[LOG_MSG_LEN];
     
@@ -43,13 +43,13 @@ void Log::print(char * msg, ... ) {
     printf("%s", formatted_msg);
 }
 
-void Log::print(char * msg, va_list args ) {
+void Log::print(const char * msg, va_list args ) {
     char formatted_msg[LOG_MSG_LEN];
     const auto r = vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
     printf("%s", formatted_msg);
 }
 
-void Log::log(Log::Level level, char * msg, ...) {
+void Log::log(Log::Level level, const char * msg, ...) {
     if (level > current_log_level) return;
 
     va_list args;
@@ -58,7 +58,7 @@ void Log::log(Log::Level level, char * msg, ...) {
     va_end(args);
 }
 
-void Log::debug(char * msg, ...) {
+void Log::debug(const char * msg, ...) {
     if (Log::Level::Debug > current_log_level) return;
 
     char formatted_msg[LOG_MSG_LEN];
@@ -71,7 +71,7 @@ void Log::debug(char * msg, ...) {
     printf(LOG_COLOR_BLUE "DEBUG: %s\n" LOG_COLOR_RESET, formatted_msg);
 }
 
-void Log::info(char * msg, ...) {
+void Log::info(const char * msg, ...) {
     if (Log::Level::Info > current_log_level) return;
 
     char formatted_msg[LOG_MSG_LEN];
@@ -84,7 +84,7 @@ void Log::info(char * msg, ...) {
     printf("%s\n", formatted_msg);
 }
 
-void Log::warn(char * msg, ...) {
+void Log::warn(const char * msg, ...) {
     if (Log::Level::Warning > current_log_level) return;
 
     char formatted_msg[LOG_MSG_LEN];
@@ -97,7 +97,7 @@ void Log::warn(char * msg, ...) {
     printf(LOG_COLOR_YELLOW "WARNING: %s\n" LOG_COLOR_RESET, formatted_msg);
 }
 
-void Log::error(char * msg, ...) {
+void Log::error(const char * msg, ...) {
     if (Log::Level::Error > current_log_level) return;
 
     char formatted_msg[LOG_MSG_LEN];
