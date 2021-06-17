@@ -9,8 +9,6 @@
 // N : columns
 
 namespace TinySDL {
-
-    // template <typename T, size_t M, size_t N> using Matrix = std::array<T, M * N>;
     
     template <typename T, size_t M, size_t N>
     struct Matrix : std::array<T, M * N> {
