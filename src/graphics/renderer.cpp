@@ -103,13 +103,17 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & sca
 
 void SpriteBatch::draw_rect_fill(const Vec4 & rect, const Color & color) {
     
-    const float w  = rect[2];
-    const float h  = rect[3];
+    const float x = rect[0];
+    const float y = rect[1];
+    const float w = rect[2];
+    const float h = rect[3];
+
     
-    Mat4x4 transform = MatrixMath::gen_transform({rect[0], rect[1]}, {1.0f, 1.0f}, {0.0f, 0.0f}, 0.0f);
+    //Mat4x4 transform = MatrixMath::gen_transform({rect[0], rect[1]}, {1.0f, 1.0f}, {0.0f, 0.0f}, 0.0f);
+    Mat4x4 transform = MatrixMath::identity_4x4;
 
     push_quad(
-        0, 0, w, 0, w, h, 0, h,
+        x, y, x + w, y, x + w, y + h, x, y + h,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
         {0, 0, 255},
@@ -124,13 +128,14 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
     const float w = rect[2];
     const float h = rect[3];
 
-    Mat4x4 transform = MatrixMath::gen_transform({x, y}, {1.0f, 1.0f}, {0.0f, 0.0f}, 0.0f);
+    //Mat4x4 transform = MatrixMath::gen_transform({x, y}, {1.0f, 1.0f}, {0.0f, 0.0f}, 0.0f);
+    Mat4x4 transform = MatrixMath::identity_4x4;
 
     push_quad(
-        0, 0, 
-        w - t, 0, 
-        w - t, t, 
-        0, t,
+        x, y, 
+        x + w - t, y, 
+        x + w - t, y + t, 
+        x, y + t,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
         {0, 0, 255},
@@ -138,10 +143,10 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
     ); 
     
     push_quad(
-        w - t, 0, 
-        w, 0, 
-        w, h - t, 
-        w - t, h - t,
+        x + w - t, y, 
+        x + w, y, 
+        x + w, y + h - t, 
+        x + w - t, y + h - t,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
         {0, 0, 255},
@@ -149,10 +154,10 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
     ); 
 
     push_quad(
-        t, h - t, 
-        w, h - t, 
-        w, h, 
-        t, h,
+        x + t, y + h - t, 
+        x + w, y + h - t, 
+        x + w, y + h, 
+        x + t, y + h,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
         {0, 0, 255},
@@ -160,10 +165,10 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
     ); 
 
     push_quad(
-        0, t, 
-        t, t, 
-        t, h, 
-        0, h,
+        x, y + t, 
+        x + t, y + t, 
+        x + t, y + h, 
+        x, y + h,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
         {0, 0, 255},
@@ -187,8 +192,8 @@ inline void SpriteBatch::push_quad(const float & x0, const float & y0, const flo
     push_vertex(x3, y3, uv_x3, uv_y3, model, color, cmix);
 }
 
-
-inline void SpriteBatch::push_vertex(const float & x, const float & y, const float & uv_x, const float & uv_y, const Mat4x4 & model, const Color & color, const ByteVec3 & cmix) {
+inline void SpriteBatch::push_vertex(const float & x, const float & y, const float & uv_x, const float & uv_y, 
+                                     const Mat4x4 & model, const Color & color, const ByteVec3 & cmix) {
     vertices.push_back({
         {model[0 + 0 * 4] * x +  model[0 + 1 * 4] * y + model[0 + 3 * 4],
          model[1 + 0 * 4] * x +  model[1 + 1 * 4] * y + model[1 + 3 * 4]},
