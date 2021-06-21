@@ -17,12 +17,12 @@ namespace TinySDL {
         static Matrix ones();
         static Matrix identity();
 
+        T length();
+        Matrix normalized();
+
         Matrix operator+ (const Matrix & other);
         Matrix operator- (const Matrix & other);
-        Matrix operator+ (T val);
         Matrix operator* (const Matrix & other);
-        Matrix operator* (T val);
-
     };
 
     typedef Matrix<float, 2, 2> Mat2x2;
@@ -65,12 +65,26 @@ namespace TinySDL {
         
         return id_matrix; 
     }
-    
+
+    template <typename T, size_t M, size_t N>
+    inline T Matrix<T, M, N>::length() {
+        T sum_sqr = 0;
+        for (const auto & e : *this)
+            sum_sqr += e * e;
+        return sqrtf(sum_sqr);
+    }
+
+    template <typename T, size_t M, size_t N>
+    inline Matrix<T, M, N> Matrix<T, M, N>::normalized() {
+        T len = length();
+        return *this / len;
+    }
+
     template <typename T, size_t M, size_t N>
     inline Matrix<T, M, N> Matrix<T, M, N>::operator+ (const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = this->data()[i] + other[i];
+            result[i] = (*this)[i] + other[i];
         return result;
     }
 
@@ -78,20 +92,20 @@ namespace TinySDL {
     inline Matrix<T, M, N> Matrix<T, M, N>::operator- (const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = this->data()[i] - other[i];
+            result[i] = (*this)[i] - other[i];
         return result;
     }
-
+    
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> Matrix<T, M, N>::operator+ (T val) {
+    inline Matrix<T, M, N> Matrix<T, M, N>::operator* (const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = this->data()[i] + val;
+            result[i] = (*this)[i] * other[i];
         return result;
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> operator+ (T val, Matrix<T, M, N> & other) {
+    inline Matrix<T, M, N> operator+ (const Matrix<T, M, N> & other, const T & val) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
             result[i] = other[i] + val;
@@ -99,26 +113,42 @@ namespace TinySDL {
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> Matrix<T, M, N>::operator* (const Matrix<T, M, N> & other) {
+    inline Matrix<T, M, N> operator+ (const T & val, const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = this->data()[i] * other[i];
+            result[i] = other[i] + val;
         return result;
     }
 
     template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> Matrix<T, M, N>::operator* (T val) {
-        Matrix<T, M, N> result;
-        for (size_t i = 0; i < M * N; i++) 
-            result[i] = this->data()[i] * val;
-        return result;
-    }
-
-    template <typename T, size_t M, size_t N>
-    inline Matrix<T, M, N> operator* (T val, Matrix<T, M, N> & other) {
+    inline Matrix<T, M, N> operator* (const Matrix<T, M, N> & other, const T & val) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
             result[i] = other[i] * val;
+        return result;
+    }
+
+    template <typename T, size_t M, size_t N>
+    inline Matrix<T, M, N> operator* (const T & val, const Matrix<T, M, N> & other) {
+        Matrix<T, M, N> result;
+        for (size_t i = 0; i < M * N; i++) 
+            result[i] = other[i] * val;
+        return result;
+    }
+
+    template <typename T, size_t M, size_t N>
+    inline Matrix<T, M, N> operator/ (const T & val, const Matrix<T, M, N> & other) {
+        Matrix<T, M, N> result;
+        for (size_t i = 0; i < M * N; i++) 
+            result[i] = val / other[i];
+        return result;
+    }
+
+    template <typename T, size_t M, size_t N>
+    inline Matrix<T, M, N> operator/ (const Matrix<T, M, N> & other, const T & val) {
+        Matrix<T, M, N> result;
+        for (size_t i = 0; i < M * N; i++) 
+            result[i] = other[i] / val;
         return result;
     }
 
