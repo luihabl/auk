@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <array>
+#include <algorithm>
 
 #include "tinysdl/platform/log.h"
 
@@ -11,7 +12,9 @@
 namespace TinySDL {
     
     template <typename T, size_t M, size_t N>
-    struct Matrix : std::array<T, M * N> {
+    struct Matrix {
+
+        T data[M * N];
 
         static Matrix zeros();
         static Matrix ones();
@@ -19,7 +22,12 @@ namespace TinySDL {
 
         T length();
         Matrix normalized();
+        size_t size() {return M * N;}
 
+        void fill(T val) {std::fill_n(data, M * N, val);}
+
+        T operator [](size_t i) const {return data[i];}
+        T & operator [](size_t i) {return data[i];}
         Matrix operator+ (const Matrix & other);
         Matrix operator- (const Matrix & other);
         Matrix operator* (const Matrix & other);
@@ -69,7 +77,7 @@ namespace TinySDL {
     template <typename T, size_t M, size_t N>
     inline T Matrix<T, M, N>::length() {
         T sum_sqr = 0;
-        for (const auto & e : *this)
+        for (const auto & e : data)
             sum_sqr += e * e;
         return sqrtf(sum_sqr);
     }
@@ -84,7 +92,7 @@ namespace TinySDL {
     inline Matrix<T, M, N> Matrix<T, M, N>::operator+ (const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = (*this)[i] + other[i];
+            result[i] = data[i] + other[i];
         return result;
     }
 
@@ -92,7 +100,7 @@ namespace TinySDL {
     inline Matrix<T, M, N> Matrix<T, M, N>::operator- (const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = (*this)[i] - other[i];
+            result[i] = data[i] - other[i];
         return result;
     }
     
@@ -100,7 +108,7 @@ namespace TinySDL {
     inline Matrix<T, M, N> Matrix<T, M, N>::operator* (const Matrix<T, M, N> & other) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 
-            result[i] = (*this)[i] * other[i];
+            result[i] = data[i] * other[i];
         return result;
     }
 
@@ -179,9 +187,9 @@ namespace TinySDL {
         //Optimized 4x4 matrix multiplication
         inline Mat4x4 matmul4x4(Mat4x4 & a_mat, Mat4x4 & b_mat) {
             Mat4x4 prod;
-            float * p = prod.data();
-            float * a = a_mat.data();
-            float * b = b_mat.data();
+            float * p = prod.data;
+            float * a = a_mat.data;
+            float * b = b_mat.data;
 
             p[0] = a[0]  * b[0]  + a[4] * b[1]  + a[8]   * b[2]  + a[12] * b[3];
             p[1] = a[1]  * b[0]  + a[5] * b[1]  + a[9]   * b[2]  + a[13] * b[3];
