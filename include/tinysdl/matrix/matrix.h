@@ -189,55 +189,6 @@ namespace TinySDL {
             };
         }
 
-
-        
-        inline Mat3x2 matmul_2d(const Mat3x2 & a, const Mat3x2 & b) {      
-            //This is an optimized 3x3 matrix multiplication that ignores the last row
-            return {
-                a[0] * b[0] + a[2] * b[1],
-                a[1] * b[0] + a[3] * b[1],
-                a[0] * b[2] + a[2] * b[3],
-                a[1] * b[2] + a[3] * b[3],
-                a[0] * b[4] + a[2] * b[5] + a[4],
-                a[1] * b[4] + a[3] * b[5] + a[5]
-            };
-        }
-
-        inline Mat3x2 translation_2d (float x, float y) {
-            return {1, 0, 0, 1, x, y};
-        }
-
-        inline Mat3x2 rotation_2d (float radians) {
-            const float c = cosf(radians);
-            const float s = sinf(radians);
-            return {c, s, -s, c, 0, 0};
-        }
-
-        inline Mat3x2 scale_2d (float sx, float sy) {
-            return {sx, 0, 0, sy, 0, 0};
-        }
-
-
-        inline Mat3x2 gen_transform_2d(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
-            Mat3x2 model{1, 0, 0, 1, 0, 0};
-
-            if(origin[0] != 0 || origin[1] != 0)
-                model = matmul_2d(translation_2d(-origin[0], -origin[1]), model);
-
-            if(scale[0] != 1 || scale[1] != 1)
-                model = matmul_2d(scale_2d(scale[0], scale[1]), model);
-            
-            if(rotation != 0)
-                model = matmul_2d(rotation_2d(rotation), model);
-
-            if(pos[0] != 0 || pos[1] != 0) 
-                model = matmul_2d(translation_2d(pos[0], pos[1]), model);
-
-            return model;
-        }
-
-
-
         inline void translate(Mat4x4 & mat, float x, float y, float z) {
 
             Mat4x4 trans = Mat4x4::identity;
@@ -306,6 +257,53 @@ namespace TinySDL {
 
             return model;
         }
+        
+        inline Mat3x2 matmul_2d(const Mat3x2 & a, const Mat3x2 & b) {      
+            //This is an optimized 3x3 matrix multiplication that ignores the last row
+            return {
+                a[0] * b[0] + a[2] * b[1],
+                a[1] * b[0] + a[3] * b[1],
+                a[0] * b[2] + a[2] * b[3],
+                a[1] * b[2] + a[3] * b[3],
+                a[0] * b[4] + a[2] * b[5] + a[4],
+                a[1] * b[4] + a[3] * b[5] + a[5]
+            };
+        }
+
+        inline Mat3x2 translation_2d (float x, float y) {
+            return {1, 0, 0, 1, x, y};
+        }
+
+        inline Mat3x2 rotation_2d (float radians) {
+            const float c = cosf(radians);
+            const float s = sinf(radians);
+            return {c, s, -s, c, 0, 0};
+        }
+
+        inline Mat3x2 scale_2d (float sx, float sy) {
+            return {sx, 0, 0, sy, 0, 0};
+        }
+
+
+        inline Mat3x2 gen_transform_2d(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
+            Mat3x2 model{1, 0, 0, 1, 0, 0};
+
+            if(origin[0] != 0 || origin[1] != 0)
+                model = matmul_2d(translation_2d(-origin[0], -origin[1]), model);
+
+            if(scale[0] != 1 || scale[1] != 1)
+                model = matmul_2d(scale_2d(scale[0], scale[1]), model);
+            
+            if(rotation != 0)
+                model = matmul_2d(rotation_2d(rotation), model);
+
+            if(pos[0] != 0 || pos[1] != 0) 
+                model = matmul_2d(translation_2d(pos[0], pos[1]), model);
+
+            return model;
+        }
+
+
     }
 
     template <typename T, size_t M, size_t N> const Matrix<T, M, N> Matrix<T, M, N>::zeros = MatrixMath::filled<T, M, N>(0);
