@@ -22,6 +22,8 @@ namespace TinySDL {
             ~SpriteBatch();
             
             void set_texture(Texture * tex);
+            //void push_transform(const Mat4x4 & m);
+            // void pop_transform();
             
             void draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot = 0.0f, bool centered = false);
             void draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot = 0.0f, bool centered = false);
@@ -31,6 +33,9 @@ namespace TinySDL {
             void render();
 
         private:
+            // Mat4x4 transform;
+
+            
             std::vector<Vertex> vertices;
             std::vector<unsigned int> indices;
 

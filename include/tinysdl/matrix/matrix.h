@@ -28,6 +28,7 @@ namespace TinySDL {
     };
 
     typedef Matrix<float, 2, 2> Mat2x2;
+    typedef Matrix<float, 3, 2> Mat3x2;
     typedef Matrix<float, 3, 3> Mat3x3;
     typedef Matrix<float, 4, 4> Mat4x4;
 
@@ -37,10 +38,6 @@ namespace TinySDL {
     typedef Vec<float, 4> Vec4;
     typedef Vec<uint8_t, 3> ByteVec3;
     typedef Vec<uint8_t, 4> ByteVec4;
-
-    template <typename T, size_t M, size_t N> const Matrix<T, M, N> Matrix<T, M, N>::zeros = MatrixMath::filled<T, M, N>(0);
-    template <typename T, size_t M, size_t N> const Matrix<T, M, N> Matrix<T, M, N>::ones = MatrixMath::filled<T, M, N>(1);
-    template <typename T, size_t M, size_t N> const Matrix<T, M, N> Matrix<T, M, N>::identity = MatrixMath::identity<T, M, N>();
 
     template <typename T, size_t M, size_t N>
     inline T Matrix<T, M, N>::length() {
@@ -142,9 +139,6 @@ namespace TinySDL {
             Matrix<T, M, N> id_matrix;
             id_matrix.fill(0.0f);
             
-            if (M != N) 
-                return id_matrix;
-            
             for (size_t i = 0; i < M; i++)
                 for (size_t j = 0; j < M; j++)
                     if (i == j) id_matrix[i + j * M] = 1.0f;
@@ -163,36 +157,47 @@ namespace TinySDL {
         template <size_t M>
         inline Matrix<float, M, M> matmul(const Matrix<float, M, M> & a, const Matrix<float, M, M> & b) {
             // Only supports square matrices for the moment
-            Matrix<float, M, M> prod = Matrix<float, M, M>::zeros();
+            Matrix<float, M, M> prod = Matrix<float, M, M>::zeros;
             for(size_t j = 0; j < M; j++)
                 for(size_t k = 0; k < M; k++)
-                    for(size_t i = 0; i < M; i++)
+                    for(size_t i = 0; i < M; i++) {
                         prod.data[i  + j * M] += a.data[i + k * M] * b.data[k + j * M];
+                    }
+
             return prod;
         }
 
         //Optimized 4x4 matrix multiplication
         inline Mat4x4 matmul4x4(const Mat4x4 & a, const Mat4x4 & b) {
-            Mat4x4 p;
+            return {
+                a[0]  * b[0]  + a[4] * b[1]  + a[8]   * b[2]  + a[12] * b[3],
+                a[1]  * b[0]  + a[5] * b[1]  + a[9]   * b[2]  + a[13] * b[3],
+                a[2]  * b[0]  + a[6] * b[1]  + a[10]  * b[2]  + a[14] * b[3],
+                a[3]  * b[0]  + a[7] * b[1]  + a[11]  * b[2]  + a[15] * b[3],
+                a[0]  * b[4]  + a[4] * b[5]  + a[8]   * b[6]  + a[12] * b[7],
+                a[1]  * b[4]  + a[5] * b[5]  + a[9]   * b[6]  + a[13] * b[7],
+                a[2]  * b[4]  + a[6] * b[5]  + a[10]  * b[6]  + a[14] * b[7],
+                a[3]  * b[4]  + a[7] * b[5]  + a[11]  * b[6]  + a[15] * b[7],
+                a[0]  * b[8]  + a[4] * b[9]  + a[8]   * b[10] + a[12] * b[11],
+                a[1]  * b[8]  + a[5] * b[9]  + a[9]   * b[10] + a[13] * b[11],
+                a[2] * b[8]  + a[6] * b[9]  + a[10]  * b[10] + a[14] * b[11],
+                a[3] * b[8]  + a[7] * b[9]  + a[11]  * b[10] + a[15] * b[11],
+                a[0] * b[12] + a[4] * b[13] + a[8]   * b[14] + a[12] * b[15],
+                a[1] * b[12] + a[5] * b[13] + a[9]   * b[14] + a[13] * b[15],
+                a[2] * b[12] + a[6] * b[13] + a[10]  * b[14] + a[14] * b[15],
+                a[3] * b[12] + a[7] * b[13] + a[11]  * b[14] + a[15] * b[15]
+            };
+        }
 
-            p[0] = a[0]  * b[0]  + a[4] * b[1]  + a[8]   * b[2]  + a[12] * b[3];
-            p[1] = a[1]  * b[0]  + a[5] * b[1]  + a[9]   * b[2]  + a[13] * b[3];
-            p[2] = a[2]  * b[0]  + a[6] * b[1]  + a[10]  * b[2]  + a[14] * b[3];
-            p[3] = a[3]  * b[0]  + a[7] * b[1]  + a[11]  * b[2]  + a[15] * b[3];
-            p[4] = a[0]  * b[4]  + a[4] * b[5]  + a[8]   * b[6]  + a[12] * b[7];
-            p[5] = a[1]  * b[4]  + a[5] * b[5]  + a[9]   * b[6]  + a[13] * b[7];
-            p[6] = a[2]  * b[4]  + a[6] * b[5]  + a[10]  * b[6]  + a[14] * b[7];
-            p[7] = a[3]  * b[4]  + a[7] * b[5]  + a[11]  * b[6]  + a[15] * b[7];
-            p[8] = a[0]  * b[8]  + a[4] * b[9]  + a[8]   * b[10] + a[12] * b[11];
-            p[9] = a[1]  * b[8]  + a[5] * b[9]  + a[9]   * b[10] + a[13] * b[11];
-            p[10] = a[2] * b[8]  + a[6] * b[9]  + a[10]  * b[10] + a[14] * b[11];
-            p[11] = a[3] * b[8]  + a[7] * b[9]  + a[11]  * b[10] + a[15] * b[11];
-            p[12] = a[0] * b[12] + a[4] * b[13] + a[8]   * b[14] + a[12] * b[15];
-            p[13] = a[1] * b[12] + a[5] * b[13] + a[9]   * b[14] + a[13] * b[15];
-            p[14] = a[2] * b[12] + a[6] * b[13] + a[10]  * b[14] + a[14] * b[15];
-            p[15] = a[3] * b[12] + a[7] * b[13] + a[11]  * b[14] + a[15] * b[15];
-
-        	return p;
+        inline Mat3x2 matmul_transform(const Mat3x2 & a, const Mat3x2 & b) {            
+            return {
+                a[0] * b[0] + a[2] * b[1],
+                a[1] * b[0] + a[3] * b[1],
+                a[0] * b[2] + a[2] * b[3],
+                a[1] * b[2] + a[3] * b[3],
+                a[0] * b[4] + a[2] * b[5] + a[4],
+                a[1] * b[4] + a[3] * b[5] + a[5]
+            };
         }
 
         inline void translate(Mat4x4 & mat, float x, float y, float z) {
@@ -263,6 +268,9 @@ namespace TinySDL {
 
             return model;
         }
-
     }
+
+    template <typename T, size_t M, size_t N> const Matrix<T, M, N> Matrix<T, M, N>::zeros = MatrixMath::filled<T, M, N>(0);
+    template <typename T, size_t M, size_t N> const Matrix<T, M, N> Matrix<T, M, N>::ones = MatrixMath::filled<T, M, N>(1);
+    template <typename T, size_t M, size_t N> const Matrix<T, M, N> Matrix<T, M, N>::identity = MatrixMath::identity<T, M, N>();
 }
