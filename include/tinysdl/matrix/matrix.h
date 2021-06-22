@@ -139,9 +139,9 @@ namespace TinySDL {
             Matrix<T, M, N> id_matrix;
             id_matrix.fill(0.0f);
             
-            for (size_t i = 0; i < M; i++)
-                for (size_t j = 0; j < M; j++)
-                    if (i == j) id_matrix[i + j * M] = 1.0f;
+            for (size_t j = 0; j < N; j++)
+                for (size_t i = 0; i < M; i++)
+                    if (i == j) id_matrix[i + j * N] = 1.0f;
 
             return id_matrix;
         }
@@ -190,10 +190,9 @@ namespace TinySDL {
         }
 
 
-
-
-
-        inline Mat3x2 matmul_transform(const Mat3x2 & a, const Mat3x2 & b) {            
+        
+        inline Mat3x2 matmul_2d(const Mat3x2 & a, const Mat3x2 & b) {      
+            //This is an optimized 3x3 matrix multiplication that ignores the last row
             return {
                 a[0] * b[0] + a[2] * b[1],
                 a[1] * b[0] + a[3] * b[1],
@@ -204,46 +203,38 @@ namespace TinySDL {
             };
         }
 
-        inline void translate_2d(Mat3x2 & mat, float x, float y) {
-            Mat3x2 trans{1, 0, 0, 1, x, y};
-            mat = matmul_transform(trans, mat);
+        inline Mat3x2 translation_2d (float x, float y) {
+            return {1, 0, 0, 1, x, y};
         }
 
-        inline void rotate_2d(Mat3x2 & mat, float radians) {
+        inline Mat3x2 rotation_2d (float radians) {
             const float c = cosf(radians);
             const float s = sinf(radians);
-            
-            Mat3x2 rot{c, s, -s, c, 0, 0};
-            mat = matmul_transform(rot, mat);
+            return {c, s, -s, c, 0, 0};
         }
 
-        inline void scale_2d(Mat3x2 & mat, float sx, float sy) {
-            Mat3x2 scl{sx, 0, 0, sy, 0, 0};
-            mat = matmul_transform(scl, mat);
-        } 
+        inline Mat3x2 scale_2d (float sx, float sy) {
+            return {sx, 0, 0, sy, 0, 0};
+        }
 
 
         inline Mat3x2 gen_transform_2d(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
             Mat3x2 model{1, 0, 0, 1, 0, 0};
 
             if(origin[0] != 0 || origin[1] != 0)
-                translate_2d(model, -origin[0], -origin[1]);
+                model = matmul_2d(translation_2d(-origin[0], -origin[1]), model);
 
             if(scale[0] != 1 || scale[1] != 1)
-                scale_2d(model, scale[0], scale[1]);
+                model = matmul_2d(scale_2d(scale[0], scale[1]), model);
             
             if(rotation != 0)
-                rotate_2d(model, rotation);
+                model = matmul_2d(rotation_2d(rotation), model);
 
             if(pos[0] != 0 || pos[1] != 0) 
-                translate_2d(model, pos[0], pos[1]);
+                model = matmul_2d(translation_2d(pos[0], pos[1]), model);
 
             return model;
         }
-
-
-
-
 
 
 
