@@ -189,6 +189,10 @@ namespace TinySDL {
             };
         }
 
+
+
+
+
         inline Mat3x2 matmul_transform(const Mat3x2 & a, const Mat3x2 & b) {            
             return {
                 a[0] * b[0] + a[2] * b[1],
@@ -199,6 +203,49 @@ namespace TinySDL {
                 a[1] * b[4] + a[3] * b[5] + a[5]
             };
         }
+
+        inline void translate_2d(Mat3x2 & mat, float x, float y) {
+            Mat3x2 trans{1, 0, 0, 1, x, y};
+            mat = matmul_transform(trans, mat);
+        }
+
+        inline void rotate_2d(Mat3x2 & mat, float radians) {
+            const float c = cosf(radians);
+            const float s = sinf(radians);
+            
+            Mat3x2 rot{c, s, -s, c, 0, 0};
+            mat = matmul_transform(rot, mat);
+        }
+
+        inline void scale_2d(Mat3x2 & mat, float sx, float sy) {
+            Mat3x2 scl{sx, 0, 0, sy, 0, 0};
+            mat = matmul_transform(scl, mat);
+        } 
+
+
+        inline Mat3x2 gen_transform_2d(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
+            Mat3x2 model{1, 0, 0, 1, 0, 0};
+
+            if(origin[0] != 0 || origin[1] != 0)
+                translate_2d(model, -origin[0], -origin[1]);
+
+            if(scale[0] != 1 || scale[1] != 1)
+                scale_2d(model, scale[0], scale[1]);
+            
+            if(rotation != 0)
+                rotate_2d(model, rotation);
+
+            if(pos[0] != 0 || pos[1] != 0) 
+                translate_2d(model, pos[0], pos[1]);
+
+            return model;
+        }
+
+
+
+
+
+
 
         inline void translate(Mat4x4 & mat, float x, float y, float z) {
 
