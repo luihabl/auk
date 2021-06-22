@@ -60,7 +60,7 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, 
     const float w  = src_rect[2];
     const float h  = src_rect[3];
 
-    Vec2 origin = Vec2::zeros();
+    Vec2 origin = Vec2::zeros;
     if (centered) origin = {w/2.0f, h/2.0f};
 
     Mat4x4 transform = MatrixMath::gen_transform({dst_rect[0], dst_rect[1]}, {dst_rect[2] / w, dst_rect[3] / h}, {0.0f, 0.0f}, rot);
@@ -82,7 +82,7 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & sca
     const float w  = src_rect[2];
     const float h  = src_rect[3];
     
-    Vec2 origin = Vec2::zeros();
+    Vec2 origin = Vec2::zeros;
     if (centered) origin = {w/2.0f, h/2.0f};
 
     
@@ -110,7 +110,7 @@ void SpriteBatch::draw_rect_fill(const Vec4 & rect, const Color & color) {
 
     
     //Mat4x4 transform = MatrixMath::gen_transform({rect[0], rect[1]}, {1.0f, 1.0f}, {0.0f, 0.0f}, 0.0f);
-    Mat4x4 transform = MatrixMath::identity_4x4;
+    Mat4x4 transform = Mat4x4::identity;
 
     push_quad(
         x, y, x + w, y, x + w, y + h, x, y + h,
@@ -129,7 +129,7 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
     const float h = rect[3];
 
     //Mat4x4 transform = MatrixMath::gen_transform({x, y}, {1.0f, 1.0f}, {0.0f, 0.0f}, 0.0f);
-    Mat4x4 transform = MatrixMath::identity_4x4;
+    Mat4x4 transform = Mat4x4::identity;
 
     push_quad(
         x, y, 
