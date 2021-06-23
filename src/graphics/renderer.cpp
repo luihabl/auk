@@ -94,6 +94,25 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, 
     pop_transform();
 }
 
+
+void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos) {
+
+    const float x = pos[0];
+    const float y = pos[1];
+    const float w  = src_rect[2];
+    const float h  = src_rect[3];
+
+    push_quad(
+        x, y, x + w, y, x + w, y + h, x, y + h,
+        src_rect[0] / (float) current_tex->w, src_rect[1] / (float) current_tex->h,
+        (src_rect[0] + src_rect[2]) / (float) current_tex->w,   src_rect[1] / (float) current_tex->h,
+        (src_rect[0] + src_rect[2]) / (float) current_tex->w,  (src_rect[1] + src_rect[3]) / (float) current_tex->h,
+        src_rect[0] / (float) current_tex->w, (src_rect[1] + src_rect[3]) / (float) current_tex->h,
+        Color::white,
+        {255, 0, 0}
+    );
+}
+
 void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
 
     const float w  = src_rect[2];
