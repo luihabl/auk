@@ -4,6 +4,7 @@
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/matrix/matrix.h"
+#include "tinysdl/matrix/math.h"
 #include "tinysdl/matrix/color.h"
 #include "tinysdl/graphics/graphics.h"
 
@@ -63,7 +64,7 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, 
     Vec2 origin = Vec2::zeros;
     if (centered) origin = {w/2.0f, h/2.0f};
 
-    Mat3x2 transform = MatrixMath::gen_transform_2d({dst_rect[0], dst_rect[1]}, {dst_rect[2] / w, dst_rect[3] / h}, {0.0f, 0.0f}, rot);
+    Mat3x2 transform = MatrixMath2D::gen_transform({dst_rect[0], dst_rect[1]}, {dst_rect[2] / w, dst_rect[3] / h}, {0.0f, 0.0f}, rot);
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,
@@ -86,7 +87,7 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & sca
     if (centered) origin = {w/2.0f, h/2.0f};
 
     
-    Mat3x2 transform = MatrixMath::gen_transform_2d(pos, scale, origin, rot);
+    Mat3x2 transform = MatrixMath2D::gen_transform(pos, scale, origin, rot);
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,

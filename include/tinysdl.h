@@ -14,4 +14,5 @@
 #include "tinysdl/graphics/target.h"
 
 #include "tinysdl/matrix/matrix.h"
+#include "tinysdl/matrix/math.h"
 #include "tinysdl/matrix/color.h"
