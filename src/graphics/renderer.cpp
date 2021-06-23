@@ -44,6 +44,9 @@ SpriteBatch::SpriteBatch() {
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    // ---- Initializing variables ----
+    transform = Mat3x2::identity;
 }
 
 SpriteBatch::~SpriteBatch() {
@@ -56,6 +59,18 @@ void SpriteBatch::set_texture(Texture * tex) {
     current_tex = tex;
 }
 
+void SpriteBatch::push_transform(const Mat3x2 & new_transform) {
+    transform_stack.push_back(transform);
+    transform = MatrixMath2D::matmul(new_transform, transform);
+}
+
+Mat3x2 SpriteBatch::pop_transform() {
+    const Mat3x2 last_transform = transform;
+    transform = transform_stack.back();
+    transform_stack.pop_back();
+    return last_transform;
+}
+
 void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, bool centered) {
 
     const float w  = src_rect[2];
@@ -64,7 +79,7 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, 
     Vec2 origin = Vec2::zeros;
     if (centered) origin = {w/2.0f, h/2.0f};
 
-    Mat3x2 transform = MatrixMath2D::gen_transform({dst_rect[0], dst_rect[1]}, {dst_rect[2] / w, dst_rect[3] / h}, {0.0f, 0.0f}, rot);
+    push_transform(MatrixMath2D::gen_transform({dst_rect[0], dst_rect[1]}, {dst_rect[2] / w, dst_rect[3] / h}, {0.0f, 0.0f}, rot));
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,
@@ -73,9 +88,10 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, 
         (src_rect[0] + src_rect[2]) / (float) current_tex->w,  (src_rect[1] + src_rect[3]) / (float) current_tex->h,
         src_rect[0] / (float) current_tex->w, (src_rect[1] + src_rect[3]) / (float) current_tex->h,
         Color::white,
-        {255, 0, 0},
-        transform
+        {255, 0, 0}
     );
+
+    pop_transform();
 }
 
 void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
@@ -86,8 +102,7 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & sca
     Vec2 origin = Vec2::zeros;
     if (centered) origin = {w/2.0f, h/2.0f};
 
-    
-    Mat3x2 transform = MatrixMath2D::gen_transform(pos, scale, origin, rot);
+    push_transform(MatrixMath2D::gen_transform(pos, scale, origin, rot));
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,
@@ -96,10 +111,10 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & sca
         (src_rect[0] + src_rect[2]) / (float) current_tex->w, (src_rect[1] + src_rect[3]) / (float) current_tex->h,
         src_rect[0] / (float) current_tex->w,                 (src_rect[1] + src_rect[3]) / (float) current_tex->h,
         Color::white,
-        {255, 0, 0},
-        transform
+        {255, 0, 0}
     );
 
+    pop_transform();
 }
 
 void SpriteBatch::draw_rect_fill(const Vec4 & rect, const Color & color) {
@@ -109,16 +124,11 @@ void SpriteBatch::draw_rect_fill(const Vec4 & rect, const Color & color) {
     const float w = rect[2];
     const float h = rect[3];
 
-    
-    //Mat4x4 transform = MatrixMath::gen_transform({rect[0], rect[1]}, {1.0f, 1.0f}, {0.0f, 0.0f}, 0.0f);
-    Mat3x2 transform = Mat3x2::identity;
-
     push_quad(
         x, y, x + w, y, x + w, y + h, x, y + h,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
-        {0, 0, 255},
-        transform
+        {0, 0, 255}
     );
 }
 
@@ -129,9 +139,6 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
     const float w = rect[2];
     const float h = rect[3];
 
-    //Mat4x4 transform = MatrixMath::gen_transform({x, y}, {1.0f, 1.0f}, {0.0f, 0.0f}, 0.0f);
-    Mat3x2 transform = Mat3x2::identity;
-
     push_quad(
         x, y, 
         x + w - t, y, 
@@ -139,8 +146,7 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
         x, y + t,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
-        {0, 0, 255},
-        transform
+        {0, 0, 255}
     ); 
     
     push_quad(
@@ -150,8 +156,7 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
         x + w - t, y + h - t,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
-        {0, 0, 255},
-        transform
+        {0, 0, 255}
     ); 
 
     push_quad(
@@ -161,8 +166,7 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
         x + t, y + h,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
-        {0, 0, 255},
-        transform
+        {0, 0, 255}
     ); 
 
     push_quad(
@@ -172,8 +176,7 @@ void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const f
         x, y + h,
         0, 0, 0, 0, 0, 0, 0, 0,
         color,
-        {0, 0, 255},
-        transform
+        {0, 0, 255}
     ); 
 }
 
@@ -182,22 +185,22 @@ inline void SpriteBatch::push_quad(const float & x0, const float & y0, const flo
                                    const float & x2, const float & y2, const float & x3, const float & y3, 
                                    const float & uv_x0, const float & uv_y0, const float & uv_x1, const float & uv_y1, 
                                    const float & uv_x2, const float & uv_y2, const float & uv_x3, const float & uv_y3, 
-                                   const Color & color, const ByteVec3 & cmix, const Mat3x2 & model) {
+                                   const Color & color, const ByteVec3 & cmix) {
 
     const unsigned int n = (unsigned int) vertices.size();
     indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
 
-    push_vertex(x0, y0, uv_x0, uv_y0, model, color, cmix);
-    push_vertex(x1, y1, uv_x1, uv_y1, model, color, cmix);
-    push_vertex(x2, y2, uv_x2, uv_y2, model, color, cmix);
-    push_vertex(x3, y3, uv_x3, uv_y3, model, color, cmix);
+    push_vertex(x0, y0, uv_x0, uv_y0, color, cmix);
+    push_vertex(x1, y1, uv_x1, uv_y1, color, cmix);
+    push_vertex(x2, y2, uv_x2, uv_y2, color, cmix);
+    push_vertex(x3, y3, uv_x3, uv_y3, color, cmix);
 }
 
 inline void SpriteBatch::push_vertex(const float & x, const float & y, const float & uv_x, const float & uv_y, 
-                                     const Mat3x2 & model, const Color & color, const ByteVec3 & cmix) {
+                                     const Color & color, const ByteVec3 & cmix) {
     vertices.push_back({
-        {model[0] * x +  model[2] * y + model[4],
-         model[1] * x +  model[3] * y + model[5]},
+        {transform[0] * x +  transform[2] * y + transform[4],
+         transform[1] * x +  transform[3] * y + transform[5]},
         {uv_x, uv_y}, color, cmix
     });
 }
@@ -225,4 +228,6 @@ void SpriteBatch::render() {
 
     vertices.clear();
     indices.clear();
+    transform_stack.clear();
+    transform = Mat3x2::identity;
 }
