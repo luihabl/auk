@@ -231,10 +231,14 @@ void SpriteBatch::render() {
     glBindVertexArray(vao_id);
 
     // Binding texture
-    glActiveTexture(GL_TEXTURE0);
-    if (!current_tex) glBindTexture(GL_TEXTURE_2D, 0);
-    else current_tex->bind();
-  
+    if (!current_tex) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+    else {
+        glActiveTexture(GL_TEXTURE0 + current_tex->tex_slot);
+        current_tex->bind();
+    } 
         
     // Uploading vertices
     glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
