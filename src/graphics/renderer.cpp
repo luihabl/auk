@@ -232,8 +232,10 @@ void SpriteBatch::render() {
 
     // Binding texture
     glActiveTexture(GL_TEXTURE0);
-    current_tex->bind();
-
+    if (!current_tex) glBindTexture(GL_TEXTURE_2D, 0);
+    else current_tex->bind();
+  
+        
     // Uploading vertices
     glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), vertices.data(), GL_DYNAMIC_DRAW);
