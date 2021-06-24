@@ -4,6 +4,7 @@
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/matrix/matrix.h"
+#include "tinysdl/matrix/rect.h"
 #include "tinysdl/matrix/math.h"
 #include "tinysdl/matrix/color.h"
 #include "tinysdl/graphics/graphics.h"
@@ -71,22 +72,22 @@ Mat3x2 SpriteBatch::pop_transform() {
     return last_transform;
 }
 
-void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, bool centered) {
+void SpriteBatch::draw(const Rect & src, const Rect & dst, float rot, bool centered) {
 
-    const float w  = src_rect[2];
-    const float h  = src_rect[3];
+    const float w  = src.w;
+    const float h  = src.h;
 
     Vec2 origin = Vec2::zeros;
     if (centered) origin = {w/2.0f, h/2.0f};
 
-    push_transform(MatrixMath2D::gen_transform({dst_rect[0], dst_rect[1]}, {dst_rect[2] / w, dst_rect[3] / h}, {0.0f, 0.0f}, rot));
+    push_transform(MatrixMath2D::gen_transform({dst.x, dst.y}, {dst.w / w, dst.h / h}, {0.0f, 0.0f}, rot));
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,
-        src_rect[0] / (float) current_tex->w, src_rect[1] / (float) current_tex->h,
-        (src_rect[0] + src_rect[2]) / (float) current_tex->w,   src_rect[1] / (float) current_tex->h,
-        (src_rect[0] + src_rect[2]) / (float) current_tex->w,  (src_rect[1] + src_rect[3]) / (float) current_tex->h,
-        src_rect[0] / (float) current_tex->w, (src_rect[1] + src_rect[3]) / (float) current_tex->h,
+        src.x / (float) current_tex->w, src.y / (float) current_tex->h,
+        (src.x + src.w) / (float) current_tex->w, src.y / (float) current_tex->h,
+        (src.x + src.w) / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
+        src.x / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
         Color::white,
         {255, 0, 0}
     );
@@ -95,28 +96,29 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, 
 }
 
 
-void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos) {
+void SpriteBatch::draw(const Rect & src, const Vec2 & pos) {
 
     const float x = pos[0];
     const float y = pos[1];
-    const float w  = src_rect[2];
-    const float h  = src_rect[3];
+    const float w  = src.w;
+    const float h  = src.h;
 
     push_quad(
         x, y, x + w, y, x + w, y + h, x, y + h,
-        src_rect[0] / (float) current_tex->w, src_rect[1] / (float) current_tex->h,
-        (src_rect[0] + src_rect[2]) / (float) current_tex->w,   src_rect[1] / (float) current_tex->h,
-        (src_rect[0] + src_rect[2]) / (float) current_tex->w,  (src_rect[1] + src_rect[3]) / (float) current_tex->h,
-        src_rect[0] / (float) current_tex->w, (src_rect[1] + src_rect[3]) / (float) current_tex->h,
+        src.x / (float) current_tex->w, src.y / (float) current_tex->h,
+        (src.x + src.w) / (float) current_tex->w, src.y / (float) current_tex->h,
+        (src.x + src.w) / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
+        src.x / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
         Color::white,
         {255, 0, 0}
     );
+
 }
 
-void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
+void SpriteBatch::draw(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
 
-    const float w  = src_rect[2];
-    const float h  = src_rect[3];
+    const float w  = src.w;
+    const float h  = src.h;
     
     Vec2 origin = Vec2::zeros;
     if (centered) origin = {w/2.0f, h/2.0f};
@@ -125,10 +127,10 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & sca
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,
-        src_rect[0] / (float) current_tex->w,                 src_rect[1] / (float) current_tex->h,
-        (src_rect[0] + src_rect[2]) / (float) current_tex->w, src_rect[1] / (float) current_tex->h,
-        (src_rect[0] + src_rect[2]) / (float) current_tex->w, (src_rect[1] + src_rect[3]) / (float) current_tex->h,
-        src_rect[0] / (float) current_tex->w,                 (src_rect[1] + src_rect[3]) / (float) current_tex->h,
+        src.x / (float) current_tex->w, src.y / (float) current_tex->h,
+        (src.x + src.w) / (float) current_tex->w, src.y / (float) current_tex->h,
+        (src.x + src.w) / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
+        src.x / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
         Color::white,
         {255, 0, 0}
     );
@@ -136,12 +138,12 @@ void SpriteBatch::draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & sca
     pop_transform();
 }
 
-void SpriteBatch::draw_rect_fill(const Vec4 & rect, const Color & color) {
+void SpriteBatch::draw_rect_fill(const Rect & rect, const Color & color) {
     
-    const float x = rect[0];
-    const float y = rect[1];
-    const float w = rect[2];
-    const float h = rect[3];
+    const float x = rect.x;
+    const float y = rect.y;
+    const float w = rect.w;
+    const float h = rect.h;
 
     push_quad(
         x, y, x + w, y, x + w, y + h, x, y + h,
@@ -151,12 +153,12 @@ void SpriteBatch::draw_rect_fill(const Vec4 & rect, const Color & color) {
     );
 }
 
-void SpriteBatch::draw_rect_line(const Vec4 & rect, const Color & color, const float & t) {
+void SpriteBatch::draw_rect_line(const Rect & rect, const Color & color, const float & t) {
     
-    const float x = rect[0];
-    const float y = rect[1];
-    const float w = rect[2];
-    const float h = rect[3];
+    const float x = rect.x;
+    const float y = rect.y;
+    const float w = rect.w;
+    const float h = rect.h;
 
     push_quad(
         x, y, 

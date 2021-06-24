@@ -3,6 +3,7 @@
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/matrix/matrix.h"
+#include "tinysdl/matrix/rect.h"
 #include "tinysdl/matrix/color.h"
 
 #include <vector>
@@ -26,11 +27,11 @@ namespace TinySDL {
             void push_transform(const Mat3x2 & new_transform);
             Mat3x2 pop_transform();
 
-            void draw(const Vec4 & src_rect, const Vec2 & pos);
-            void draw(const Vec4 & src_rect, const Vec4 & dst_rect, float rot, bool centered);
-            void draw(const Vec4 & src_rect, const Vec2 & pos, const Vec2 & scale, float rot = 0.0f, bool centered = false);
-            void draw_rect_fill(const Vec4 & rect, const Color & color);
-            void draw_rect_line(const Vec4 & rect, const Color & color, const float & t);
+            void draw(const Rect & src, const Vec2 & pos);
+            void draw(const Rect & src, const Rect & dst, float rot, bool centered);
+            void draw(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot = 0.0f, bool centered = false);
+            void draw_rect_fill(const Rect & rect, const Color & color);
+            void draw_rect_line(const Rect & rect, const Color & color, const float & t);
 
             void render();
 
