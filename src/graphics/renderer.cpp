@@ -1,4 +1,5 @@
 #include <glad/glad.h>
+#include <cmath>
 
 #include "tinysdl/graphics/renderer.h"
 #include "tinysdl/graphics/shader.h"
@@ -201,6 +202,54 @@ void SpriteBatch::draw_rect_line(const Rect & rect, const Color & color, const f
     ); 
 }
 
+void SpriteBatch::draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color) {
+
+    push_triangle(
+        p0[0], p0[1], p1[0], p1[1], p2[0], p2[1],
+        0, 0, 0, 0, 0, 0,
+        color, 
+        {0, 0, 255}
+    );
+}
+
+void SpriteBatch::draw_circle_fill(const Vec2 & center, const float & radius, const Color & color) {
+
+    float cx = center[0];
+    float cy = center[1];
+    float pi2 = 2 * 3.1415f;
+
+    int steps = 15;
+    for(int i = 0; i < steps; i++) {
+
+        float angle0 = (float) i * pi2 / (float) steps; 
+        float angle1 = (float) (i + 1) * pi2 / (float) steps;  
+
+        push_triangle(
+            cx, cy, 
+            cx + radius * sinf(angle0), cy + radius * cosf(angle0), 
+            cx + radius * sinf(angle1), cy + radius * cosf(angle1), 
+            0, 0, 0, 0, 0, 0,
+            color, 
+            {0, 0, 255}
+        );
+    }
+}
+
+inline void SpriteBatch::push_triangle(const float & x0, const float & y0, const float & x1, 
+                                       const float & y1, const float & x2, const float & y2, 
+                                       const float & uv_x0, const float & uv_y0, 
+                                       const float & uv_x1, const float & uv_y1, 
+                                       const float & uv_x2, const float & uv_y2, 
+                                       const Color & color, const ByteVec3 & cmix) {
+
+    const unsigned int n = (unsigned int) vertices.size();
+    indices.insert(indices.end(), { n + 0, n + 2, n + 1 });
+
+    push_vertex(x0, y0, uv_x0, uv_y0, color, cmix);
+    push_vertex(x1, y1, uv_x1, uv_y1, color, cmix);
+    push_vertex(x2, y2, uv_x2, uv_y2, color, cmix);
+
+}
 
 inline void SpriteBatch::push_quad(const float & x0, const float & y0, const float & x1, const float & y1, 
                                    const float & x2, const float & y2, const float & x3, const float & y3, 
