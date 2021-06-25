@@ -1,4 +1,3 @@
-#include <SDL.h>
 #include <glad/glad.h>
 #include <string>
 
@@ -79,4 +78,9 @@ void Graphics::viewport(int w, int h) {
 
 void Graphics::viewport(int x, int y, int w, int h) {
     glViewport(x, y, w, h);
+}
+
+void Graphics::set_blend_mode() {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

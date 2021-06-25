@@ -11,6 +11,7 @@ namespace TinySDL {
         void setup_debug();
         
         void clear(const Color & c);
+        void set_blend_mode();
         void viewport(int w, int h);
         void viewport(int x, int y, int w, int h);
     }
