@@ -1,15 +1,14 @@
 #pragma once 
 
-#include <glad/glad.h>
+typedef void* (* GraphicsLoaderFunction)(const char *name);
 
 namespace TinySDL {
 
     struct Color;
 
     namespace Graphics {
-        void load_gl_functions();
-        void setup_gl_debug();
-        void APIENTRY gl_debug_callback(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message, const void *user_param);
+        void load_functions(GraphicsLoaderFunction loader_func);
+        void setup_debug();
         
         void clear(const Color & c);
         void viewport(int w, int h);

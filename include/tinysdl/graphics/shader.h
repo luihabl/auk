@@ -1,6 +1,5 @@
 #pragma once 
 
-#include <glad/glad.h>
 #include "tinysdl/matrix/matrix.h"
 
 namespace TinySDL {
@@ -26,7 +25,7 @@ namespace TinySDL {
             static Shader default_sprite_shaders();
 
         private: 
-            unsigned int add(const char* source, GLenum type);
+            unsigned int add(const char* source, unsigned int type);
             void compile_all(const char* vertex_src, const char* frag_src, const char*  geom_src = nullptr);
     };
 }

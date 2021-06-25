@@ -36,8 +36,8 @@ SDL_Window * Window::init(const char * name, int w, int h, int x, int y, uint32_
     //Initializing Open GL
     context = SDL_GL_CreateContext( window );
     SDL_GL_MakeCurrent(window, context);
-    Graphics::load_gl_functions();
-    Graphics::setup_gl_debug();
+    Graphics::load_functions(SDL_GL_GetProcAddress);
+    Graphics::setup_debug();
     SDL_GL_SetSwapInterval(use_vsync); //using VSync
 
     return window;

@@ -8,27 +8,15 @@
 
 using namespace TinySDL;
 
-#include <iostream>
 
+void Graphics::load_functions(GraphicsLoaderFunction loader_func) {
 
-void Graphics::load_gl_functions() {
-
-    ASSERT_MSG(gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress), "Failed to load GL functions");
+    ASSERT_MSG(gladLoadGLLoader((GLADloadproc) loader_func), "Failed to load GL functions");
     Log::info("OpenGL %s %s", glGetString(GL_VERSION), glGetString(GL_RENDERER));
 }
 
-void Graphics::setup_gl_debug() {
-    int flags; glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT) {
-        Log::debug("OpenGL debug activated");
-        glEnable(GL_DEBUG_OUTPUT);
-        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-        glDebugMessageCallback(Graphics::gl_debug_callback, nullptr);
-        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-    }
-}
 
-void APIENTRY Graphics::gl_debug_callback(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message, const void *user_param) {
+void APIENTRY gl_debug_callback(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message, const void *user_param) {
 
     if(id == 131169 || id == 131185 || id == 131218 || id == 131204) return; 
     
@@ -67,6 +55,17 @@ void APIENTRY Graphics::gl_debug_callback(GLenum source, GLenum type, unsigned i
     } 
 
     Log::debug("OpenGL message [%i]: %s\nsource: %s\ntype: %s\nseverity: %s\n", id, message, source_msg.c_str(), type_msg.c_str(), severity_msg.c_str());
+}
+
+void Graphics::setup_debug() {
+    int flags; glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT) {
+        Log::debug("OpenGL debug activated");
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glDebugMessageCallback(gl_debug_callback, nullptr);
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+    }
 }
 
 void Graphics::clear(const Color & c) {

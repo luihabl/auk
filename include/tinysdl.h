@@ -1,7 +1,6 @@
 #pragma once 
 
 #include <SDL.h>
-#include <glad/glad.h>
 
 #include "tinysdl/platform/window.h"
 #include "tinysdl/platform/log.h"

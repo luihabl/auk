@@ -54,9 +54,9 @@ void Shader::del() {
     compiled = false;
 }
 
-unsigned int Shader::add(const char* src, GLenum type) {
+unsigned int Shader::add(const char* src, unsigned int type) {
 
-    unsigned int id_shader = glCreateShader(type);
+    unsigned int id_shader = glCreateShader( (GLenum) type);
     GLint src_len = (GLint) strlen(src);
 
     glShaderSource(id_shader, 1, &src, &src_len);
