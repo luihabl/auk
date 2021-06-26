@@ -5,6 +5,8 @@ namespace TinySDL {
 
     namespace Time {
         uint32_t get_time_ms();
+        float get_time_high_precision_ms();
+
         void wait(uint32_t ms);
     }
 

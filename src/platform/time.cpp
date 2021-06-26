@@ -8,6 +8,10 @@ uint32_t Time::get_time_ms() {
     return SDL_GetTicks();
 }
 
+float Time::get_time_high_precision_ms() {
+    return 1000.0f * (float) SDL_GetPerformanceCounter() / (float) SDL_GetPerformanceFrequency();
+}
+
 void Time::wait(uint32_t ms) {
     SDL_Delay(ms);
 }
