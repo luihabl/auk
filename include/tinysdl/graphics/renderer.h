@@ -33,6 +33,8 @@ namespace TinySDL {
             void draw_rect_fill(const Rect & rect, const Color & color);
             void draw_rect_line(const Rect & rect, const Color & color, const float & t);
             void draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color);
+            void draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color, const float & t) ;
+
             void draw_circle_fill(const Vec2 & center, const float & radius, const Color & color);
 
             void render();

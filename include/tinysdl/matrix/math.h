@@ -10,7 +10,7 @@ namespace TinySDL::MatrixMath {
         float sum = 0;
         for(size_t i=0; i<M; i++) 
             sum += a.data[i] * b.data[i];
-        return sqrtf(sum);
+        return sum;
     }
 
     template <size_t M>

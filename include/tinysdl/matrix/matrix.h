@@ -70,6 +70,15 @@ namespace TinySDL {
     }
     
     template <typename T, size_t M, size_t N>
+    inline Matrix<T, M, N> operator- (const Matrix<T, M, N> & a) {
+        Matrix<T, M, N> result;
+        for (size_t i = 0; i < M * N; i++) 
+            result[i] = -a.data[i];
+        return result;
+    }
+    
+
+    template <typename T, size_t M, size_t N>
     inline Matrix<T, M, N> operator* (const Matrix<T, M, N> & a, const Matrix<T, M, N> & b) {
         Matrix<T, M, N> result;
         for (size_t i = 0; i < M * N; i++) 

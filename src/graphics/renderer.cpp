@@ -212,11 +212,65 @@ void SpriteBatch::draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec
     );
 }
 
+void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color, const float & t) {
+
+    Vec2 v01 = (p1 - p0).normalized(); 
+    Vec2 v02 = (p2 - p0).normalized();
+    Vec2 v12 = (p2 - p1).normalized();
+
+    Vec2 v10 = -v01; 
+    Vec2 v20 = -v02;
+    Vec2 v21 = -v12;
+
+    float sin_theta_0 = sqrtf(0.5f * (1.0f - MatrixMath::dot(v01, v02)));
+    float sin_theta_1 = sqrtf(0.5f * (1.0f - MatrixMath::dot(v10, v12)));
+    float sin_theta_2 = sqrtf(0.5f * (1.0f - MatrixMath::dot(v20, v21)));
+
+    const float d_0 = (p2 - p0).length() * sin_theta_2;
+    const float d_1 = (p0 - p1).length() * sin_theta_0;
+    const float d_2 = (p1 - p2).length() * sin_theta_1;
+
+    // if the distance from any vertex to the opposite side is smaller than t, draw filled triangle
+    if(d_0 <= t || d_1 <= t || d_2 <= t) {
+        draw_triangle_fill (p0, p1, p2, color);
+        return;
+    }
+
+    Vec2 p0i = p0 + (v01 + v02).normalized() * t / sin_theta_0;     
+    Vec2 p1i = p1 + (v10 + v12).normalized() * t / sin_theta_1; 
+    Vec2 p2i = p2 + (v20 + v21).normalized() * t / sin_theta_2; 
+
+    push_quad(
+        p0[0], p0[1], p0i[0], p0i[1], 
+        p1i[0], p1i[1], p1[0], p1[1], 
+        0, 0, 0, 0, 0, 0, 0, 0,
+        color,
+        {0, 0, 255}
+    ); 
+
+    push_quad(
+        p1[0], p1[1], p1i[0], p1i[1], 
+        p2i[0], p2i[1], p2[0], p2[1], 
+        0, 0, 0, 0, 0, 0, 0, 0,
+        color,
+        {0, 0, 255}
+    ); 
+
+    push_quad(
+        p2[0], p2[1], p2i[0], p2i[1], 
+        p0i[0], p0i[1], p0[0], p0[1], 
+        0, 0, 0, 0, 0, 0, 0, 0,
+        color,
+        {0, 0, 255}
+    ); 
+
+}
+
 void SpriteBatch::draw_circle_fill(const Vec2 & center, const float & radius, const Color & color) {
 
     float cx = center[0];
     float cy = center[1];
-    float pi2 = 2 * 3.1415f;
+    constexpr float pi2 = 2.0f * 3.14159265359f;
 
     int steps = 15;
     for(int i = 0; i < steps; i++) {
