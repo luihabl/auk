@@ -154,7 +154,7 @@ void SpriteBatch::draw_rect_fill(const Rect & rect, const Color & color) {
     );
 }
 
-void SpriteBatch::draw_rect_line(const Rect & rect, const Color & color, const float & t) {
+void SpriteBatch::draw_rect_line(const Rect & rect, const Color & color, float t) {
     
     const float x = rect.x;
     const float y = rect.y;
@@ -212,7 +212,7 @@ void SpriteBatch::draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec
     );
 }
 
-void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color, const float & t) {
+void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color, float t) {
 
     Vec2 v01 = (p1 - p0).normalized(); 
     Vec2 v02 = (p2 - p0).normalized();
@@ -266,7 +266,7 @@ void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec
 
 }
 
-void SpriteBatch::draw_circle_fill(const Vec2 & center, const float & radius, const Color & color) {
+void SpriteBatch::draw_circle_fill(const Vec2 & center, float radius, const Color & color) {
 
     float cx = center[0];
     float cy = center[1];
@@ -287,6 +287,22 @@ void SpriteBatch::draw_circle_fill(const Vec2 & center, const float & radius, co
             {0, 0, 255}
         );
     }
+}
+
+void SpriteBatch::draw_line(const Vec2 & start, const Vec2 & end, const Color & color, float t) {
+
+    const Vec2 v = (end - start).normalized();
+    const Vec2 normal = ( t / 2.0f ) * Vec2{v[1], -v[0]};
+    
+    push_quad(
+        start[0] + normal[0], start[1] + normal[1], 
+        start[0] - normal[0], start[1] - normal[1], 
+        end[0] - normal[0], end[1] - normal[1], 
+        end[0] + normal[0], end[1] + normal[1], 
+        0, 0, 0, 0, 0, 0, 0, 0,
+        color,
+        {0, 0, 255}
+    ); 
 }
 
 inline void SpriteBatch::push_triangle(const float & x0, const float & y0, const float & x1, 
