@@ -161,6 +161,11 @@ void SpriteBatch::draw_rect_line(const Rect & rect, const Color & color, float t
     const float w = rect.w;
     const float h = rect.h;
 
+    if (t >= 0.5f * h || t >= 0.5f * w) {
+        draw_rect_fill(rect, color);
+        return;
+    }
+
     push_quad(
         x, y, 
         x + w - t, y, 
@@ -212,7 +217,7 @@ void SpriteBatch::draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec
     );
 }
 
-void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color, float t) {
+void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, float t, const Color & color) {
 
     Vec2 v01 = (p1 - p0).normalized(); 
     Vec2 v02 = (p2 - p0).normalized();
@@ -266,13 +271,12 @@ void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec
 
 }
 
-void SpriteBatch::draw_circle_fill(const Vec2 & center, float radius, const Color & color) {
+void SpriteBatch::draw_circle_fill(const Vec2 & center, float radius, const Color & color, int steps) {
 
     float cx = center[0];
     float cy = center[1];
     constexpr float pi2 = 2.0f * 3.14159265359f;
 
-    int steps = 15;
     for(int i = 0; i < steps; i++) {
 
         float angle0 = (float) i * pi2 / (float) steps; 
@@ -286,6 +290,34 @@ void SpriteBatch::draw_circle_fill(const Vec2 & center, float radius, const Colo
             color, 
             {0, 0, 255}
         );
+    }
+}
+
+void SpriteBatch::draw_circle_line(const Vec2 & center, float radius, float t, const Color & color, int steps) {
+
+    if (t >= radius) {
+        draw_circle_fill(center, radius, color);
+        return;
+    }
+
+    float cx = center[0];
+    float cy = center[1];
+    constexpr float pi2 = 2.0f * 3.14159265359f;
+
+    for(int i = 0; i < steps; i++) {
+
+        float angle0 = (float) i * pi2 / (float) steps; 
+        float angle1 = (float) (i + 1) * pi2 / (float) steps;  
+
+        push_quad(
+            cx + (radius - t) * sinf(angle0), cy + (radius - t) * cosf(angle0), 
+            cx + radius * sinf(angle0), cy + radius * cosf(angle0), 
+            cx + radius * sinf(angle1), cy + radius * cosf(angle1), 
+            cx + (radius - t) * sinf(angle1), cy + (radius - t) * cosf(angle1), 
+            0, 0, 0, 0, 0, 0, 0, 0,
+            color,
+            {0, 0, 255}
+        ); 
     }
 }
 
