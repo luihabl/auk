@@ -7,6 +7,11 @@
 
 using namespace TinySDL;
 
+Color::Color(const Vec3 & color) : ByteVec4({(uint8_t) round(255.0f * color[0]), (uint8_t) round(255.0f * color[1]), 
+                                             (uint8_t) round(255.0f * color[2]), 255}) {}
+Color::Color(const Vec4 & color) : ByteVec4({(uint8_t) round(255.0f * color[0]), (uint8_t) round(255.0f * color[1]), 
+                                             (uint8_t) round(255.0f * color[2]), (uint8_t) round(255.0f * color[3])}) {}
+
 float Color::r() const {
     return ((float) data[0]) / 255.0f;
 }
