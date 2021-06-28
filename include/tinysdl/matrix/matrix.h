@@ -12,10 +12,12 @@ namespace TinySDL {
     struct Matrix {
 
         T data[M * N];
-
-        T length();
-        Matrix normalized();
         size_t size() {return M * N;}
+
+        Matrix normalized();
+        T length();
+        T distance_to(const Matrix<T, M, N> & other) const;
+        
 
         void fill(T val) {std::fill_n(data, M * N, val);}
 
@@ -44,6 +46,17 @@ namespace TinySDL {
         T sum_sqr = 0;
         for (const auto & e : data)
             sum_sqr += e * e;
+        return sqrtf(sum_sqr);
+    }
+
+    template <typename T, size_t M, size_t N>
+    inline T Matrix<T, M, N>::distance_to(const Matrix<T, M, N> & other) const {
+        T sum_sqr = 0;
+        T diff = 0;
+        for (size_t i = 0; i < M * N; i++) {
+            diff = other[i] - data[i];
+            sum_sqr += diff * diff;
+        }
         return sqrtf(sum_sqr);
     }
 

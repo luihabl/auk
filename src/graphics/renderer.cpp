@@ -223,17 +223,13 @@ void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec
     Vec2 v02 = (p2 - p0).normalized();
     Vec2 v12 = (p2 - p1).normalized();
 
-    Vec2 v10 = -v01; 
-    Vec2 v20 = -v02;
-    Vec2 v21 = -v12;
-
     float sin_theta_0 = sqrtf(0.5f * (1.0f - MatrixMath::dot(v01, v02)));
-    float sin_theta_1 = sqrtf(0.5f * (1.0f - MatrixMath::dot(v10, v12)));
-    float sin_theta_2 = sqrtf(0.5f * (1.0f - MatrixMath::dot(v20, v21)));
+    float sin_theta_1 = sqrtf(0.5f * (1.0f + MatrixMath::dot(v01, v12)));
+    float sin_theta_2 = sqrtf(0.5f * (1.0f - MatrixMath::dot(v02, v12)));
 
-    const float d_0 = (p2 - p0).length() * sin_theta_2;
-    const float d_1 = (p0 - p1).length() * sin_theta_0;
-    const float d_2 = (p1 - p2).length() * sin_theta_1;
+    const float d_0 = p2.distance_to(p0) * sin_theta_2;
+    const float d_1 = p0.distance_to(p1) * sin_theta_0;
+    const float d_2 = p1.distance_to(p2) * sin_theta_1;
 
     // if the distance from any vertex to the opposite side is smaller than t, draw filled triangle
     if(d_0 <= t || d_1 <= t || d_2 <= t) {
@@ -242,8 +238,8 @@ void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec
     }
 
     Vec2 p0i = p0 + (v01 + v02).normalized() * t / sin_theta_0;     
-    Vec2 p1i = p1 + (v10 + v12).normalized() * t / sin_theta_1; 
-    Vec2 p2i = p2 + (v20 + v21).normalized() * t / sin_theta_2; 
+    Vec2 p1i = p1 + (v12 - v01).normalized() * t / sin_theta_1; 
+    Vec2 p2i = p2 - (v02 + v12).normalized() * t / sin_theta_2; 
 
     push_quad(
         p0[0], p0[1], p0i[0], p0i[1], 
@@ -324,7 +320,7 @@ void SpriteBatch::draw_circle_line(const Vec2 & center, float radius, float t, c
 void SpriteBatch::draw_line(const Vec2 & start, const Vec2 & end, const Color & color, float t) {
 
     const Vec2 v = (end - start).normalized();
-    const Vec2 normal = ( t / 2.0f ) * Vec2{v[1], -v[0]};
+    const Vec2 normal{0.5f * t * v[1], - 0.5f * t * v[0]};
     
     push_quad(
         start[0] + normal[0], start[1] + normal[1], 
