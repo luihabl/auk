@@ -5,9 +5,11 @@
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/graphics/color.h"
+
 #include "tinysdl/numerics/matrix.h"
 #include "tinysdl/numerics/rect.h"
 #include "tinysdl/numerics/matrix_math.h"
+#include "tinysdl/numerics/scalar.h"
 
 
 using namespace TinySDL;
@@ -271,12 +273,11 @@ void SpriteBatch::draw_circle_fill(const Vec2 & center, float radius, const Colo
 
     float cx = center[0];
     float cy = center[1];
-    constexpr float pi2 = 2.0f * 3.14159265359f;
 
     for(int i = 0; i < steps; i++) {
 
-        float angle0 = (float) i * pi2 / (float) steps; 
-        float angle1 = (float) (i + 1) * pi2 / (float) steps;  
+        float angle0 = (float) i * Scalar::F_2PI / (float) steps; 
+        float angle1 = (float) (i + 1) * Scalar::F_2PI / (float) steps;  
 
         push_triangle(
             cx, cy, 
@@ -298,12 +299,11 @@ void SpriteBatch::draw_circle_line(const Vec2 & center, float radius, float t, c
 
     float cx = center[0];
     float cy = center[1];
-    constexpr float pi2 = 2.0f * 3.14159265359f;
 
     for(int i = 0; i < steps; i++) {
 
-        float angle0 = (float) i * pi2 / (float) steps; 
-        float angle1 = (float) (i + 1) * pi2 / (float) steps;  
+        float angle0 = (float) i * Scalar::F_2PI / (float) steps; 
+        float angle1 = (float) (i + 1) * Scalar::F_2PI / (float) steps;  
 
         push_quad(
             cx + (radius - t) * sinf(angle0), cy + (radius - t) * cosf(angle0), 
