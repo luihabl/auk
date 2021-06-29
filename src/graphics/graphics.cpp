@@ -3,7 +3,7 @@
 
 #include "tinysdl/graphics/graphics.h"
 #include "tinysdl/platform/log.h"
-#include "tinysdl/matrix/color.h"
+#include "tinysdl/graphics/color.h"
 
 using namespace TinySDL;
 

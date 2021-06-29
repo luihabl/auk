@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tinysdl/matrix/matrix.h"
+#include "tinysdl/numerics/matrix.h"
 
 namespace TinySDL{
 

@@ -5,7 +5,7 @@
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/platform/log.h"
 #include "tinysdl/platform/file.h"
-#include "tinysdl/matrix/matrix.h"
+#include "tinysdl/numerics/matrix.h"
 
 constexpr const char* default_vertex_src = "#version 460 core\n\
 layout (location = 0) in vec2 vertex_pos;\n\

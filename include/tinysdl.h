@@ -11,7 +11,8 @@
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/graphics/renderer.h"
 #include "tinysdl/graphics/target.h"
+#include "tinysdl/graphics/color.h"
 
-#include "tinysdl/matrix/matrix.h"
-#include "tinysdl/matrix/math.h"
-#include "tinysdl/matrix/color.h"
+#include "tinysdl/numerics/matrix.h"
+#include "tinysdl/numerics/matrix_math.h"
+#include "tinysdl/numerics/rect.h"

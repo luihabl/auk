@@ -18,8 +18,7 @@ src/graphics/shader.cpp
 src/graphics/texture.cpp
 src/graphics/renderer.cpp
 src/graphics/target.cpp
-
-src/matrix/color.cpp
+src/graphics/color.cpp
 
 src/external/glad.cpp
 ) 

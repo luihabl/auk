@@ -4,11 +4,11 @@
 #include "tinysdl/graphics/renderer.h"
 #include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
-#include "tinysdl/matrix/matrix.h"
-#include "tinysdl/matrix/rect.h"
-#include "tinysdl/matrix/math.h"
-#include "tinysdl/matrix/color.h"
-#include "tinysdl/graphics/graphics.h"
+#include "tinysdl/graphics/color.h"
+#include "tinysdl/numerics/matrix.h"
+#include "tinysdl/numerics/rect.h"
+#include "tinysdl/numerics/matrix_math.h"
+
 
 using namespace TinySDL;
 
@@ -316,6 +316,21 @@ void SpriteBatch::draw_circle_line(const Vec2 & center, float radius, float t, c
         ); 
     }
 }
+
+// void SpriteBatch::draw_semi_circle_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps=15) {
+
+//     float cx = center[0];
+//     float cy = center[1];
+//     constexpr float pi2 = 2.0f * 3.14159265359f;
+
+
+
+
+
+// }
+
+
+
 
 void SpriteBatch::draw_line(const Vec2 & start, const Vec2 & end, const Color & color, float t) {
 

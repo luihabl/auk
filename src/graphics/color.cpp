@@ -2,8 +2,8 @@
 #include <inttypes.h>
 #include <cmath>
 
-#include "tinysdl/matrix/matrix.h"
-#include "tinysdl/matrix/color.h"
+#include "tinysdl/numerics/matrix.h"
+#include "tinysdl/graphics/color.h"
 
 using namespace TinySDL;
 
