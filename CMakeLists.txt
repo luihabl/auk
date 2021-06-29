@@ -20,6 +20,8 @@ src/graphics/renderer.cpp
 src/graphics/target.cpp
 src/graphics/color.cpp
 
+src/numerics/matrix_math.cpp
+
 src/external/glad.cpp
 ) 
 
