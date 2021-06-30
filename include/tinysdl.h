@@ -14,5 +14,5 @@
 #include "tinysdl/graphics/color.h"
 
 #include "tinysdl/numerics/matrix.h"
-#include "tinysdl/numerics/matrix_math.h"
+#include "tinysdl/numerics/linalg.h"
 #include "tinysdl/numerics/rect.h"

@@ -8,7 +8,7 @@
 
 #include "tinysdl/numerics/matrix.h"
 #include "tinysdl/numerics/rect.h"
-#include "tinysdl/numerics/matrix_math.h"
+#include "tinysdl/numerics/linalg.h"
 #include "tinysdl/numerics/scalar.h"
 
 
@@ -65,7 +65,7 @@ void SpriteBatch::set_texture(Texture * tex) {
 
 void SpriteBatch::push_transform(const Mat3x2 & new_transform) {
     transform_stack.push_back(transform);
-    transform = MatrixMath2D::matmul(new_transform, transform);
+    transform = LinAlg2D::matmul(new_transform, transform);
 }
 
 Mat3x2 SpriteBatch::pop_transform() {
@@ -83,7 +83,7 @@ void SpriteBatch::draw(const Rect & src, const Rect & dst, float rot, bool cente
     Vec2 origin = Vec2::zeros;
     if (centered) origin = {w/2.0f, h/2.0f};
 
-    push_transform(MatrixMath2D::gen_transform({dst.x, dst.y}, {dst.w / w, dst.h / h}, {0.0f, 0.0f}, rot));
+    push_transform(LinAlg2D::gen_transform({dst.x, dst.y}, {dst.w / w, dst.h / h}, {0.0f, 0.0f}, rot));
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,
@@ -126,7 +126,7 @@ void SpriteBatch::draw(const Rect & src, const Vec2 & pos, const Vec2 & scale, f
     Vec2 origin = Vec2::zeros;
     if (centered) origin = {w/2.0f, h/2.0f};
 
-    push_transform(MatrixMath2D::gen_transform(pos, scale, origin, rot));
+    push_transform(LinAlg2D::gen_transform(pos, scale, origin, rot));
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,
@@ -225,9 +225,9 @@ void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec
     Vec2 v02 = (p2 - p0).normalized();
     Vec2 v12 = (p2 - p1).normalized();
 
-    float sin_theta_0 = sqrtf(0.5f * (1.0f - MatrixMath::dot(v01, v02)));
-    float sin_theta_1 = sqrtf(0.5f * (1.0f + MatrixMath::dot(v01, v12)));
-    float sin_theta_2 = sqrtf(0.5f * (1.0f - MatrixMath::dot(v02, v12)));
+    float sin_theta_0 = sqrtf(0.5f * (1.0f - LinAlg::dot(v01, v02)));
+    float sin_theta_1 = sqrtf(0.5f * (1.0f + LinAlg::dot(v01, v12)));
+    float sin_theta_2 = sqrtf(0.5f * (1.0f - LinAlg::dot(v02, v12)));
 
     const float d_0 = p2.distance_to(p0) * sin_theta_2;
     const float d_1 = p0.distance_to(p1) * sin_theta_0;

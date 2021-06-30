@@ -2,7 +2,7 @@
 
 #include "tinysdl/numerics/matrix.h"
 
-namespace TinySDL::MatrixMath2D{
+namespace TinySDL::LinAlg2D{
     Mat3x2 matmul(const Mat3x2 & a, const Mat3x2 & b);
     Mat3x2 gen_translation (float x, float y);
     Mat3x2 gen_rotation (float radians);
@@ -10,7 +10,7 @@ namespace TinySDL::MatrixMath2D{
     Mat3x2 gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation);
 }
 
-namespace TinySDL::MatrixMath3D {
+namespace TinySDL::LinAlg3D {
     Mat4x4 matmul(const Mat4x4 & a, const Mat4x4 & b);
     void gen_translate(Mat4x4 & mat, float x, float y, float z);
     void gen_rotate(Mat4x4 & mat, float radians);
@@ -18,7 +18,7 @@ namespace TinySDL::MatrixMath3D {
     Mat4x4 gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation);
 }
 
-namespace TinySDL::MatrixMath {
+namespace TinySDL::LinAlg {
 
     template <size_t M>
     inline float dot(const Matrix<float, M, 1> & a, const Matrix<float, M, 1> & b) {

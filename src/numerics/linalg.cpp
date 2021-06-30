@@ -1,8 +1,8 @@
-#include "tinysdl/numerics/matrix_math.h"
+#include "tinysdl/numerics/linalg.h"
 
 using namespace TinySDL;
 
-Mat4x4 MatrixMath3D::matmul(const Mat4x4 & a, const Mat4x4 & b) {
+Mat4x4 LinAlg3D::matmul(const Mat4x4 & a, const Mat4x4 & b) {
     //Unrolled 4x4 matrix multiplication
     return {
         a[0]  * b[0]  + a[4] * b[1]  + a[8]   * b[2]  + a[12] * b[3],
@@ -24,7 +24,7 @@ Mat4x4 MatrixMath3D::matmul(const Mat4x4 & a, const Mat4x4 & b) {
     };
 }
 
-void MatrixMath3D::gen_translate(Mat4x4 & mat, float x, float y, float z) {
+void LinAlg3D::gen_translate(Mat4x4 & mat, float x, float y, float z) {
 
     Mat4x4 trans = Mat4x4::identity;
     trans[0 + 3 * 4] = x;
@@ -34,7 +34,7 @@ void MatrixMath3D::gen_translate(Mat4x4 & mat, float x, float y, float z) {
     mat = matmul(trans, mat);
 }
 
-void MatrixMath3D::gen_rotate(Mat4x4 & mat, float radians) {
+void LinAlg3D::gen_rotate(Mat4x4 & mat, float radians) {
     
     Mat4x4 rot = Mat4x4::identity;
     float c = cos(radians);
@@ -49,7 +49,7 @@ void MatrixMath3D::gen_rotate(Mat4x4 & mat, float radians) {
 }
 
 
-void MatrixMath3D::gen_scale(Mat4x4 & mat, float sx, float sy, float sz) {
+void LinAlg3D::gen_scale(Mat4x4 & mat, float sx, float sy, float sz) {
 
     Mat4x4 scl = Mat4x4::identity;
     scl[0 + 0 * 4] = sx;
@@ -59,7 +59,7 @@ void MatrixMath3D::gen_scale(Mat4x4 & mat, float sx, float sy, float sz) {
     mat = matmul(scl, mat);
 }
 
-Mat4x4 MatrixMath3D::gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
+Mat4x4 LinAlg3D::gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
     Mat4x4 model = Mat4x4::identity;
 
     if(origin[0] != 0 || origin[1] != 0)
@@ -78,7 +78,7 @@ Mat4x4 MatrixMath3D::gen_transform(const Vec2 & pos, const Vec2 & scale, const V
 }
 
 
-Mat3x2 MatrixMath2D::matmul(const Mat3x2 & a, const Mat3x2 & b) {      
+Mat3x2 LinAlg2D::matmul(const Mat3x2 & a, const Mat3x2 & b) {      
     //This is an optimized 3x3 matrix multiplication that ignores the last row
     return {
         a[0] * b[0] + a[2] * b[1],
@@ -90,22 +90,22 @@ Mat3x2 MatrixMath2D::matmul(const Mat3x2 & a, const Mat3x2 & b) {
     };
 }
 
-Mat3x2 MatrixMath2D::gen_translation (float x, float y) {
+Mat3x2 LinAlg2D::gen_translation (float x, float y) {
     return {1, 0, 0, 1, x, y};
 }
 
-Mat3x2 MatrixMath2D::gen_rotation (float radians) {
+Mat3x2 LinAlg2D::gen_rotation (float radians) {
     const float c = cosf(radians);
     const float s = sinf(radians);
     return {c, s, -s, c, 0, 0};
 }
 
-Mat3x2 MatrixMath2D::gen_scale (float sx, float sy) {
+Mat3x2 LinAlg2D::gen_scale (float sx, float sy) {
     return {sx, 0, 0, sy, 0, 0};
 }
 
 
-Mat3x2 MatrixMath2D::gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
+Mat3x2 LinAlg2D::gen_transform(const Vec2 & pos, const Vec2 & scale, const Vec2 & origin, const float & rotation) {
     Mat3x2 model{1, 0, 0, 1, 0, 0};
 
     if(origin[0] != 0 || origin[1] != 0)
