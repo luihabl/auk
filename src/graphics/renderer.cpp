@@ -9,7 +9,7 @@
 #include "tinysdl/numerics/matrix.h"
 #include "tinysdl/numerics/rect.h"
 #include "tinysdl/numerics/linalg.h"
-#include "tinysdl/numerics/scalar.h"
+#include "tinysdl/numerics/mathf.h"
 
 
 using namespace TinySDL;
@@ -276,8 +276,8 @@ void SpriteBatch::draw_circle_fill(const Vec2 & center, float radius, const Colo
 
     for(int i = 0; i < steps; i++) {
 
-        float angle0 = (float) i * Scalar::F_2PI / (float) steps; 
-        float angle1 = (float) (i + 1) * Scalar::F_2PI / (float) steps;  
+        float angle0 = (float) i * Mathf::tau / (float) steps; 
+        float angle1 = (float) (i + 1) * Mathf::tau / (float) steps;  
 
         push_triangle(
             cx, cy, 
@@ -302,8 +302,8 @@ void SpriteBatch::draw_circle_line(const Vec2 & center, float radius, float t, c
 
     for(int i = 0; i < steps; i++) {
 
-        float angle0 = (float) i * Scalar::F_2PI / (float) steps; 
-        float angle1 = (float) (i + 1) * Scalar::F_2PI / (float) steps;  
+        float angle0 = (float) i * Mathf::tau / (float) steps; 
+        float angle1 = (float) (i + 1) * Mathf::tau / (float) steps;  
 
         push_quad(
             cx + (radius - t) * sinf(angle0), cy + (radius - t) * cosf(angle0), 
@@ -317,17 +317,29 @@ void SpriteBatch::draw_circle_line(const Vec2 & center, float radius, float t, c
     }
 }
 
-// void SpriteBatch::draw_semi_circle_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps=15) {
+void SpriteBatch::draw_semi_circle_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps) {
 
-//     float cx = center[0];
-//     float cy = center[1];
-//     constexpr float pi2 = 2.0f * 3.14159265359f;
+    float cx = center[0];
+    float cy = center[1];
 
+    float angle_step = Mathf::delta_angle(radians_start, radians_end) / (float) steps;
+    // float angle_step = (Mathf::mod(radians_end, Mathf::tau) - Mathf::mod(radians_start, Mathf::tau)) / (float) steps;
 
+    for(int i = 0; i < steps; i++) {
 
+        float angle0 = (float) i * angle_step + radians_start; 
+        float angle1 = (float) (i + 1) * angle_step + radians_start;  
 
-
-// }
+        push_triangle(
+            cx, cy, 
+            cx + radius * cosf(angle0), cy - radius * sinf(angle0), 
+            cx + radius * cosf(angle1), cy - radius * sinf(angle1), 
+            0, 0, 0, 0, 0, 0,
+            color, 
+            {0, 0, 255}
+        );
+    }
+}
 
 
 

@@ -15,4 +15,5 @@
 
 #include "tinysdl/numerics/matrix.h"
 #include "tinysdl/numerics/linalg.h"
+#include "tinysdl/numerics/mathf.h"
 #include "tinysdl/numerics/rect.h"

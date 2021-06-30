@@ -21,6 +21,7 @@ src/graphics/target.cpp
 src/graphics/color.cpp
 
 src/numerics/linalg.cpp
+src/numerics/mathf.cpp
 
 src/external/glad.cpp
 ) 
