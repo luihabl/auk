@@ -4,8 +4,8 @@
 
 using namespace TinySDL;
 
-float Mathf::mod(float a, float n) {
-    return a - (int)(a / n) * n;
+float Mathf::mod(float a, float b) {
+    return a - floorf(a / b) * b;
 }
 
 float Mathf::delta_angle(float a, float b) {
