@@ -340,7 +340,31 @@ void SpriteBatch::draw_semi_circle_fill(const Vec2 & center, float radius, float
     }
 }
 
+void SpriteBatch::draw_semi_circle_line(const Vec2& center, float radius, float radians_start, float radians_end, float t, const Color& color, int steps) {
 
+    float cx = center[0];
+    float cy = center[1];
+
+    float angle_step = Mathf::mod(Mathf::mod(radians_end, Mathf::tau) - Mathf::mod(radians_start, Mathf::tau), Mathf::tau) / (float)steps;
+
+    for (int i = 0; i < steps; i++) {
+
+        float angle0 = (float)i * angle_step + Mathf::mod(radians_start, Mathf::tau);
+        float angle1 = (float)(i + 1) * angle_step + Mathf::mod(radians_start, Mathf::tau);
+
+        push_quad(
+            cx + (radius - t) * sinf(angle0), cy - (radius - t) * cosf(angle0),
+            cx + radius * sinf(angle0), cy - radius * cosf(angle0),
+            cx + radius * sinf(angle1), cy - radius * cosf(angle1),
+            cx + (radius - t) * sinf(angle1), cy - (radius - t) * cosf(angle1),
+            0, 0, 0, 0, 0, 0, 0, 0,
+            color,
+            { 0, 0, 255 }
+        );
+
+    }
+
+}
 
 
 void SpriteBatch::draw_line(const Vec2 & start, const Vec2 & end, const Color & color, float t) {

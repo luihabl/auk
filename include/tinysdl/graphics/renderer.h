@@ -47,6 +47,7 @@ namespace TinySDL {
 
             //Draw semi-circle
             void draw_semi_circle_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps=15);
+            void draw_semi_circle_line(const Vec2& center, float radius, float radians_start, float radians_end, float t, const Color& color, int steps = 15);
 
             //Draw line
             void draw_line(const Vec2 & start, const Vec2 & end, const Color & color, float t);
