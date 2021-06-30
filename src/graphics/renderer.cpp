@@ -322,10 +322,7 @@ void SpriteBatch::draw_semi_circle_fill(const Vec2 & center, float radius, float
     float cx = center[0];
     float cy = center[1];
 
-    float angle_step = (Mathf::mod(radians_end, Mathf::tau) - Mathf::mod(radians_start, Mathf::tau)) / (float) steps;
-    if (angle_step < 0) {
-        angle_step = (Mathf::tau - (Mathf::mod(radians_start, Mathf::tau) - Mathf::mod(radians_end, Mathf::tau))) / (float) steps;
-    }
+    float angle_step = Mathf::mod(Mathf::mod(radians_end, Mathf::tau) - Mathf::mod(radians_start, Mathf::tau), Mathf::tau) / (float) steps;
 
     for(int i = 0; i < steps; i++) {
 
