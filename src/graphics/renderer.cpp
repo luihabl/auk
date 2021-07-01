@@ -218,6 +218,9 @@ void SpriteBatch::draw_round_rect_fill(const Rect & rect, float radius, const Co
     const float w = rect.w;
     const float h = rect.h;
 
+    radius = Mathf::clamp(radius, 0, std::min(0.5f*w, 0.5f*h));
+    
+
     draw_arc_fill({x + radius, y + h - radius}, radius, Mathf::rad_left, Mathf::rad_down, color, steps);
     draw_arc_fill({x + w - radius, y + h - radius}, radius, Mathf::rad_down, Mathf::rad_right, color, steps);
     draw_arc_fill({x + w - radius, y + radius}, radius, Mathf::rad_right, Mathf::rad_up, color, steps);

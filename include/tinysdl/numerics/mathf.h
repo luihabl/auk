@@ -16,7 +16,10 @@ namespace TinySDL::Mathf
 
     float mod(float a, float n);
 
+    float clamp(float v, float v_min, float v_max);
+
     float delta_angle(float a, float b);
+    
 } 
 
 
