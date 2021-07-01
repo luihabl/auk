@@ -7,6 +7,12 @@ namespace TinySDL::Mathf
     constexpr float tau = 2.0f * pi;
     constexpr float pi_2 = pi / 2.0f;
     constexpr float pi_4 = pi / 4.0f;
+    
+    constexpr float rad_right = 0.0f;
+    constexpr float rad_up = pi / 2.0f;
+    constexpr float rad_left = pi;
+    constexpr float rad_down = 3.0f * pi / 2.0f;
+
 
     float mod(float a, float n);
 

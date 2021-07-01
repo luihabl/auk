@@ -37,6 +37,10 @@ namespace TinySDL {
             void draw_rect_fill(const Rect & rect, const Color & color);
             void draw_rect_line(const Rect & rect, const Color & color, float t);
 
+            //Draw rounded rectangle
+            void draw_round_rect_fill(const Rect & rect, float radius, const Color & color);
+            // void draw_round_rect_line(const Rect & rect, float radius, float t, const Color & color);
+            
             //Draw triangle
             void draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color);
             void draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, float t, const Color & color) ;
@@ -46,8 +50,8 @@ namespace TinySDL {
             void draw_circle_line(const Vec2 & center, float radius, float t, const Color & color, int steps = 15); 
 
             //Draw semi-circle
-            void draw_semi_circle_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps=15);
-            void draw_semi_circle_line(const Vec2& center, float radius, float radians_start, float radians_end, float t, const Color& color, int steps = 15);
+            void draw_arc_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps=15);
+            void draw_arc_line(const Vec2& center, float radius, float radians_start, float radians_end, float t, const Color& color, int steps = 15);
 
             //Draw line
             void draw_line(const Vec2 & start, const Vec2 & end, const Color & color, float t);
