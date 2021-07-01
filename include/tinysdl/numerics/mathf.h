@@ -18,7 +18,8 @@ namespace TinySDL::Mathf
 
     float clamp(float v, float v_min, float v_max);
 
-    float delta_angle(float a, float b);
+    float delta_angle_min(float a, float b);
+    float delta_angle_counter_clockwise(float radians_start, float radians_end);
     
 } 
 

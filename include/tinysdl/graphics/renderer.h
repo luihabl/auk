@@ -39,7 +39,7 @@ namespace TinySDL {
 
             //Draw rounded rectangle
             void draw_round_rect_fill(const Rect & rect, float radius, const Color & color);
-            // void draw_round_rect_line(const Rect & rect, float radius, float t, const Color & color);
+            void draw_round_rect_line(const Rect & rect, float radius, float t, const Color & color);
             
             //Draw triangle
             void draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color);

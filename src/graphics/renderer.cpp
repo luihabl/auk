@@ -211,7 +211,7 @@ void SpriteBatch::draw_rect_line(const Rect & rect, const Color & color, float t
 
 void SpriteBatch::draw_round_rect_fill(const Rect & rect, float radius, const Color & color) {
 
-    const int steps = 20;
+    const int steps = 20; //TODO: calculate this or pass as an argument
 
     const float x = rect.x;
     const float y = rect.y;
@@ -220,6 +220,10 @@ void SpriteBatch::draw_round_rect_fill(const Rect & rect, float radius, const Co
 
     radius = Mathf::clamp(radius, 0, std::min(0.5f*w, 0.5f*h));
     
+    if (radius <= 0) {
+        draw_rect_fill(rect, color);
+        return;
+    }
 
     draw_arc_fill({x + radius, y + h - radius}, radius, Mathf::rad_left, Mathf::rad_down, color, steps);
     draw_arc_fill({x + w - radius, y + h - radius}, radius, Mathf::rad_down, Mathf::rad_right, color, steps);
@@ -229,6 +233,38 @@ void SpriteBatch::draw_round_rect_fill(const Rect & rect, float radius, const Co
     draw_rect_fill({x + radius, y, w - 2.0f * radius, h}, color);
     draw_rect_fill({x, y + radius, radius, h - 2.0f * radius}, color);
     draw_rect_fill({x + w - radius, y + radius, radius, h - 2.0f * radius}, color);
+}
+
+void SpriteBatch::draw_round_rect_line(const Rect & rect, float radius, float t, const Color & color) {
+    
+    const int steps = 20; //TODO: calculate this or pass as an argument
+
+    const float x = rect.x;
+    const float y = rect.y;
+    const float w = rect.w;
+    const float h = rect.h;
+
+    radius = Mathf::clamp(radius, 0, std::min(0.5f*w, 0.5f*h));
+    
+    if (radius <= 0) {
+        draw_rect_line(rect, color, t);
+        return;
+    }
+
+    if (t >= w || t >= h) {
+        draw_round_rect_fill(rect, radius, color);
+        return;
+    }
+
+    draw_arc_line({x + radius, y + h - radius}, radius, Mathf::rad_left, Mathf::rad_down, t, color, steps);
+    draw_arc_line({x + w - radius, y + h - radius}, radius, Mathf::rad_down, Mathf::rad_right, t, color, steps);
+    draw_arc_line({x + w - radius, y + radius}, radius, Mathf::rad_right, Mathf::rad_up, t, color, steps);
+    draw_arc_line({x + radius, y + radius}, radius, Mathf::rad_up, Mathf::rad_left, t, color, steps);
+
+    draw_rect_fill({x, y + radius, t, h - 2.0f * radius}, color);
+    draw_rect_fill({x + radius, y + h - t, w - 2.0f * radius, t}, color);
+    draw_rect_fill({x + w - t, y + radius, t, h - 2.0f * radius}, color);
+    draw_rect_fill({x + radius, y, w - 2.0f * radius, t}, color);
 }
 
 
@@ -346,7 +382,7 @@ void SpriteBatch::draw_arc_fill(const Vec2 & center, float radius, float radians
     float cx = center[0];
     float cy = center[1];
 
-    float angle_step = Mathf::mod(Mathf::mod(radians_end, Mathf::tau) - Mathf::mod(radians_start, Mathf::tau), Mathf::tau) / (float) steps;
+    float angle_step = Mathf::delta_angle_counter_clockwise(radians_start, radians_end) / (float) steps;
 
     for(int i = 0; i < steps; i++) {
 
@@ -370,7 +406,7 @@ void SpriteBatch::draw_arc_line(const Vec2& center, float radius, float radians_
     float cx = center[0];
     float cy = center[1];
 
-    float angle_step = Mathf::mod(Mathf::mod(radians_end, Mathf::tau) - Mathf::mod(radians_start, Mathf::tau), Mathf::tau) / (float)steps;
+    float angle_step = Mathf::delta_angle_counter_clockwise(radians_start, radians_end) / (float)steps;
 
     for (int i = 0; i < steps; i++) {
 
