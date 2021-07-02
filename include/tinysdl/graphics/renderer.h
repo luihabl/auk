@@ -63,7 +63,7 @@ namespace TinySDL {
 
             struct SubBatch {
                 unsigned int index_count = 0;
-                size_t index_offset = 0;
+                unsigned int index_offset = 0;
                 Texture * tex = nullptr;
             };
             

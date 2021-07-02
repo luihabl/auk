@@ -50,7 +50,7 @@ SpriteBatch::SpriteBatch() {
     glBindVertexArray(0);
 
     // ---- Initializing variables ----
-    transform = Mat3x2::identity;
+    clear();
 }
 
 SpriteBatch::~SpriteBatch() {
@@ -524,7 +524,7 @@ void SpriteBatch::render_sub_batch(const SubBatch & sb) {
     } 
         
     //Draw everything
-    glDrawElements(GL_TRIANGLES, (GLsizei) sb.index_count, GL_UNSIGNED_INT, (void*) (sizeof(size_t) * sb.index_offset));
+    glDrawElements(GL_TRIANGLES, (GLsizei) sb.index_count, GL_UNSIGNED_INT, (void*) (sizeof(unsigned int) * sb.index_offset));
     
 }
 
@@ -533,7 +533,10 @@ void SpriteBatch::render() {
     upload_data();
 
     glBindVertexArray(vao_id);
-
+    
+    for(const auto& sb: sub_batch_stack)
+        render_sub_batch(sb);
+        
     render_sub_batch(sub_batch);
 
     glBindVertexArray(0);
