@@ -59,8 +59,20 @@ SpriteBatch::~SpriteBatch() {
     glDeleteBuffers(1, &ebo_id);
 }
 
+void SpriteBatch::new_sub_batch() {
+    sub_batch_stack.push_back(sub_batch);
+    sub_batch.index_offset += sub_batch.index_count;
+    sub_batch.index_count = 0;
+    sub_batch.tex = nullptr;
+}
+
 void SpriteBatch::set_texture(Texture * tex) {
-    current_tex = tex;
+    
+    if(tex != sub_batch.tex && sub_batch.index_count > 0 && sub_batch.tex) {
+        new_sub_batch();
+    } 
+
+    sub_batch.tex = tex;    
 }
 
 void SpriteBatch::push_transform(const Mat3x2 & new_transform) {
@@ -87,10 +99,10 @@ void SpriteBatch::draw(const Rect & src, const Rect & dst, float rot, bool cente
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,
-        src.x / (float) current_tex->w, src.y / (float) current_tex->h,
-        (src.x + src.w) / (float) current_tex->w, src.y / (float) current_tex->h,
-        (src.x + src.w) / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
-        src.x / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
+        src.x / (float) sub_batch.tex->w, src.y / (float) sub_batch.tex->h,
+        (src.x + src.w) / (float) sub_batch.tex->w, src.y / (float) sub_batch.tex->h,
+        (src.x + src.w) / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
+        src.x / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
         Color::white,
         {255, 0, 0}
     );
@@ -108,10 +120,10 @@ void SpriteBatch::draw(const Rect & src, const Vec2 & pos) {
 
     push_quad(
         x, y, x + w, y, x + w, y + h, x, y + h,
-        src.x / (float) current_tex->w, src.y / (float) current_tex->h,
-        (src.x + src.w) / (float) current_tex->w, src.y / (float) current_tex->h,
-        (src.x + src.w) / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
-        src.x / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
+        src.x / (float) sub_batch.tex->w, src.y / (float) sub_batch.tex->h,
+        (src.x + src.w) / (float) sub_batch.tex->w, src.y / (float) sub_batch.tex->h,
+        (src.x + src.w) / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
+        src.x / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
         Color::white,
         {255, 0, 0}
     );
@@ -130,10 +142,10 @@ void SpriteBatch::draw(const Rect & src, const Vec2 & pos, const Vec2 & scale, f
 
     push_quad(
         0, 0, w, 0, w, h, 0, h,
-        src.x / (float) current_tex->w, src.y / (float) current_tex->h,
-        (src.x + src.w) / (float) current_tex->w, src.y / (float) current_tex->h,
-        (src.x + src.w) / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
-        src.x / (float) current_tex->w, (src.y + src.h) / (float) current_tex->h,
+        src.x / (float) sub_batch.tex->w, src.y / (float) sub_batch.tex->h,
+        (src.x + src.w) / (float) sub_batch.tex->w, src.y / (float) sub_batch.tex->h,
+        (src.x + src.w) / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
+        src.x / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
         Color::white,
         {255, 0, 0}
     );
@@ -452,6 +464,7 @@ inline void SpriteBatch::push_triangle(const float & x0, const float & y0, const
 
     const unsigned int n = (unsigned int) vertices.size();
     indices.insert(indices.end(), { n + 0, n + 2, n + 1 });
+    sub_batch.index_count += 3;
 
     push_vertex(x0, y0, uv_x0, uv_y0, color, cmix);
     push_vertex(x1, y1, uv_x1, uv_y1, color, cmix);
@@ -467,6 +480,7 @@ inline void SpriteBatch::push_quad(const float & x0, const float & y0, const flo
 
     const unsigned int n = (unsigned int) vertices.size();
     indices.insert(indices.end(), { n + 0, n + 2, n + 1, n + 0, n + 3,  n + 2 });
+    sub_batch.index_count += 6;
 
     push_vertex(x0, y0, uv_x0, uv_y0, color, cmix);
     push_vertex(x1, y1, uv_x1, uv_y1, color, cmix);
@@ -483,20 +497,9 @@ inline void SpriteBatch::push_vertex(const float & x, const float & y, const flo
     });
 }
 
-void SpriteBatch::render() {
-
+void SpriteBatch::upload_data() {
     glBindVertexArray(vao_id);
 
-    // Binding texture
-    if (!current_tex) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
-    else {
-        glActiveTexture(GL_TEXTURE0 + current_tex->tex_slot);
-        current_tex->bind();
-    } 
-        
     // Uploading vertices
     glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), vertices.data(), GL_DYNAMIC_DRAW);
@@ -505,13 +508,48 @@ void SpriteBatch::render() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), indices.data(), GL_DYNAMIC_DRAW);
 
+    glBindVertexArray(0);
+}
+
+void SpriteBatch::render_sub_batch(const SubBatch & sb) {
+    
+    // Binding texture
+    if (!sb.tex) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+    else {
+        glActiveTexture(GL_TEXTURE0 + sb.tex->tex_slot);
+        sb.tex->bind();
+    } 
+        
     //Draw everything
-    glDrawElements(GL_TRIANGLES, (GLsizei) indices.size(), GL_UNSIGNED_INT, (void*) 0);
+    glDrawElements(GL_TRIANGLES, (GLsizei) sb.index_count, GL_UNSIGNED_INT, (void*) (sizeof(size_t) * sb.index_offset));
+    
+}
+
+void SpriteBatch::render() {
+    
+    upload_data();
+
+    glBindVertexArray(vao_id);
+
+    render_sub_batch(sub_batch);
 
     glBindVertexArray(0);
 
+    clear();
+}
+
+void SpriteBatch::clear() {
+
     vertices.clear();
     indices.clear();
+    
     transform_stack.clear();
     transform = Mat3x2::identity;
+    
+    sub_batch_stack.clear();
+    sub_batch = SubBatch();
+
 }

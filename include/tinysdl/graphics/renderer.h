@@ -10,13 +10,6 @@
 #include <vector>
 
 namespace TinySDL {
-    
-    struct Vertex {
-        Vec2 pos;
-        Vec2 uv;
-        Color color;
-        ByteVec3 cmix;
-    };
 
     class SpriteBatch {
         public:
@@ -56,12 +49,29 @@ namespace TinySDL {
             //Draw line
             void draw_line(const Vec2 & start, const Vec2 & end, const Color & color, float t);
 
-
+            //Render everything
             void render();
 
         private:
+
+            struct Vertex {
+                Vec2 pos;
+                Vec2 uv;
+                Color color;
+                ByteVec3 cmix;
+            };
+
+            struct SubBatch {
+                unsigned int index_count = 0;
+                size_t index_offset = 0;
+                Texture * tex = nullptr;
+            };
+            
             Mat3x2 transform;
             std::vector<Mat3x2> transform_stack;
+
+            SubBatch sub_batch;
+            std::vector<SubBatch> sub_batch_stack;
 
             std::vector<Vertex> vertices;
             std::vector<unsigned int> indices;
@@ -70,7 +80,13 @@ namespace TinySDL {
             unsigned int vbo_id;
             unsigned int ebo_id;
 
-            Texture * current_tex = nullptr;
+            void new_sub_batch();
+            
+            void upload_data();
+            
+            void render_sub_batch(const SubBatch & sb);
+            
+            void clear();
 
             void push_vertex(const float & x, const float & y, const float & uv_x, const float & uv_y, const Color & color, const ByteVec3 & cmix);
             
@@ -86,5 +102,6 @@ namespace TinySDL {
                                const float & uv_x1, const float & uv_y1, 
                                const float & uv_x2, const float & uv_y2, 
                                const Color & color, const ByteVec3 & cmix);
+
     };
 }
