@@ -22,6 +22,7 @@ namespace TinySDL {
             Mat3x2 pop_transform();
 
             // Draw texture/sprite
+            void draw_tex(const Vec2 & pos);
             void draw_tex(const Rect & src, const Vec2 & pos);
             void draw_tex(const Rect & src, const Rect & dst, float rot, bool centered);
             void draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot = 0.0f, bool centered = false);

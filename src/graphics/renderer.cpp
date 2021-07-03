@@ -109,6 +109,20 @@ void BatchRenderer::draw_tex(const Rect & src, const Rect & dst, float rot, bool
     pop_transform();
 }
 
+void BatchRenderer::draw_tex(const Vec2 & pos) {
+
+    const float x = pos[0];
+    const float y = pos[1];
+    const float w  = (float) sub_batch.tex->w;
+    const float h  = (float) sub_batch.tex->h;
+
+    push_quad(
+        x, y, x + w, y, x + w, y + h, x, y + h,
+        0, 0, 1, 0, 1, 1, 0, 1,
+        Color::white,
+        {255, 0, 0}
+    );
+}
 
 void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos) {
 
@@ -126,7 +140,6 @@ void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos) {
         Color::white,
         {255, 0, 0}
     );
-
 }
 
 void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
