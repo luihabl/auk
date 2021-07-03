@@ -18,6 +18,7 @@ int main(int argc, char *argv[]) {
     Mat4x4 window_projection = LinAlg::ortho(0, (float) screen_w, (float) screen_h, 0, -1, 1);
     
     BatchRenderer renderer;
+    renderer.setup();
 
     Shader shader = Shader::default_sprite_shaders();
     shader.use().set_mat4x4("projection", window_projection); 

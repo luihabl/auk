@@ -13,8 +13,16 @@
 
 using namespace TinySDL;
 
-BatchRenderer::BatchRenderer() {
-    
+BatchRenderer::~BatchRenderer() {
+    if (initialized) {
+        glDeleteVertexArrays(1, &vao_id);
+        glDeleteBuffers(1, &vbo_id);
+        glDeleteBuffers(1, &ebo_id);
+    }
+}
+
+void BatchRenderer::setup() {
+
     glGenVertexArrays(1, &vao_id);
     
     glBindVertexArray(vao_id);
@@ -50,13 +58,11 @@ BatchRenderer::BatchRenderer() {
 
     // ---- Initializing variables ----
     clear();
+
+    initialized = true;
 }
 
-BatchRenderer::~BatchRenderer() {
-    glDeleteVertexArrays(1, &vao_id);
-    glDeleteBuffers(1, &vbo_id);
-    glDeleteBuffers(1, &ebo_id);
-}
+
 
 void BatchRenderer::new_sub_batch() {
     sub_batch_stack.push_back(sub_batch);

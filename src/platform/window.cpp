@@ -58,6 +58,10 @@ SDL_Window * Window::get_window() {
     return window;
 }
 
+void Window::get_drawable_size(int * w, int * h) {
+    SDL_GL_GetDrawableSize(window, w, h);
+}
+
 SDL_GLContext * Window::get_context() {
     return &context;
 }

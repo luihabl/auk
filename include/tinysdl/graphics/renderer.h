@@ -13,8 +13,10 @@ namespace TinySDL {
 
     class BatchRenderer {
         public:
-            BatchRenderer();
+            BatchRenderer() = default;
             ~BatchRenderer();
+
+            void setup();
             
             void set_texture(Texture * tex);
             
@@ -77,6 +79,7 @@ namespace TinySDL {
             std::vector<Vertex> vertices;
             std::vector<unsigned int> indices;
 
+            bool initialized = false;
             unsigned int vao_id;
             unsigned int vbo_id;
             unsigned int ebo_id;
