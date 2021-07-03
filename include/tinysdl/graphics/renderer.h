@@ -11,10 +11,10 @@
 
 namespace TinySDL {
 
-    class SpriteBatch {
+    class BatchRenderer {
         public:
-            SpriteBatch();
-            ~SpriteBatch();
+            BatchRenderer();
+            ~BatchRenderer();
             
             void set_texture(Texture * tex);
             
@@ -43,7 +43,7 @@ namespace TinySDL {
             void draw_circle_line(const Vec2 & center, float radius, float t, const Color & color, int steps = 15); 
 
             //Draw semi-circle
-            void draw_arc_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps=15);
+            void draw_arc_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps = 15);
             void draw_arc_line(const Vec2& center, float radius, float radians_start, float radians_end, float t, const Color& color, int steps = 15);
 
             //Draw line

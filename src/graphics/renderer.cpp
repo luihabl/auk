@@ -13,7 +13,7 @@
 
 using namespace TinySDL;
 
-SpriteBatch::SpriteBatch() {
+BatchRenderer::BatchRenderer() {
     
     glGenVertexArrays(1, &vao_id);
     
@@ -52,20 +52,20 @@ SpriteBatch::SpriteBatch() {
     clear();
 }
 
-SpriteBatch::~SpriteBatch() {
+BatchRenderer::~BatchRenderer() {
     glDeleteVertexArrays(1, &vao_id);
     glDeleteBuffers(1, &vbo_id);
     glDeleteBuffers(1, &ebo_id);
 }
 
-void SpriteBatch::new_sub_batch() {
+void BatchRenderer::new_sub_batch() {
     sub_batch_stack.push_back(sub_batch);
     sub_batch.index_offset += sub_batch.index_count;
     sub_batch.index_count = 0;
     sub_batch.tex = nullptr;
 }
 
-void SpriteBatch::set_texture(Texture * tex) {
+void BatchRenderer::set_texture(Texture * tex) {
     
     if(tex != sub_batch.tex && sub_batch.index_count > 0 && sub_batch.tex) {
         new_sub_batch();
@@ -74,19 +74,19 @@ void SpriteBatch::set_texture(Texture * tex) {
     sub_batch.tex = tex;    
 }
 
-void SpriteBatch::push_transform(const Mat3x2 & new_transform) {
+void BatchRenderer::push_transform(const Mat3x2 & new_transform) {
     transform_stack.push_back(transform);
     transform = LinAlg2D::matmul(new_transform, transform);
 }
 
-Mat3x2 SpriteBatch::pop_transform() {
+Mat3x2 BatchRenderer::pop_transform() {
     const Mat3x2 last_transform = transform;
     transform = transform_stack.back();
     transform_stack.pop_back();
     return last_transform;
 }
 
-void SpriteBatch::draw_tex(const Rect & src, const Rect & dst, float rot, bool centered) {
+void BatchRenderer::draw_tex(const Rect & src, const Rect & dst, float rot, bool centered) {
 
     const float w  = src.w;
     const float h  = src.h;
@@ -110,7 +110,7 @@ void SpriteBatch::draw_tex(const Rect & src, const Rect & dst, float rot, bool c
 }
 
 
-void SpriteBatch::draw_tex(const Rect & src, const Vec2 & pos) {
+void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos) {
 
     const float x = pos[0];
     const float y = pos[1];
@@ -129,7 +129,7 @@ void SpriteBatch::draw_tex(const Rect & src, const Vec2 & pos) {
 
 }
 
-void SpriteBatch::draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
+void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
 
     const float w  = src.w;
     const float h  = src.h;
@@ -152,7 +152,7 @@ void SpriteBatch::draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & scal
     pop_transform();
 }
 
-void SpriteBatch::draw_rect_fill(const Rect & rect, const Color & color) {
+void BatchRenderer::draw_rect_fill(const Rect & rect, const Color & color) {
     
     const float x = rect.x;
     const float y = rect.y;
@@ -167,7 +167,7 @@ void SpriteBatch::draw_rect_fill(const Rect & rect, const Color & color) {
     );
 }
 
-void SpriteBatch::draw_rect_line(const Rect & rect, const Color & color, float t) {
+void BatchRenderer::draw_rect_line(const Rect & rect, const Color & color, float t) {
     
     const float x = rect.x;
     const float y = rect.y;
@@ -220,7 +220,7 @@ void SpriteBatch::draw_rect_line(const Rect & rect, const Color & color, float t
     ); 
 }
 
-void SpriteBatch::draw_round_rect_fill(const Rect & rect, float radius, const Color & color) {
+void BatchRenderer::draw_round_rect_fill(const Rect & rect, float radius, const Color & color) {
 
     const int steps = 20; //TODO: calculate this or pass as an argument
 
@@ -246,7 +246,7 @@ void SpriteBatch::draw_round_rect_fill(const Rect & rect, float radius, const Co
     draw_rect_fill({x + w - radius, y + radius, radius, h - 2.0f * radius}, color);
 }
 
-void SpriteBatch::draw_round_rect_line(const Rect & rect, float radius, float t, const Color & color) {
+void BatchRenderer::draw_round_rect_line(const Rect & rect, float radius, float t, const Color & color) {
     
     const int steps = 20; //TODO: calculate this or pass as an argument
 
@@ -279,7 +279,7 @@ void SpriteBatch::draw_round_rect_line(const Rect & rect, float radius, float t,
 }
 
 
-void SpriteBatch::draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color) {
+void BatchRenderer::draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, const Color & color) {
 
     push_triangle(
         p0[0], p0[1], p1[0], p1[1], p2[0], p2[1],
@@ -289,7 +289,7 @@ void SpriteBatch::draw_triangle_fill(const Vec2 & p0, const Vec2 & p1, const Vec
     );
 }
 
-void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, float t, const Color & color) {
+void BatchRenderer::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec2 & p2, float t, const Color & color) {
 
     Vec2 v01 = (p1 - p0).normalized(); 
     Vec2 v02 = (p2 - p0).normalized();
@@ -339,7 +339,7 @@ void SpriteBatch::draw_triangle_line(const Vec2 & p0, const Vec2 & p1, const Vec
 
 }
 
-void SpriteBatch::draw_circle_fill(const Vec2 & center, float radius, const Color & color, int steps) {
+void BatchRenderer::draw_circle_fill(const Vec2 & center, float radius, const Color & color, int steps) {
 
     float cx = center[0];
     float cy = center[1];
@@ -360,7 +360,7 @@ void SpriteBatch::draw_circle_fill(const Vec2 & center, float radius, const Colo
     }
 }
 
-void SpriteBatch::draw_circle_line(const Vec2 & center, float radius, float t, const Color & color, int steps) {
+void BatchRenderer::draw_circle_line(const Vec2 & center, float radius, float t, const Color & color, int steps) {
 
     if (t >= radius) {
         draw_circle_fill(center, radius, color);
@@ -388,7 +388,7 @@ void SpriteBatch::draw_circle_line(const Vec2 & center, float radius, float t, c
 }
 
 //Draws filled arc in counter-clockwise direction
-void SpriteBatch::draw_arc_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps) {
+void BatchRenderer::draw_arc_fill(const Vec2 & center, float radius, float radians_start, float radians_end, const Color & color, int steps) {
 
     float cx = center[0];
     float cy = center[1];
@@ -412,7 +412,7 @@ void SpriteBatch::draw_arc_fill(const Vec2 & center, float radius, float radians
 }
 
 //Draws arc in counter-clockwise direction
-void SpriteBatch::draw_arc_line(const Vec2& center, float radius, float radians_start, float radians_end, float t, const Color& color, int steps) {
+void BatchRenderer::draw_arc_line(const Vec2& center, float radius, float radians_start, float radians_end, float t, const Color& color, int steps) {
 
     float cx = center[0];
     float cy = center[1];
@@ -438,7 +438,7 @@ void SpriteBatch::draw_arc_line(const Vec2& center, float radius, float radians_
 }
 
 
-void SpriteBatch::draw_line(const Vec2 & start, const Vec2 & end, const Color & color, float t) {
+void BatchRenderer::draw_line(const Vec2 & start, const Vec2 & end, const Color & color, float t) {
 
     const Vec2 v = (end - start).normalized();
     const Vec2 normal{0.5f * t * v[1], - 0.5f * t * v[0]};
@@ -454,7 +454,7 @@ void SpriteBatch::draw_line(const Vec2 & start, const Vec2 & end, const Color & 
     ); 
 }
 
-inline void SpriteBatch::push_triangle(const float & x0, const float & y0, const float & x1, 
+inline void BatchRenderer::push_triangle(const float & x0, const float & y0, const float & x1, 
                                        const float & y1, const float & x2, const float & y2, 
                                        const float & uv_x0, const float & uv_y0, 
                                        const float & uv_x1, const float & uv_y1, 
@@ -471,7 +471,7 @@ inline void SpriteBatch::push_triangle(const float & x0, const float & y0, const
 
 }
 
-inline void SpriteBatch::push_quad(const float & x0, const float & y0, const float & x1, const float & y1, 
+inline void BatchRenderer::push_quad(const float & x0, const float & y0, const float & x1, const float & y1, 
                                    const float & x2, const float & y2, const float & x3, const float & y3, 
                                    const float & uv_x0, const float & uv_y0, const float & uv_x1, const float & uv_y1, 
                                    const float & uv_x2, const float & uv_y2, const float & uv_x3, const float & uv_y3, 
@@ -487,7 +487,7 @@ inline void SpriteBatch::push_quad(const float & x0, const float & y0, const flo
     push_vertex(x3, y3, uv_x3, uv_y3, color, cmix);
 }
 
-inline void SpriteBatch::push_vertex(const float & x, const float & y, const float & uv_x, const float & uv_y, 
+inline void BatchRenderer::push_vertex(const float & x, const float & y, const float & uv_x, const float & uv_y, 
                                      const Color & color, const ByteVec3 & cmix) {
     vertices.push_back({
         {transform[0] * x +  transform[2] * y + transform[4],
@@ -496,7 +496,7 @@ inline void SpriteBatch::push_vertex(const float & x, const float & y, const flo
     });
 }
 
-void SpriteBatch::upload_data() {
+void BatchRenderer::upload_data() {
     glBindVertexArray(vao_id);
 
     // Uploading vertices
@@ -510,7 +510,7 @@ void SpriteBatch::upload_data() {
     glBindVertexArray(0);
 }
 
-void SpriteBatch::render_sub_batch(const SubBatch & sb) {
+void BatchRenderer::render_sub_batch(const SubBatch & sb) {
     
     // Binding texture
     if (!sb.tex) {
@@ -527,7 +527,7 @@ void SpriteBatch::render_sub_batch(const SubBatch & sb) {
     
 }
 
-void SpriteBatch::render() {
+void BatchRenderer::render() {
     
     upload_data();
 
@@ -543,7 +543,7 @@ void SpriteBatch::render() {
     clear();
 }
 
-void SpriteBatch::clear() {
+void BatchRenderer::clear() {
 
     vertices.clear();
     indices.clear();
