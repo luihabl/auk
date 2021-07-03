@@ -1,5 +1,5 @@
 # TinySDL
-A minimal C++ toolset for 2D games using SDL and OpenGL. 
+A minimal C++ toolset for 2D games using SDL2 + OpenGL. 
 
 
 ## Usage example
