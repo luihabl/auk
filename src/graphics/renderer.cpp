@@ -2,7 +2,6 @@
 #include <cmath>
 
 #include "tinysdl/graphics/renderer.h"
-#include "tinysdl/graphics/shader.h"
 #include "tinysdl/graphics/texture.h"
 #include "tinysdl/graphics/color.h"
 
@@ -87,7 +86,7 @@ Mat3x2 SpriteBatch::pop_transform() {
     return last_transform;
 }
 
-void SpriteBatch::draw(const Rect & src, const Rect & dst, float rot, bool centered) {
+void SpriteBatch::draw_tex(const Rect & src, const Rect & dst, float rot, bool centered) {
 
     const float w  = src.w;
     const float h  = src.h;
@@ -111,7 +110,7 @@ void SpriteBatch::draw(const Rect & src, const Rect & dst, float rot, bool cente
 }
 
 
-void SpriteBatch::draw(const Rect & src, const Vec2 & pos) {
+void SpriteBatch::draw_tex(const Rect & src, const Vec2 & pos) {
 
     const float x = pos[0];
     const float y = pos[1];
@@ -130,7 +129,7 @@ void SpriteBatch::draw(const Rect & src, const Vec2 & pos) {
 
 }
 
-void SpriteBatch::draw(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
+void SpriteBatch::draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
 
     const float w  = src.w;
     const float h  = src.h;
