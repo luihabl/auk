@@ -43,6 +43,10 @@ SDL_Window * Window::init(const char * name, int w, int h, int x, int y, uint32_
     return window;
 }
 
+void Window::swap_buffers() {
+    SDL_GL_SwapWindow(window);
+}
+
 void Window::close() {
 	SDL_DestroyWindow(window);
 	window = nullptr;
