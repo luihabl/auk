@@ -38,6 +38,7 @@ namespace TinySDL {
     typedef Vec<float, 2> Vec2;
     typedef Vec<float, 3> Vec3;
     typedef Vec<float, 4> Vec4;
+    typedef Vec<int, 2> IVec2;
     typedef Vec<uint8_t, 3> ByteVec3;
     typedef Vec<uint8_t, 4> ByteVec4;
 
