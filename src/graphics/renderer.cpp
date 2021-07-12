@@ -92,7 +92,7 @@ Mat3x2 BatchRenderer::pop_transform() {
     return last_transform;
 }
 
-void BatchRenderer::draw_tex(const Rect & src, const Rect & dst, float rot, bool centered) {
+void BatchRenderer::draw_tex(const Rect & src, const Rect & dst, float rot, bool centered, const Color & color) {
 
     const float w  = src.w;
     const float h  = src.h;
@@ -108,14 +108,14 @@ void BatchRenderer::draw_tex(const Rect & src, const Rect & dst, float rot, bool
         (src.x + src.w) / (float) sub_batch.tex->w, src.y / (float) sub_batch.tex->h,
         (src.x + src.w) / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
         src.x / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
-        Color::white,
+        color,
         {255, 0, 0}
     );
 
     pop_transform();
 }
 
-void BatchRenderer::draw_tex(const Vec2 & pos) {
+void BatchRenderer::draw_tex(const Vec2 & pos, const Color & color) {
 
     const float x = pos[0];
     const float y = pos[1];
@@ -125,12 +125,12 @@ void BatchRenderer::draw_tex(const Vec2 & pos) {
     push_quad(
         x, y, x + w, y, x + w, y + h, x, y + h,
         0, 0, 1, 0, 1, 1, 0, 1,
-        Color::white,
+        color,
         {255, 0, 0}
     );
 }
 
-void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos) {
+void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos, const Color & color) {
 
     const float x = pos[0];
     const float y = pos[1];
@@ -143,12 +143,12 @@ void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos) {
         (src.x + src.w) / (float) sub_batch.tex->w, src.y / (float) sub_batch.tex->h,
         (src.x + src.w) / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
         src.x / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
-        Color::white,
+        color,
         {255, 0, 0}
     );
 }
 
-void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot, bool centered) {
+void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot, bool centered, const Color & color) {
 
     const float w  = src.w;
     const float h  = src.h;
@@ -164,12 +164,33 @@ void BatchRenderer::draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & sc
         (src.x + src.w) / (float) sub_batch.tex->w, src.y / (float) sub_batch.tex->h,
         (src.x + src.w) / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
         src.x / (float) sub_batch.tex->w, (src.y + src.h) / (float) sub_batch.tex->h,
-        Color::white,
+        color,
         {255, 0, 0}
     );
 
     pop_transform();
 }
+
+void BatchRenderer::draw_tex(const TexRegion & reg, const Vec2 & pos, const Color & color) {
+
+    set_texture(reg.tex);
+
+    const float x = pos[0];
+    const float y = pos[1];
+    const float w  = reg.w;
+    const float h  = reg.h;
+
+    push_quad(
+        x, y, x + w, y, x + w, y + h, x, y + h,
+        reg.uv[0][0], reg.uv[0][1],
+        reg.uv[1][0], reg.uv[1][1],
+        reg.uv[2][0], reg.uv[2][1],
+        reg.uv[3][0], reg.uv[3][1],
+        color,
+        {255, 0, 0}
+    );
+}
+
 
 void BatchRenderer::draw_rect_fill(const Rect & rect, const Color & color) {
     

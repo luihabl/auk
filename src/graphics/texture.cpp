@@ -6,16 +6,16 @@
 
 using namespace TinySDL;
 
-Sprite::Sprite(const char * path) {
+Image::Image(const char * path) {
     this->data = File::load_image(path, &this->w, &this->h, &this->n_comp);
     if(!data) Log::error("File does not exist: %s", path);
 }
 
-Sprite::~Sprite() {
+Image::~Image() {
     if(data) free_image_data();
 }
 
-void Sprite::free_image_data() {
+void Image::free_image_data() {
     File::free_image(data);
     data = nullptr;
 }
@@ -44,12 +44,12 @@ Texture::Texture(int w, int h, int n_comp, unsigned char * data) : w(w), h(h){
 }
 
 
-Texture Texture::from_sprite(Sprite * spr) {
+Texture Texture::from_sprite(Image * spr) {
     return Texture(spr->w, spr->h, spr->n_comp, spr->data);
 }
 
 Texture Texture::from_file(const char * path) {
-    Sprite spr(path);
+    Image spr(path);
     return Texture(spr.w, spr.h, spr.n_comp, spr.data);
 }
 
