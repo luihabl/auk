@@ -4,6 +4,7 @@
 
 #include "tinysdl/platform/window.h"
 #include "tinysdl/platform/log.h"
+#include "tinysdl/platform/file.h"
 #include "tinysdl/platform/time.h"
 
 #include "tinysdl/graphics/graphics.h"
