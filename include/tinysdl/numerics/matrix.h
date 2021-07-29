@@ -17,7 +17,15 @@ namespace TinySDL {
         Matrix normalized();
         T length();
         T distance_to(const Matrix<T, M, N> & other) const;
-        
+
+        template <typename G>
+        Matrix<G, M, N> cast_to() const {
+            Matrix<G, M, N> res;
+            for(size_t i = 0; i < M * N; i++)
+                res.data[i] = (G) data[i];
+                
+            return res;
+        }
 
         void fill(T val) {std::fill_n(data, M * N, val);}
 
