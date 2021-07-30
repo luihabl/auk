@@ -31,6 +31,7 @@ namespace TinySDL {
             void draw_tex(const Rect & src, const Vec2 & pos, const Vec2 & scale, float rot = 0.0f, bool centered = false, const Color & color = Color::white);
             
             void draw_tex(const TexRegion & reg, const Vec2 & pos, const Color & color = Color::white);
+            void draw_tex(const TexRegion & reg, const Color & color = Color::white);
 
 
             //Draw rectangle

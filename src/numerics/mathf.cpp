@@ -21,3 +21,7 @@ float Mathf::clamp(float v, float v_min, float v_max) {
   return t > v_max ? v_max : t;
 }
 
+float Mathf::sign(float v) {
+    if(v == 0) return 0;
+    else return v / abs(v);
+}

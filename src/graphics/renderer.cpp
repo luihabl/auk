@@ -191,6 +191,23 @@ void BatchRenderer::draw_tex(const TexRegion & reg, const Vec2 & pos, const Colo
     );
 }
 
+void BatchRenderer::draw_tex(const TexRegion & reg, const Color & color) {
+
+    set_texture(reg.tex);
+
+    const float w  = reg.w;
+    const float h  = reg.h;
+
+    push_quad(
+        0, 0, w, 0, w, h, 0, h,
+        reg.uv[0][0], reg.uv[0][1],
+        reg.uv[1][0], reg.uv[1][1],
+        reg.uv[2][0], reg.uv[2][1],
+        reg.uv[3][0], reg.uv[3][1],
+        color,
+        {255, 0, 0}
+    );
+}
 
 void BatchRenderer::draw_rect_fill(const Rect & rect, const Color & color) {
     

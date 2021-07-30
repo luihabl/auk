@@ -20,6 +20,8 @@ namespace TinySDL::Mathf
 
     float delta_angle_min(float a, float b);
     float delta_angle_counter_clockwise(float radians_start, float radians_end);
+
+    float sign(float v);
     
 } 
 
