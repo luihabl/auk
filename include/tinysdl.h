@@ -6,6 +6,7 @@
 #include "tinysdl/platform/log.h"
 #include "tinysdl/platform/file.h"
 #include "tinysdl/platform/time.h"
+#include "tinysdl/platform/type_id.h"
 
 #include "tinysdl/graphics/graphics.h"
 #include "tinysdl/graphics/shader.h"
