@@ -16,6 +16,19 @@ namespace TinySDL{
 
         operator Vec4() const {return Vec4{x, y, w, h};}
         
+        bool overlaps(const TRect & o) {
+            return  (x < (o.x + o.w)) && ((x + w) > o.x) &&
+                    (y < (o.y + o.h)) && ((y + h) > o.y);
+        }
+
+        TRect operator+(const Vec<T, 2> & vec) {
+            return {x + vec[0] , y + vec[1], w, h};
+        }
+
+        template <typename G>
+        TRect<G> cast_to() const {
+            return {(G) x, (G) y, (G) w, (G) h};
+        }
     };
 
     typedef TRect<float> Rect;
