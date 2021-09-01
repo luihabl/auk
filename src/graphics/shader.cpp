@@ -127,6 +127,10 @@ Shader Shader::default_sprite_shaders() {
     return from_source(default_vertex_src, default_frag_src);
 }
 
+void Shader::set_float(const char * name, const float & value) const {
+    glUniform1f(glGetUniformLocation(this->id, name), value);
+}
+
 void Shader::set_int(const char * name, const int & value) const {
     glUniform1i(glGetUniformLocation(this->id, name), value);
 }
