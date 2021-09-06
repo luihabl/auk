@@ -6,22 +6,23 @@ namespace TinySDL
     struct Type {
 
     private:
-        unsigned int id;
-        static inline unsigned int type_count = 0;
+        size_t id;
+        static inline size_t type_count = 0;
         
-        Type(unsigned int i) { id = i; }
+        Type(size_t i) { id = i; }
 
     public: 
         Type() = default;
         
         bool operator== (const Type & other){return id == other.id;}
         bool operator!= (const Type & other){return id != other.id;}
+        operator size_t() const {return id;}
 
-        static unsigned int count() {return type_count;}
+        static size_t count() {return type_count;}
         
         template<typename T>
         static Type type_of() {
-            static const unsigned int _id = type_count++;
+            static const size_t _id = type_count++;
             return Type(_id);    
         }
     };
