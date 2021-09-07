@@ -131,6 +131,10 @@ void Shader::set_float(const char * name, const float & value) const {
     glUniform1f(glGetUniformLocation(this->id, name), value);
 }
 
+void Shader::set_double(const char * name, const double & value) const {
+    glUniform1d(glGetUniformLocation(this->id, name), value);
+}
+
 void Shader::set_int(const char * name, const int & value) const {
     glUniform1i(glGetUniformLocation(this->id, name), value);
 }
@@ -145,4 +149,8 @@ void Shader::set_vec2(const char * name, const Vec2 & vec) const {
 
 void Shader::set_vec3(const char * name, const Vec3 & vec) const {
     glUniform3f(glGetUniformLocation(this->id, name), vec[0], vec[1], vec[2]);
+}
+
+void Shader::set_dvec2(const char * name, const DVec2 & vec) const {
+    glUniform2d(glGetUniformLocation(this->id, name), vec[0], vec[1]);
 }
