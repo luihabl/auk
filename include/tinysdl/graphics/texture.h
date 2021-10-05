@@ -2,6 +2,8 @@
 
 #include "tinysdl/numerics/rect.h"
 
+#include <algorithm>
+
 namespace TinySDL {
 
     struct Image {
@@ -46,7 +48,7 @@ namespace TinySDL {
         float h = 0;
 
         void set_src(const Rect & src) {
-            // src_rect = src;
+
             w = src.w;
             h = src.h;
 
@@ -62,7 +64,18 @@ namespace TinySDL {
             }
         }
 
-    // private:
-    //     Rect src_rect;
+
+        void flip_x()
+        {
+            std::swap(uv[0], uv[1]);
+            std::swap(uv[2], uv[3]);
+        }
+
+        void flip_y()
+        {
+            std::swap(uv[0], uv[3]);
+            std::swap(uv[1], uv[2]);
+        }
+
     };
 }
