@@ -82,7 +82,7 @@ void BatchRenderer::set_texture(Texture * tex) {
 
 void BatchRenderer::push_transform(const Mat3x2 & new_transform) {
     transform_stack.push_back(transform);
-    transform = LinAlg2D::matmul(new_transform, transform);
+    transform = LinAlg2D::matmul(transform, new_transform);
 }
 
 Mat3x2 BatchRenderer::pop_transform() {
