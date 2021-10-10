@@ -21,6 +21,11 @@ namespace TinySDL{
                     (y < (o.y + o.h)) && ((y + h) > o.y);
         }
 
+        bool contains(const Vec<T, 2>& point) {
+            return (    point[0] >= x && point[0] < (x + w)
+                    &&  point[1] >= y && point[1] < (y + h));
+        }
+
         TRect operator+(const Vec<T, 2> & vec) {
             return {x + vec[0] , y + vec[1], w, h};
         }
