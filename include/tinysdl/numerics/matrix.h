@@ -73,6 +73,10 @@ namespace TinySDL {
     template <typename T, size_t M, size_t N>
     inline Matrix<T, M, N> Matrix<T, M, N>::normalized() {
         T len = length();
+
+        if (len == 0)
+            return Matrix<T, M, N>::zeros;
+
         return *this / len;
     }
 
@@ -155,6 +159,13 @@ namespace TinySDL {
         for (size_t i = 0; i < M * N; i++) 
             result[i] = other[i] / val;
         return result;
+    }
+
+    template <typename T, size_t M, size_t N>
+    inline Matrix<T, M, N>& operator+= (Matrix<T, M, N>& a, const Matrix<T, M, N>& b) { 
+        for (size_t i = 0; i < M * N; i++)
+            a[i] += b[i];
+        return a;
     }
 
     namespace MatrixInit {
