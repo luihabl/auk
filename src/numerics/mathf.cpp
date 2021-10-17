@@ -1,4 +1,5 @@
 #include <cmath>
+#include <algorithm>
 
 #include "tinysdl/numerics/mathf.h"
 
@@ -19,4 +20,11 @@ float Mathf::delta_angle_counter_clockwise(float radians_start, float radians_en
 float Mathf::clamp(float v, float v_min, float v_max) {
   const float t = v < v_min ? v_min : v;
   return t > v_max ? v_max : t;
+}
+
+float Mathf::approach(float x, float target, float delta) {
+    if (x < target)
+        return std::min(x + delta, target);
+    else
+        return std::max(x - delta, target);
 }
