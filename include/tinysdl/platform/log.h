@@ -20,7 +20,7 @@ namespace TinySDL {
         };
 
         void set_level(Level level);
-        void setup();
+        void setup(Level level = Level::Info);
 
         void print(const char * msg, va_list args);
         void print(const char * msg, ...);

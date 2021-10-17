@@ -21,7 +21,8 @@ void Log::set_level(Log::Level level) {
     current_log_level = level;
 }
 
-void Log::setup() {
+void Log::setup(Level level) {
+    set_level(level);
     #ifdef _WIN32
         HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
         DWORD dwMode = 0;

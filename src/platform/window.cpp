@@ -17,7 +17,7 @@ namespace {
 SDL_Window * Window::init(const char * name, int w, int h, int x, int y, uint32_t flags, bool use_vsync) {
     
     //Setting up logging so that it has colors on Windows
-    Log::setup();
+    Log::setup(Log::Level::Debug);
     
     //Initializing SDL
     SDL_Init(SDL_INIT_VIDEO);
@@ -37,7 +37,9 @@ SDL_Window * Window::init(const char * name, int w, int h, int x, int y, uint32_
     context = SDL_GL_CreateContext( window );
     SDL_GL_MakeCurrent(window, context);
     Graphics::load_functions(SDL_GL_GetProcAddress);
+#ifdef DEBUG_OPENGL
     Graphics::setup_debug();
+#endif
     SDL_GL_SetSwapInterval(use_vsync); //using VSync
 
     return window;
