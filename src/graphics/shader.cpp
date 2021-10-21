@@ -7,7 +7,7 @@
 #include "tinysdl/platform/file.h"
 #include "tinysdl/numerics/matrix.h"
 
-constexpr const char* default_vertex_src = "#version 460 core\n\
+constexpr const char* default_vertex_src = "#version 330 core\n\
 layout (location = 0) in vec2 vertex_pos;\n\
 layout (location = 1) in vec2 vertex_uv;\n\
 layout (location = 2) in vec4 vertex_color;\n\
@@ -24,7 +24,7 @@ void main()\n\
     gl_Position = projection * vec4(vertex_pos.xy, 0.0, 1.0);\n\
 }";
 
-constexpr const char* default_frag_src = "#version 460 core\n\
+constexpr const char* default_frag_src = "#version 330 core\n\
 in vec2 uv;\n\
 in vec4 color;\n\
 in vec3 cmix;\n\

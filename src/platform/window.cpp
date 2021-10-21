@@ -4,8 +4,8 @@
 #include "tinysdl/platform/log.h"
 #include "tinysdl/graphics/graphics.h"
 
-#define OPENGL_VERSION_MAJOR 4
-#define OPENGL_VERSION_MINOR 6
+#define OPENGL_VERSION_MAJOR 3
+#define OPENGL_VERSION_MINOR 3
 
 using namespace TinySDL;
 
