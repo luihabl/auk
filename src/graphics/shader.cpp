@@ -76,7 +76,7 @@ unsigned int Shader::add(const char* src, unsigned int type) {
 
 void Shader::compile_all(const char* vertex_src, const char* frag_src, const char*  geom_src) {
     
-    unsigned int id_vertex, id_frag, id_geom;
+    unsigned int id_vertex, id_frag, id_geom=0;
 
     this->id = glCreateProgram();
 

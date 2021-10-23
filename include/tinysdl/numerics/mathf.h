@@ -18,20 +18,24 @@ namespace TinySDL::Mathf
 
     float mod(float a, float n);
 
-    float clamp(float v, float v_min, float v_max);
     float approach(float x, float target, float delta);
 
     float delta_angle_min(float a, float b);
     float delta_angle_counter_clockwise(float radians_start, float radians_end);
 
-
+    
     template<typename T>
-    T sign(T v) {
+    inline T sign(T v) {
         if(v == 0) return 0;
         else return v / abs(v);
     }
 
-    
+    template <typename T>
+    inline T clamp(T v, T v_min, T v_max) {
+        const T t = v < v_min ? v_min : v;
+        return t > v_max ? v_max : t;
+    }
+
 } 
 
 

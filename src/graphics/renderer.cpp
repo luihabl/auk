@@ -286,7 +286,7 @@ void BatchRenderer::draw_round_rect_fill(const Rect & rect, float radius, const 
     const float w = rect.w;
     const float h = rect.h;
 
-    radius = Mathf::clamp(radius, 0, std::min(0.5f*w, 0.5f*h));
+    radius = Mathf::clamp(radius, 0.0f, std::min(0.5f*w, 0.5f*h));
     
     if (radius <= 0) {
         draw_rect_fill(rect, color);
@@ -312,7 +312,7 @@ void BatchRenderer::draw_round_rect_line(const Rect & rect, float radius, float 
     const float w = rect.w;
     const float h = rect.h;
 
-    radius = Mathf::clamp(radius, 0, std::min(0.5f*w, 0.5f*h));
+    radius = Mathf::clamp(radius, 0.0f, std::min(0.5f*w, 0.5f*h));
     
     if (radius <= 0) {
         draw_rect_line(rect, color, t);

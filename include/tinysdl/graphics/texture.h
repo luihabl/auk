@@ -21,7 +21,7 @@ namespace TinySDL {
         Texture() = default;
         Texture(int w, int h, int n_comp, unsigned char * data);
         
-        unsigned int id;
+        unsigned int id = 0;
         unsigned int tex_slot = 0;
         
         int w = 0, h = 0;

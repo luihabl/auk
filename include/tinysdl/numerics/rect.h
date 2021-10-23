@@ -16,7 +16,7 @@ namespace TinySDL{
 
         operator Vec4() const {return Vec4{x, y, w, h};}
         
-        bool overlaps(const TRect & o) {
+        bool overlaps(const TRect & o) const {
             return  (x < (o.x + o.w)) && ((x + w) > o.x) &&
                     (y < (o.y + o.h)) && ((y + h) > o.y);
         }
@@ -31,7 +31,7 @@ namespace TinySDL{
         }
 
         template <typename G>
-        TRect<G> cast_to() const {
+        TRect<G> cast() const {
             return {(G) x, (G) y, (G) w, (G) h};
         }
     };

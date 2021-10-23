@@ -15,7 +15,7 @@ void Graphics::load_functions(GraphicsLoaderFunction loader_func) {
 }
 
 
-void APIENTRY gl_debug_callback(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message, const void *user_param) {
+void APIENTRY gl_debug_callback(GLenum source, GLenum type, unsigned int id, GLenum severity, [[maybe_unused]] GLsizei length, const char *message, [[maybe_unused]] const void *user_param) {
 
     if(id == 131169 || id == 131185 || id == 131218 || id == 131204) return; 
     
