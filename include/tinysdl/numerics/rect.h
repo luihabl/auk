@@ -34,6 +34,10 @@ namespace TinySDL{
         TRect<G> cast() const {
             return {(G) x, (G) y, (G) w, (G) h};
         }
+
+        Vec<T, 2> pos() {
+            return Vec<T, 2>({x, y});
+        }
     };
 
     typedef TRect<float> Rect;
