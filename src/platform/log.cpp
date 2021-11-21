@@ -38,7 +38,7 @@ void Log::print(const char * msg, ... ) {
     
     va_list args;
     va_start(args, msg);
-    const auto r = vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
+    [[maybe_unused]] const auto r = vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
     va_end(args);
 
     printf("%s", formatted_msg);
@@ -46,7 +46,7 @@ void Log::print(const char * msg, ... ) {
 
 void Log::print(const char * msg, va_list args ) {
     char formatted_msg[LOG_MSG_LEN];
-    const auto r = vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
+    [[maybe_unused]] const auto r = vsnprintf(formatted_msg, sizeof(formatted_msg), msg, args);
     printf("%s", formatted_msg);
 }
 
