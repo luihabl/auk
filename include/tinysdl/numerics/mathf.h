@@ -1,5 +1,7 @@
 #pragma once 
 
+#include "matrix.h"
+
 #include <cmath>
 
 // Common math functions and constants
@@ -21,6 +23,7 @@ namespace TinySDL
         float mod(float a, float n);
 
         float approach(float x, float target, float delta);
+        Vec2 approach(Vec2 x, Vec2 target, float delta);
 
         float delta_angle_min(float a, float b);
         float delta_angle_counter_clockwise(float radians_start, float radians_end);

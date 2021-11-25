@@ -1,3 +1,4 @@
+#include "..\..\include\tinysdl\numerics\mathf.h"
 #include <cmath>
 #include <algorithm>
 
@@ -22,4 +23,12 @@ float Mathf::approach(float x, float target, float delta) {
         return std::min(x + delta, target);
     else
         return std::max(x - delta, target);
+}
+
+Vec2 Mathf::approach(Vec2 x, Vec2 target, float delta)
+{
+    if ((target - x).length() < delta)
+        return target;
+
+    return x + (target - x).normalized() * delta;
 }

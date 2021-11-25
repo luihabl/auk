@@ -54,8 +54,8 @@ namespace TinySDL {
     template <typename T, size_t M, size_t N>
     inline T Matrix<T, M, N>::length() {
         T sum_sqr = 0;
-        for (const auto & e : data)
-            sum_sqr += e * e;
+        for (size_t i = 0; i < M*N; i++)
+            sum_sqr += data[i] * data[i];
         return sqrtf(sum_sqr);
     }
 
