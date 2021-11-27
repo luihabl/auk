@@ -25,6 +25,10 @@ namespace TinySDL
         float approach(float x, float target, float delta);
         Vec2 approach(Vec2 x, Vec2 target, float delta);
 
+        float lerp(float v0, float v1, float t);
+        Vec2 lerp(Vec2 v0, Vec2 v1, float t);
+
+
         float delta_angle_min(float a, float b);
         float delta_angle_counter_clockwise(float radians_start, float radians_end);
 

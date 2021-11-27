@@ -32,3 +32,13 @@ Vec2 Mathf::approach(Vec2 x, Vec2 target, float delta)
 
     return x + (target - x).normalized() * delta;
 }
+
+float Mathf::lerp(float v0, float v1, float t)
+{
+    return (1.0f - t) * v0 + t * v1;
+}
+
+Vec2 Mathf::lerp(Vec2 v0, Vec2 v1, float t)
+{
+    return (1.0f - t) * v0 + t * v1;
+}
