@@ -1,4 +1,3 @@
-#include "..\..\include\tinysdl\numerics\mathf.h"
 #include <cmath>
 #include <algorithm>
 
