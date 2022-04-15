@@ -45,6 +45,62 @@ namespace TinySDL
             return t > v_max ? v_max : t;
         }
 
+        // Adapted from: https://github.com/warrenm/AHEasing
+        namespace Easing
+        {
+            // Linear interpolation (no easing)
+            float linear_interpolation(float p);
+
+            // Quadratic easing; p^2
+            float quadratic_ease_in(float p);
+            float quadratic_ease_out(float p);
+            float quadratic_ease_in_out(float p);
+
+            // Cubic easing; p^3
+            float cubic_ease_in(float p);
+            float cubic_ease_out(float p);
+            float cubic_ease_in_out(float p);
+
+            // Quartic easing; p^4
+            float quartic_ease_in(float p);
+            float quartic_ease_out(float p);
+            float quartic_ease_in_out(float p);
+
+            // Quintic easing; p^5
+            float quintic_ease_in(float p);
+            float quintic_ease_out(float p);
+            float quintic_ease_in_out(float p);
+
+            // Sine wave easing; sin(p * PI/2)
+            float sine_ease_in(float p);
+            float sine_ease_out(float p);
+            float sine_ease_in_out(float p);
+
+            // Circular easing; sqrt(1 - p^2)
+            float circular_ease_in(float p);
+            float circular_ease_out(float p);
+            float circular_ease_in_out(float p);
+
+            // Exponential easing, base 2
+            float exponential_ease_in(float p);
+            float exponential_ease_out(float p);
+            float exponential_ease_in_out(float p);
+
+            // Exponentially-damped sine wave easing
+            float elastic_ease_in(float p);
+            float elastic_ease_out(float p);
+            float elastic_ease_in_out(float p);
+
+            // Overshooting cubic easing; 
+            float back_ease_in(float p);
+            float back_ease_out(float p);
+            float back_ease_in_out(float p);
+
+            // Exponentially-decaying bounce easing
+            float bounce_ease_in(float p);
+            float bounce_ease_out(float p);
+            float bounce_ease_in_out(float p);
+        }
     } 
 }
 
