@@ -178,7 +178,7 @@ float Mathf::Easing::sine_ease_out(float p)
 // Modeled after half sine wave
 float Mathf::Easing::sine_ease_in_out(float p)
 {
-	return 0.5 * (1 - cosf(p * Mathf::pi));
+	return 0.5f * (1 - cosf(p * Mathf::pi));
 }
 
 // Modeled after shifted quadrant IV of unit circle
@@ -198,13 +198,13 @@ float Mathf::Easing::circular_ease_out(float p)
 // y = (1/2)(sqrtf(-(2x - 3)*(2x - 1)) + 1) ; [0.5, 1]
 float Mathf::Easing::circular_ease_in_out(float p)
 {
-	if(p < 0.5)
+	if(p < 0.5f)
 	{
-		return 0.5 * (1 - sqrtf(1 - 4 * (p * p)));
+		return 0.5f * (1 - sqrtf(1 - 4 * (p * p)));
 	}
 	else
 	{
-		return 0.5 * (sqrtf(-((2 * p) - 3) * ((2 * p) - 1)) + 1);
+		return 0.5f * (sqrtf(-((2 * p) - 3) * ((2 * p) - 1)) + 1);
 	}
 }
 
@@ -254,13 +254,13 @@ float Mathf::Easing::elastic_ease_out(float p)
 // y = (1/2)*(sinf(-13pi/2*((2x-1)+1))*powf(2,-10(2*x-1)) + 2) ; [0.5, 1]
 float Mathf::Easing::elastic_ease_in_out(float p)
 {
-	if(p < 0.5)
+	if(p < 0.5f)
 	{
-		return 0.5 * sinf(13 * Mathf::pi_2 * (2 * p)) * powf(2, 10 * ((2 * p) - 1));
+		return 0.5f * sinf(13 * Mathf::pi_2 * (2 * p)) * powf(2, 10 * ((2 * p) - 1));
 	}
 	else
 	{
-		return 0.5 * (sinf(-13 * Mathf::pi_2 * ((2 * p - 1) + 1)) * powf(2, -10 * (2 * p - 1)) + 2);
+		return 0.5f * (sinf(-13 * Mathf::pi_2 * ((2 * p - 1) + 1)) * powf(2, -10 * (2 * p - 1)) + 2);
 	}
 }
 
@@ -309,7 +309,7 @@ float Mathf::Easing::bounce_ease_out(float p)
 	{
 		return (363/40.0f * p * p) - (99/10.0f * p) + 17/5.0f;
 	}
-	else if(p < 9/10.0)
+	else if(p < 9/10.0f)
 	{
 		return (4356/361.0f * p * p) - (35442/1805.0f * p) + 16061/1805.0f;
 	}
