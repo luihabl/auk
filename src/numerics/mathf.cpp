@@ -50,13 +50,13 @@ float Mathf::Easing::linear_interpolation(float p)
 }
 
 // Modeled after the parabola y = x^2
-float Mathf::Easing::quadratic_ease_in(float p)
+float Mathf::Easing::quadratic_in(float p)
 {
 	return p * p;
 }
 
 // Modeled after the parabola y = -x^2 + 2x
-float Mathf::Easing::quadratic_ease_out(float p)
+float Mathf::Easing::quadratic_out(float p)
 {
 	return -(p * (p - 2));
 }
@@ -64,7 +64,7 @@ float Mathf::Easing::quadratic_ease_out(float p)
 // Modeled after the piecewise quadratic
 // y = (1/2)((2x)^2)             ; [0, 0.5)
 // y = -(1/2)((2x-1)*(2x-3) - 1) ; [0.5, 1]
-float Mathf::Easing::quadratic_ease_in_out(float p)
+float Mathf::Easing::quadratic_in_out(float p)
 {
 	if(p < 0.5f)
 	{
@@ -77,13 +77,13 @@ float Mathf::Easing::quadratic_ease_in_out(float p)
 }
 
 // Modeled after the cubic y = x^3
-float Mathf::Easing::cubic_ease_in(float p)
+float Mathf::Easing::cubic_in(float p)
 {
 	return p * p * p;
 }
 
 // Modeled after the cubic y = (x - 1)^3 + 1
-float Mathf::Easing::cubic_ease_out(float p)
+float Mathf::Easing::cubic_out(float p)
 {
 	float f = (p - 1);
 	return f * f * f + 1;
@@ -92,7 +92,7 @@ float Mathf::Easing::cubic_ease_out(float p)
 // Modeled after the piecewise cubic
 // y = (1/2)((2x)^3)       ; [0, 0.5)
 // y = (1/2)((2x-2)^3 + 2) ; [0.5, 1]
-float Mathf::Easing::cubic_ease_in_out(float p)
+float Mathf::Easing::cubic_in_out(float p)
 {
 	if(p < 0.5)
 	{
@@ -106,13 +106,13 @@ float Mathf::Easing::cubic_ease_in_out(float p)
 }
 
 // Modeled after the quartic x^4
-float Mathf::Easing::quartic_ease_in(float p)
+float Mathf::Easing::quartic_in(float p)
 {
 	return p * p * p * p;
 }
 
 // Modeled after the quartic y = 1 - (x - 1)^4
-float Mathf::Easing::quartic_ease_out(float p)
+float Mathf::Easing::quartic_out(float p)
 {
 	float f = (p - 1);
 	return f * f * f * (1 - p) + 1;
@@ -121,7 +121,7 @@ float Mathf::Easing::quartic_ease_out(float p)
 // Modeled after the piecewise quartic
 // y = (1/2)((2x)^4)        ; [0, 0.5)
 // y = -(1/2)((2x-2)^4 - 2) ; [0.5, 1]
-float Mathf::Easing::quartic_ease_in_out(float p) 
+float Mathf::Easing::quartic_in_out(float p) 
 {
 	if(p < 0.5)
 	{
@@ -135,13 +135,13 @@ float Mathf::Easing::quartic_ease_in_out(float p)
 }
 
 // Modeled after the quintic y = x^5
-float Mathf::Easing::quintic_ease_in(float p) 
+float Mathf::Easing::quintic_in(float p) 
 {
 	return p * p * p * p * p;
 }
 
 // Modeled after the quintic y = (x - 1)^5 + 1
-float Mathf::Easing::quintic_ease_out(float p) 
+float Mathf::Easing::quintic_out(float p) 
 {
 	float f = (p - 1);
 	return f * f * f * f * f + 1;
@@ -150,7 +150,7 @@ float Mathf::Easing::quintic_ease_out(float p)
 // Modeled after the piecewise quintic
 // y = (1/2)((2x)^5)       ; [0, 0.5)
 // y = (1/2)((2x-2)^5 + 2) ; [0.5, 1]
-float Mathf::Easing::quintic_ease_in_out(float p) 
+float Mathf::Easing::quintic_in_out(float p) 
 {
 	if(p < 0.5f)
 	{
@@ -164,31 +164,31 @@ float Mathf::Easing::quintic_ease_in_out(float p)
 }
 
 // Modeled after quarter-cycle of sine wave
-float Mathf::Easing::sine_ease_in(float p)
+float Mathf::Easing::sine_in(float p)
 {
 	return sinf((p - 1) * Mathf::pi_2) + 1;
 }
 
 // Modeled after quarter-cycle of sine wave (different phase)
-float Mathf::Easing::sine_ease_out(float p)
+float Mathf::Easing::sine_out(float p)
 {
 	return sinf(p * Mathf::pi_2);
 }
 
 // Modeled after half sine wave
-float Mathf::Easing::sine_ease_in_out(float p)
+float Mathf::Easing::sine_in_out(float p)
 {
 	return 0.5f * (1 - cosf(p * Mathf::pi));
 }
 
 // Modeled after shifted quadrant IV of unit circle
-float Mathf::Easing::circular_ease_in(float p)
+float Mathf::Easing::circular_in(float p)
 {
 	return 1 - sqrtf(1 - (p * p));
 }
 
 // Modeled after shifted quadrant II of unit circle
-float Mathf::Easing::circular_ease_out(float p)
+float Mathf::Easing::circular_out(float p)
 {
 	return sqrtf((2 - p) * p);
 }
@@ -196,7 +196,7 @@ float Mathf::Easing::circular_ease_out(float p)
 // Modeled after the piecewise circular function
 // y = (1/2)(1 - sqrtf(1 - 4x^2))           ; [0, 0.5)
 // y = (1/2)(sqrtf(-(2x - 3)*(2x - 1)) + 1) ; [0.5, 1]
-float Mathf::Easing::circular_ease_in_out(float p)
+float Mathf::Easing::circular_in_out(float p)
 {
 	if(p < 0.5f)
 	{
@@ -209,13 +209,13 @@ float Mathf::Easing::circular_ease_in_out(float p)
 }
 
 // Modeled after the exponential function y = 2^(10(x - 1))
-float Mathf::Easing::exponential_ease_in(float p)
+float Mathf::Easing::exponential_in(float p)
 {
 	return (p == 0.0f) ? p : powf(2, 10 * (p - 1));
 }
 
 // Modeled after the exponential function y = -2^(-10x) + 1
-float Mathf::Easing::exponential_ease_out(float p)
+float Mathf::Easing::exponential_out(float p)
 {
 	return (p == 1.0f) ? p : 1 - powf(2, -10 * p);
 }
@@ -223,7 +223,7 @@ float Mathf::Easing::exponential_ease_out(float p)
 // Modeled after the piecewise exponential
 // y = (1/2)2^(10(2x - 1))         ; [0,0.5)
 // y = -(1/2)*2^(-10(2x - 1))) + 1 ; [0.5,1]
-float Mathf::Easing::exponential_ease_in_out(float p)
+float Mathf::Easing::exponential_in_out(float p)
 {
 	if(p == 0.0f || p == 1.0f) return p;
 	
@@ -238,13 +238,13 @@ float Mathf::Easing::exponential_ease_in_out(float p)
 }
 
 // Modeled after the damped sine wave y = sinf(13pi/2*x)*powf(2, 10 * (x - 1))
-float Mathf::Easing::elastic_ease_in(float p)
+float Mathf::Easing::elastic_in(float p)
 {
 	return sinf(13 * Mathf::pi_2 * p) * powf(2, 10 * (p - 1));
 }
 
 // Modeled after the damped sine wave y = sinf(-13pi/2*(x + 1))*powf(2, -10x) + 1
-float Mathf::Easing::elastic_ease_out(float p)
+float Mathf::Easing::elastic_out(float p)
 {
 	return sinf(-13 * Mathf::pi_2 * (p + 1)) * powf(2, -10 * p) + 1;
 }
@@ -252,7 +252,7 @@ float Mathf::Easing::elastic_ease_out(float p)
 // Modeled after the piecewise exponentially-damped sine wave:
 // y = (1/2)*sinf(13pi/2*(2*x))*powf(2, 10 * ((2*x) - 1))      ; [0,0.5)
 // y = (1/2)*(sinf(-13pi/2*((2x-1)+1))*powf(2,-10(2*x-1)) + 2) ; [0.5, 1]
-float Mathf::Easing::elastic_ease_in_out(float p)
+float Mathf::Easing::elastic_in_out(float p)
 {
 	if(p < 0.5f)
 	{
@@ -265,13 +265,13 @@ float Mathf::Easing::elastic_ease_in_out(float p)
 }
 
 // Modeled after the overshooting cubic y = x^3-x*sinf(x*pi)
-float Mathf::Easing::back_ease_in(float p)
+float Mathf::Easing::back_in(float p)
 {
 	return p * p * p - p * sinf(p * Mathf::pi);
 }
 
 // Modeled after overshooting cubic y = 1-((1-x)^3-(1-x)*sinf((1-x)*pi))
-float Mathf::Easing::back_ease_out(float p)
+float Mathf::Easing::back_out(float p)
 {
 	float f = (1 - p);
 	return 1 - (f * f * f - f * sinf(f * Mathf::pi));
@@ -280,7 +280,7 @@ float Mathf::Easing::back_ease_out(float p)
 // Modeled after the piecewise overshooting cubic function:
 // y = (1/2)*((2x)^3-(2x)*sinf(2*x*pi))           ; [0, 0.5)
 // y = (1/2)*(1-((1-x)^3-(1-x)*sinf((1-x)*pi))+1) ; [0.5, 1]
-float Mathf::Easing::back_ease_in_out(float p)
+float Mathf::Easing::back_in_out(float p)
 {
 	if(p < 0.5f)
 	{
@@ -294,12 +294,12 @@ float Mathf::Easing::back_ease_in_out(float p)
 	}
 }
 
-float Mathf::Easing::bounce_ease_in(float p)
+float Mathf::Easing::bounce_in(float p)
 {
-	return 1 - bounce_ease_out(1 - p);
+	return 1 - bounce_out(1 - p);
 }
 
-float Mathf::Easing::bounce_ease_out(float p)
+float Mathf::Easing::bounce_out(float p)
 {
 	if(p < 4/11.0f)
 	{
@@ -319,14 +319,14 @@ float Mathf::Easing::bounce_ease_out(float p)
 	}
 }
 
-float Mathf::Easing::bounce_ease_in_out(float p)
+float Mathf::Easing::bounce_in_out(float p)
 {
 	if(p < 0.5f)
 	{
-		return 0.5f * bounce_ease_in(p*2);
+		return 0.5f * bounce_in(p*2);
 	}
 	else
 	{
-		return 0.5f * bounce_ease_out(p * 2 - 1) + 0.5f;
+		return 0.5f * bounce_out(p * 2 - 1) + 0.5f;
 	}
 }

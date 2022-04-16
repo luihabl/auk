@@ -28,6 +28,16 @@ namespace TinySDL
         float lerp(float v0, float v1, float t);
         Vec2 lerp(Vec2 v0, Vec2 v1, float t);
 
+        template <typename T>
+        T ease(float (*f)(float), const T& v0, const T& v1, float t)
+        {
+            // return v0 + (v1 - v0) * f(t);
+            // if ((v1 - v0).length() < f(t))
+            //     return v1;
+
+            return v0 + (v1 - v0) * f(t);
+        }
+
 
         float delta_angle_min(float a, float b);
         float delta_angle_counter_clockwise(float radians_start, float radians_end);
@@ -52,54 +62,54 @@ namespace TinySDL
             float linear_interpolation(float p);
 
             // Quadratic easing; p^2
-            float quadratic_ease_in(float p);
-            float quadratic_ease_out(float p);
-            float quadratic_ease_in_out(float p);
+            float quadratic_in(float p);
+            float quadratic_out(float p);
+            float quadratic_in_out(float p);
 
             // Cubic easing; p^3
-            float cubic_ease_in(float p);
-            float cubic_ease_out(float p);
-            float cubic_ease_in_out(float p);
+            float cubic_in(float p);
+            float cubic_out(float p);
+            float cubic_in_out(float p);
 
             // Quartic easing; p^4
-            float quartic_ease_in(float p);
-            float quartic_ease_out(float p);
-            float quartic_ease_in_out(float p);
+            float quartic_in(float p);
+            float quartic_out(float p);
+            float quartic_in_out(float p);
 
             // Quintic easing; p^5
-            float quintic_ease_in(float p);
-            float quintic_ease_out(float p);
-            float quintic_ease_in_out(float p);
+            float quintic_in(float p);
+            float quintic_out(float p);
+            float quintic_in_out(float p);
 
             // Sine wave easing; sin(p * PI/2)
-            float sine_ease_in(float p);
-            float sine_ease_out(float p);
-            float sine_ease_in_out(float p);
+            float sine_in(float p);
+            float sine_out(float p);
+            float sine_in_out(float p);
 
             // Circular easing; sqrt(1 - p^2)
-            float circular_ease_in(float p);
-            float circular_ease_out(float p);
-            float circular_ease_in_out(float p);
+            float circular_in(float p);
+            float circular_out(float p);
+            float circular_in_out(float p);
 
             // Exponential easing, base 2
-            float exponential_ease_in(float p);
-            float exponential_ease_out(float p);
-            float exponential_ease_in_out(float p);
+            float exponential_in(float p);
+            float exponential_out(float p);
+            float exponential_in_out(float p);
 
             // Exponentially-damped sine wave easing
-            float elastic_ease_in(float p);
-            float elastic_ease_out(float p);
-            float elastic_ease_in_out(float p);
+            float elastic_in(float p);
+            float elastic_out(float p);
+            float elastic_in_out(float p);
 
             // Overshooting cubic easing; 
-            float back_ease_in(float p);
-            float back_ease_out(float p);
-            float back_ease_in_out(float p);
+            float back_in(float p);
+            float back_out(float p);
+            float back_in_out(float p);
 
             // Exponentially-decaying bounce easing
-            float bounce_ease_in(float p);
-            float bounce_ease_out(float p);
-            float bounce_ease_in_out(float p);
+            float bounce_in(float p);
+            float bounce_out(float p);
+            float bounce_in_out(float p);
         }
     } 
 }
