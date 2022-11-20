@@ -5,6 +5,20 @@ project(tinysdl)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(FetchContent)
+set(FETCHCONTENT_QUIET FALSE)
+
+FetchContent_Declare(
+    sdl2
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL
+    GIT_TAG release-2.24.0 # grab latest stable release
+    GIT_PROGRESS TRUE
+)
+set(SDL_TEST_ENABLED_BY_DEFAULT OFF CACHE BOOL "Build the SDL2_test library by default" FORCE)
+set(SDL_TEST OFF CACHE BOOL "Build the SDL2_test library" FORCE)
+set(SDL_SHARED OFF CACHE BOOL "Build the SDL2 shared library" FORCE)
+FetchContent_MakeAvailable(sdl2)
+
 # adding files
 add_library(tinysdl 
 
@@ -31,11 +45,6 @@ PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tinysdl/external>
 )
 
-if (NOT DEFINED SDL2_INCLUDE_DIRS OR NOT DEFINED SDL2_LIBRARIES)
-    find_package(SDL2 REQUIRED)
-endif()
-
-target_include_directories(tinysdl PUBLIC "$<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>")
-target_link_libraries(tinysdl PUBLIC ${SDL2_LIBRARIES})
+target_link_libraries(tinysdl PUBLIC SDL2main SDL2-static)
 
 
