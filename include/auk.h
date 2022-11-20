@@ -25,3 +25,8 @@
 #include "auk/input/virtualaxis.h"
 #include "auk/input/virtualbutton.h"
 #include "auk/input/virtualinput.h"
+
+#include "auk/util/state_machine.h"
+#include "auk/util/svector.h"
+#include "auk/util/type_table.h"
+#include "auk/util/virtual_map.h"

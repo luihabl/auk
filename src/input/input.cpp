@@ -31,8 +31,6 @@ void Input::update(InputHandler & handler) {
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
 
-        // GUI::input(event);
-
         if (event.type == SDL_WINDOWEVENT) {
             if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
                 int w, h;
