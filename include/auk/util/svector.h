@@ -20,11 +20,11 @@ namespace auk
 		}
 
 		T& operator[](const size_t& i) { return d[i]; }
-		const T& operator[](const size_t& i) { return d[i]; }
+		const T& operator[](const size_t& i) const { return d[i]; }
 
 		T pop() { return d[count--]; }
 		void push(const T& v) { d[count++] = v; }
-		void remove(index_t i) { d[i] = d[count--]; }
+		void remove(size_t i) { d[i] = d[count--]; }
 		void clear() { count = 0; }
 		
 		const size_t& size() { return count; }

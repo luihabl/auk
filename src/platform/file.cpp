@@ -3,6 +3,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#define CUTE_ASEPRITE_IMPLEMENTATION
+#include <cute_aseprite.h>
+
 #include "auk/platform/file.h"
 #include "auk/platform/log.h"
 
@@ -32,4 +35,14 @@ unsigned char * File::load_image(std::string file_path, int *w, int *h, int *com
 
 void File::free_image(unsigned char * data) {
     stbi_image_free(data);
+}
+
+AsepriteFile* File::load_aseprite(const std::string& file_path)
+{
+    return cute_aseprite_load_from_file(file_path.c_str(), NULL);
+}
+
+void File::free_aseprite(AsepriteFile* file)
+{
+    cute_aseprite_free(file);
 }
