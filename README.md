@@ -1,4 +1,4 @@
-# TinySDL
+# auk 🐧
 A minimal C++ toolset for 2D games using SDL2 + OpenGL. 
 
 
