@@ -37,6 +37,10 @@ src/graphics/color.cpp
 src/numerics/linalg.cpp
 src/numerics/mathf.cpp
 
+src/input/input.cpp
+src/input/virtualaxis.cpp
+src/input/virtualbutton.cpp
+
 src/external/glad.cpp
 ) 
 

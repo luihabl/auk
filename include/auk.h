@@ -19,3 +19,9 @@
 #include "auk/numerics/linalg.h"
 #include "auk/numerics/mathf.h"
 #include "auk/numerics/rect.h"
+
+#include "auk/input/keys.h"
+#include "auk/input/input.h"
+#include "auk/input/virtualaxis.h"
+#include "auk/input/virtualbutton.h"
+#include "auk/input/virtualinput.h"
