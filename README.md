@@ -6,9 +6,9 @@ A minimal C++ toolset for 2D games using SDL2 + OpenGL.
 
 The snippet bellow shows how to draw a sprite to the screen at a position `{50.0f, 150.0f}`:
 ```cpp
-#include <tinysdl.h>
+#include <auk.h>
 
-using namespace TinySDL;
+using namespace auk;
 
 int main(int argc, char *argv[]) {
 
@@ -57,11 +57,11 @@ project(example)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory(path/to/tinysdl)
+add_subdirectory(path/to/auk)
 
 add_executable(example main.cpp)
 
-target_link_libraries(example tinysdl)
+target_link_libraries(example auk)
 ```
 
 Note that CMake needs to find SDL, so if it can't find it on its default search paths you need to provide a path using the `SDL2_DIR` variable. In terminal/powershell this can be done once as `cmake -DSDL2_DIR=path/to/sdl ..` (assuming you are building from a `build` directory). See [this blog post](https://trenki2.github.io/blog/2017/06/02/using-sdl2-with-cmake/) for further information. 

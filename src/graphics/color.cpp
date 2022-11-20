@@ -2,10 +2,10 @@
 #include <inttypes.h>
 #include <cmath>
 
-#include "tinysdl/numerics/matrix.h"
-#include "tinysdl/graphics/color.h"
+#include "auk/numerics/matrix.h"
+#include "auk/graphics/color.h"
 
-using namespace TinySDL;
+using namespace auk;
 
 Color::Color(const Vec3 & color) : ByteVec4({(uint8_t) round(255.0f * color[0]), (uint8_t) round(255.0f * color[1]), 
                                              (uint8_t) round(255.0f * color[2]), 255}) {}

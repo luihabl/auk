@@ -1,6 +1,6 @@
-#include "tinysdl/numerics/linalg.h"
+#include "auk/numerics/linalg.h"
 
-using namespace TinySDL;
+using namespace auk;
 
 Mat4x4 LinAlg3D::matmul(const Mat4x4 & a, const Mat4x4 & b) {
     //Unrolled 4x4 matrix multiplication

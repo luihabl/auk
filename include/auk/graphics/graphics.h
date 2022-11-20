@@ -2,7 +2,7 @@
 
 typedef void* (* GraphicsLoaderFunction)(const char *name);
 
-namespace TinySDL {
+namespace auk {
 
     struct Color;
 

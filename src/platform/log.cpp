@@ -4,14 +4,14 @@
     #include <windows.h>
 #endif
 
-#include "tinysdl/platform/log.h"
+#include "auk/platform/log.h"
 
 #define LOG_COLOR_RESET   "\033[0m"
 #define LOG_COLOR_RED     "\033[31m"     
 #define LOG_COLOR_YELLOW  "\033[33m"     
 #define LOG_COLOR_BLUE    "\033[34m"
 
-using namespace TinySDL;
+using namespace auk;
 
 namespace {
     Log::Level current_log_level = Log::Level::Debug;

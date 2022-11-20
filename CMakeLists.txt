@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
-project(tinysdl)
+project(auk)
 
 # C++ version
 set(CMAKE_CXX_STANDARD 17)
@@ -20,7 +20,7 @@ set(SDL_SHARED OFF CACHE BOOL "Build the SDL2 shared library" FORCE)
 FetchContent_MakeAvailable(sdl2)
 
 # adding files
-add_library(tinysdl 
+add_library(auk 
 
 src/platform/window.cpp
 src/platform/log.cpp
@@ -40,11 +40,11 @@ src/numerics/mathf.cpp
 src/external/glad.cpp
 ) 
 
-target_include_directories(tinysdl
+target_include_directories(auk
 PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tinysdl/external>
+PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/auk/external>
 )
 
-target_link_libraries(tinysdl PUBLIC SDL2main SDL2-static)
+target_link_libraries(auk PUBLIC SDL2main SDL2-static)
 
 

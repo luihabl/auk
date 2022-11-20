@@ -1,13 +1,13 @@
 #include <SDL.h>
 
-#include "tinysdl/platform/window.h"
-#include "tinysdl/platform/log.h"
-#include "tinysdl/graphics/graphics.h"
+#include "auk/platform/window.h"
+#include "auk/platform/log.h"
+#include "auk/graphics/graphics.h"
 
 #define OPENGL_VERSION_MAJOR 3
 #define OPENGL_VERSION_MINOR 3
 
-using namespace TinySDL;
+using namespace auk;
 
 namespace {
     SDL_Window * window = nullptr;

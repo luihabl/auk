@@ -1,6 +1,6 @@
 #pragma once
 
-namespace TinySDL
+namespace auk
 {
 
     struct Type {

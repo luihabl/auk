@@ -8,7 +8,7 @@
 #define ASSERT_MSG(check, msg) if(!check) {LOG_ERROR(msg); abort();} 
 
 
-namespace TinySDL {
+namespace auk {
     namespace Log {
 
         enum class Level : int {

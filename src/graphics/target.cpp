@@ -1,10 +1,10 @@
 
 #include <glad/glad.h>
 
-#include "tinysdl/graphics/target.h"
-#include "tinysdl/graphics/texture.h"
+#include "auk/graphics/target.h"
+#include "auk/graphics/texture.h"
 
-using namespace TinySDL;
+using namespace auk;
 
 RenderTarget::RenderTarget(int w, int h) {
     glGenFramebuffers(1, &this->fbo);

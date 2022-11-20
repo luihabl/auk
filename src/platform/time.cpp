@@ -1,8 +1,8 @@
 
 #include <SDL.h>
-#include "tinysdl/platform/time.h"
+#include "auk/platform/time.h"
 
-using namespace TinySDL;
+using namespace auk;
 
 uint32_t Time::get_time_ms() {
     return SDL_GetTicks();

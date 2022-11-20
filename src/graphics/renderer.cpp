@@ -1,17 +1,17 @@
 #include <glad/glad.h>
 #include <cmath>
 
-#include "tinysdl/graphics/renderer.h"
-#include "tinysdl/graphics/texture.h"
-#include "tinysdl/graphics/color.h"
+#include "auk/graphics/renderer.h"
+#include "auk/graphics/texture.h"
+#include "auk/graphics/color.h"
 
-#include "tinysdl/numerics/matrix.h"
-#include "tinysdl/numerics/rect.h"
-#include "tinysdl/numerics/linalg.h"
-#include "tinysdl/numerics/mathf.h"
+#include "auk/numerics/matrix.h"
+#include "auk/numerics/rect.h"
+#include "auk/numerics/linalg.h"
+#include "auk/numerics/mathf.h"
 
 
-using namespace TinySDL;
+using namespace auk;
 
 BatchRenderer::~BatchRenderer() {
     if (initialized) {

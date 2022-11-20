@@ -1,15 +1,15 @@
 #pragma once 
 
-#include "tinysdl/graphics/shader.h"
-#include "tinysdl/graphics/texture.h"
-#include "tinysdl/graphics/color.h"
-#include "tinysdl/numerics/matrix.h"
-#include "tinysdl/numerics/rect.h"
+#include "auk/graphics/shader.h"
+#include "auk/graphics/texture.h"
+#include "auk/graphics/color.h"
+#include "auk/numerics/matrix.h"
+#include "auk/numerics/rect.h"
 
 
 #include <vector>
 
-namespace TinySDL {
+namespace auk {
 
     class BatchRenderer {
         public:

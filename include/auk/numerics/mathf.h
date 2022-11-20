@@ -5,7 +5,7 @@
 #include <cmath>
 
 // Common math functions and constants
-namespace TinySDL 
+namespace auk 
 {
     namespace Mathf
     {

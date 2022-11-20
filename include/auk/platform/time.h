@@ -1,7 +1,7 @@
 #pragma once
 #include <inttypes.h>
 
-namespace TinySDL {
+namespace auk {
 
     namespace Time {
         uint32_t get_time_ms();

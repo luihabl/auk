@@ -1,7 +1,7 @@
 #pragma once 
 #include <SDL.h>
 
-namespace TinySDL {
+namespace auk {
     namespace Window {
         SDL_Window * init(const char * name, int w, int h, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, 
                           uint32_t flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL, bool use_vsync = false);

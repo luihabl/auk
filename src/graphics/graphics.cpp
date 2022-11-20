@@ -1,11 +1,11 @@
 #include <glad/glad.h>
 #include <string>
 
-#include "tinysdl/graphics/graphics.h"
-#include "tinysdl/platform/log.h"
-#include "tinysdl/graphics/color.h"
+#include "auk/graphics/graphics.h"
+#include "auk/platform/log.h"
+#include "auk/graphics/color.h"
 
-using namespace TinySDL;
+using namespace auk;
 
 
 void Graphics::load_functions(GraphicsLoaderFunction loader_func) {

@@ -1,8 +1,8 @@
 #pragma once 
 
-#include "tinysdl/numerics/matrix.h"
+#include "auk/numerics/matrix.h"
 
-namespace TinySDL {
+namespace auk {
     
     struct Color : ByteVec4 {
         

@@ -1,9 +1,9 @@
 #include <cmath>
 #include <algorithm>
 
-#include "tinysdl/numerics/mathf.h"
+#include "auk/numerics/mathf.h"
 
-using namespace TinySDL;
+using namespace auk;
 
 float Mathf::mod(float a, float b) {
     return a - floorf(a / b) * b;

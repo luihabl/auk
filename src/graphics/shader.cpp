@@ -2,10 +2,10 @@
 #include <cstring>
 #include <glad/glad.h>
 
-#include "tinysdl/graphics/shader.h"
-#include "tinysdl/platform/log.h"
-#include "tinysdl/platform/file.h"
-#include "tinysdl/numerics/matrix.h"
+#include "auk/graphics/shader.h"
+#include "auk/platform/log.h"
+#include "auk/platform/file.h"
+#include "auk/numerics/matrix.h"
 
 constexpr const char* default_vertex_src = "#version 330 core\n\
 layout (location = 0) in vec2 vertex_pos;\n\
@@ -36,7 +36,7 @@ void main()\n\
     output_color = tex_color * color * cmix.x + tex_color.a * color * cmix.y + color * cmix.z;\n\
 }";
 
-using namespace TinySDL;
+using namespace auk;
 
 Shader & Shader::use() {
     if(this->compiled) {

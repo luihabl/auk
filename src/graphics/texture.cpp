@@ -1,10 +1,10 @@
 #include <glad/glad.h>
 
-#include "tinysdl/graphics/texture.h"
-#include "tinysdl/platform/log.h"
-#include "tinysdl/platform/file.h"
+#include "auk/graphics/texture.h"
+#include "auk/platform/log.h"
+#include "auk/platform/file.h"
 
-using namespace TinySDL;
+using namespace auk;
 
 Image::Image(const char * path) {
     this->data = File::load_image(path, &this->w, &this->h, &this->n_comp);

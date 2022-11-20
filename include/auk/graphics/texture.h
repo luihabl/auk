@@ -1,10 +1,10 @@
 #pragma once
 
-#include "tinysdl/numerics/rect.h"
+#include "auk/numerics/rect.h"
 
 #include <algorithm>
 
-namespace TinySDL {
+namespace auk {
 
     struct Image {
         Image() = default;

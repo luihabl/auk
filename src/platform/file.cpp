@@ -3,10 +3,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-#include "tinysdl/platform/file.h"
-#include "tinysdl/platform/log.h"
+#include "auk/platform/file.h"
+#include "auk/platform/log.h"
 
-using namespace TinySDL; 
+using namespace auk; 
 
 std::string File::load_txt(std::string file_path) {
     std::ifstream in(file_path, std::ios::in | std::ios::binary);

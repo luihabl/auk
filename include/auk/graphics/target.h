@@ -1,8 +1,8 @@
 #pragma once
 
-#include "tinysdl/graphics/texture.h"
+#include "auk/graphics/texture.h"
 
-namespace TinySDL {
+namespace auk {
 
     struct RenderTarget {
         RenderTarget() = default;

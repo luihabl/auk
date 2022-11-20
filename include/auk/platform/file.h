@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace TinySDL {
+namespace auk {
 
     namespace File {
         std::string load_txt(std::string file_path);

@@ -6,7 +6,7 @@
 // M : rows
 // N : columns
 
-namespace TinySDL {
+namespace auk {
     
     template <typename T, size_t M, size_t N>
     struct Matrix {
