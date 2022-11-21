@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 
 ## Building
 
-It requires SDL 2 and CMake 3.11+ to build. This is a minimal example of a `CMakeLists.txt` file to build something:
+It requires CMake 3.14+ to build. This is a minimal example of a `CMakeLists.txt` file to build something:
 
 ```cmake
 cmake_minimum_required(VERSION 3.11)
@@ -64,16 +64,4 @@ add_executable(example main.cpp)
 target_link_libraries(example auk)
 ```
 
-Note that CMake needs to find SDL, so if it can't find it on its default search paths you need to provide a path using the `SDL2_DIR` variable. In terminal/powershell this can be done once as `cmake -DSDL2_DIR=path/to/sdl ..` (assuming you are building from a `build` directory). See [this blog post](https://trenki2.github.io/blog/2017/06/02/using-sdl2-with-cmake/) for further information. 
-
-If you are on Windows the `SDL2.dll` needs to be on the system's PATH or it needs to be copied to the same directory of the game's executable. This can be done manually or you can use CMake to copy it automatically using something like:
-
-```cmake
-if (EXISTS ${SDL2_DLL})
-    add_custom_command(
-        TARGET example POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${SDL2_DLL} $<TARGET_FILE_DIR:example>)
-endif()
-```
-
-In this case you need to provide the dll path using the `SDL2_DLL` variable.  
+CMake will download automatically SDL2 and it will be built and linked statically to the application.
