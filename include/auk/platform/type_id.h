@@ -23,7 +23,7 @@ namespace auk
         static size_t count() { return type_count; }
 
         template <typename T>
-        static Type type_of()
+        static Type of()
         {
             static const size_t _id = type_count++;
             return Type(_id);
