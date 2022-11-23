@@ -11,7 +11,7 @@ set(FETCHCONTENT_QUIET FALSE)
 FetchContent_Declare(
     sdl2
     GIT_REPOSITORY https://github.com/libsdl-org/SDL
-    GIT_TAG release-2.24.0 # grab latest stable release
+    GIT_TAG origin/release-2.26.x # grab latest stable release
     GIT_PROGRESS TRUE
 )
 set(SDL_TEST_ENABLED_BY_DEFAULT OFF CACHE BOOL "Build the SDL2_test library by default" FORCE)
