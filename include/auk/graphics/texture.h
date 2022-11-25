@@ -16,21 +16,23 @@ namespace auk {
         int w = 0, h = 0, n_comp = 0;        
     };
 
-    struct Texture {
-
-        Texture() = default;
+    struct Texture 
+    {
         Texture(int w, int h, int n_comp, unsigned char * data);
+        ~Texture();
         
         unsigned int id = 0;
+        bool created = false;
+
         unsigned int tex_slot = 0;
         
         int w = 0, h = 0;
         Rect full_rect;
 
         void bind() const;
-        static Texture from_file(const char * path);
-        static Texture from_sprite(Image * spr);
-        static Texture empty(int w, int h);
+        static Texture* from_file(const char * path);
+        static Texture* from_sprite(Image * spr);
+        static Texture* empty(int w, int h);
     };
 
     struct TexRegion {

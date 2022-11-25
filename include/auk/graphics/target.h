@@ -1,16 +1,18 @@
 #pragma once
 
 #include "auk/graphics/texture.h"
+#include <memory>
 
 namespace auk {
 
     struct RenderTarget {
-        RenderTarget() = default;
         RenderTarget(int w, int h);
+        ~RenderTarget();
+
         void begin();
         void end();
         
-        Texture tex;
+        Texture* tex = nullptr;
     
         private: 
             unsigned int fbo;

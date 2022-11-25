@@ -43,16 +43,21 @@ Texture::Texture(int w, int h, int n_comp, unsigned char * data) : w(w), h(h){
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-
-Texture Texture::from_sprite(Image * spr) {
-    return Texture(spr->w, spr->h, spr->n_comp, spr->data);
+Texture::~Texture()
+{
+    glDeleteTextures(1, &id);
 }
 
-Texture Texture::from_file(const char * path) {
+
+Texture* Texture::from_sprite(Image * spr) {
+    return new Texture(spr->w, spr->h, spr->n_comp, spr->data);
+}
+
+Texture* Texture::from_file(const char * path) {
     Image spr(path);
-    return Texture(spr.w, spr.h, spr.n_comp, spr.data);
+    return new Texture(spr.w, spr.h, spr.n_comp, spr.data);
 }
 
-Texture Texture::empty(int w, int h) {
-       return Texture(w, h, 4, NULL); 
+Texture* Texture::empty(int w, int h) {
+       return new Texture(w, h, 4, NULL); 
 }
