@@ -41,6 +41,8 @@ src/input/input.cpp
 src/input/virtualaxis.cpp
 src/input/virtualbutton.cpp
 
+src/util/packer.cpp
+
 src/external/glad.cpp
 ) 
 

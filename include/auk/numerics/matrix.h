@@ -50,6 +50,7 @@ namespace auk {
     typedef Vec<double, 2> DVec2;
     typedef Vec<uint8_t, 3> ByteVec3;
     typedef Vec<uint8_t, 4> ByteVec4;
+    typedef Vec<bool, 2> BoolVec2;
 
     template <typename T, size_t M, size_t N>
     inline T Matrix<T, M, N>::length() {

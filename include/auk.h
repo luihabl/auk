@@ -30,3 +30,4 @@
 #include "auk/util/svector.h"
 #include "auk/util/type_table.h"
 #include "auk/util/virtual_map.h"
+#include "auk/util/packer.h"
