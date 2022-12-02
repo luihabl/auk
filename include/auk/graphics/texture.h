@@ -43,6 +43,14 @@ namespace auk {
             set_src(src);
         }
 
+        // Maybe it's better to move this id to another place
+        // since it's only used when loading the Atlas
+        TexRegion(size_t id)
+        {
+            pack_id = id;
+        }
+
+        size_t pack_id = 0;
         Texture * tex = nullptr;
         Vec2 uv[4];
         

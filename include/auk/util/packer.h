@@ -9,6 +9,7 @@ namespace auk
     {
 
     public:
+        
         struct Node
         {
             int id;
@@ -20,16 +21,19 @@ namespace auk
             Node(int id, int w, int h);
         };
 
-        Packer(const IVec2& max_size);
+        Packer(int w, int h);
         void add(int ref, int w, int h);
         bool pack(bool paging = true);
+        const std::vector<Node>& get() { return nodes; }
+        const std::vector<IVec2>& get_pages() { return pages; }
+
         void clear();
     
     private:
         BoolVec2 pack_bin_tree();
         std::vector<Node> nodes;
         std::vector<IVec2> pages;
-        IVec2 max_page_size = {0, 0};
+        int max_w, max_h;
         int current_page = 0;
 
     };

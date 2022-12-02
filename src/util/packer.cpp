@@ -10,9 +10,10 @@ Packer::Node::Node(int _id, int _w, int _h)
     h = _h;
 }
 
-Packer::Packer(const IVec2& max_size)
+Packer::Packer(int w, int h)
 {
-    max_page_size = max_size;
+    max_w = w; 
+    max_h = h;
 }
 
 struct BNode
@@ -154,7 +155,7 @@ BoolVec2 Packer::pack_bin_tree()
         }
         else
         {
-            BNode* expanded_node = grow_bin_tree(root, r, max_page_size[0], max_page_size[0]);
+            BNode* expanded_node = grow_bin_tree(root, r, max_w, max_h);
             if(expanded_node)
             {
                 r.x = expanded_node->x;
