@@ -6,11 +6,9 @@
 namespace auk
 {
     struct InputHandler {
-
         std::function<void()> on_quit;
-
         std::function<void(int, int)> on_window_resize;
-
+        std::function<void(SDL_Event&)> on_event;
     };
 
     class VirtualInput;
