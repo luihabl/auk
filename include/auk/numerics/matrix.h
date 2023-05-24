@@ -178,7 +178,7 @@ namespace auk {
     }
 
     template <typename T, size_t M, size_t N>
-    inline bool operator== (Matrix<T, M, N>& a, const Matrix<T, M, N>& b) {
+    inline bool operator== (const Matrix<T, M, N>& a, const Matrix<T, M, N>& b) {
         bool result = true;
         for (size_t i = 0; i < M * N; i++) 
             result = result && (a[i] == b[i]);
