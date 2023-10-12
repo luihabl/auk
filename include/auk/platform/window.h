@@ -10,5 +10,6 @@ namespace auk {
         void get_drawable_size(int * w, int * h);
         SDL_Window * get_window();
         SDL_GLContext * get_context();
+        void set_window_title(const char* name);
     }
 }

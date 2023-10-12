@@ -67,3 +67,7 @@ void Window::get_drawable_size(int * w, int * h) {
 SDL_GLContext * Window::get_context() {
     return &context;
 }
+void Window::set_window_title(const char *name)
+{
+    SDL_SetWindowTitle(window, name);
+}
