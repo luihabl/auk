@@ -1,15 +1,20 @@
-#pragma once 
+#pragma once
 #include <SDL.h>
 
 namespace auk {
-    namespace Window {
-        SDL_Window * init(const char * name, int w, int h, int x = SDL_WINDOWPOS_UNDEFINED, int y = SDL_WINDOWPOS_UNDEFINED, 
-                          uint32_t flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL, bool use_vsync = false);
-        void close();
-        void swap_buffers();
-        void get_drawable_size(int * w, int * h);
-        SDL_Window * get_window();
-        SDL_GLContext * get_context();
-        void set_window_title(const char* name);
-    }
-}
+namespace Window {
+SDL_Window* init(const char* name,
+                 int w,
+                 int h,
+                 int x = SDL_WINDOWPOS_UNDEFINED,
+                 int y = SDL_WINDOWPOS_UNDEFINED,
+                 uint32_t flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL,
+                 bool use_vsync = false);
+void close();
+void swap_buffers();
+void get_drawable_size(int* w, int* h);
+SDL_Window* get_window();
+SDL_GLContext* get_context();
+void set_window_title(const char* name);
+}  // namespace Window
+}  // namespace auk

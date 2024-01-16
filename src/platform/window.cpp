@@ -1,8 +1,9 @@
+#include "auk/platform/window.h"
+
 #include <SDL.h>
 
-#include "auk/platform/window.h"
-#include "auk/platform/log.h"
 #include "auk/graphics/graphics.h"
+#include "auk/platform/log.h"
 
 #define OPENGL_VERSION_MAJOR 3
 #define OPENGL_VERSION_MINOR 3
@@ -10,37 +11,37 @@
 using namespace auk;
 
 namespace {
-    SDL_Window * window = nullptr;
-    SDL_GLContext context;
-}
+SDL_Window* window = nullptr;
+SDL_GLContext context;
+}  // namespace
 
-SDL_Window * Window::init(const char * name, int w, int h, int x, int y, uint32_t flags, bool use_vsync) {
-    
-    //Setting up logging so that it has colors on Windows
+SDL_Window*
+Window::init(const char* name, int w, int h, int x, int y, uint32_t flags, bool use_vsync) {
+    // Setting up logging so that it has colors on Windows
     Log::setup(Log::Level::Debug);
-    
-    //Initializing SDL
+
+    // Initializing SDL
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, OPENGL_VERSION_MAJOR);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, OPENGL_VERSION_MINOR);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
-    
+
     window = SDL_CreateWindow(name, x, y, w, h, flags);
 
     SDL_version sdl_version;
     SDL_GetVersion(&sdl_version);
     Log::info("SDL %i.%i.%i", sdl_version.major, sdl_version.minor, sdl_version.patch);
 
-    //Initializing Open GL
-    context = SDL_GL_CreateContext( window );
+    // Initializing Open GL
+    context = SDL_GL_CreateContext(window);
     SDL_GL_MakeCurrent(window, context);
     Graphics::load_functions(SDL_GL_GetProcAddress);
 #ifdef DEBUG_OPENGL
     Graphics::setup_debug();
 #endif
-    SDL_GL_SetSwapInterval(use_vsync); //using VSync
+    SDL_GL_SetSwapInterval(use_vsync);  // using VSync
 
     return window;
 }
@@ -50,24 +51,23 @@ void Window::swap_buffers() {
 }
 
 void Window::close() {
-	SDL_DestroyWindow(window);
-	window = nullptr;
+    SDL_DestroyWindow(window);
+    window = nullptr;
     SDL_GL_DeleteContext(context);
-	SDL_Quit();
+    SDL_Quit();
 }
 
-SDL_Window * Window::get_window() {
+SDL_Window* Window::get_window() {
     return window;
 }
 
-void Window::get_drawable_size(int * w, int * h) {
+void Window::get_drawable_size(int* w, int* h) {
     SDL_GL_GetDrawableSize(window, w, h);
 }
 
-SDL_GLContext * Window::get_context() {
+SDL_GLContext* Window::get_context() {
     return &context;
 }
-void Window::set_window_title(const char *name)
-{
+void Window::set_window_title(const char* name) {
     SDL_SetWindowTitle(window, name);
 }

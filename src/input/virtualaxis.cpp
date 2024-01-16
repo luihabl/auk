@@ -2,19 +2,18 @@
 
 using namespace auk;
 
-VirtualAxis & VirtualAxis::add(Key negative, Key positive) {
+VirtualAxis& VirtualAxis::add(Key negative, Key positive) {
     nodes.push_back({negative, positive});
     return *this;
 }
 
 void VirtualAxis::update() {
-    
-    for(auto & node : nodes)
+    for (auto& node : nodes)
         node.update();
 
     val = 0;
-    for(auto & node : nodes) {
-        if(node.val != 0) {
+    for (auto& node : nodes) {
+        if (node.val != 0) {
             val = node.val;
             break;
         }
@@ -22,21 +21,15 @@ void VirtualAxis::update() {
 }
 
 void VirtualAxis::KeyAxisNode::update() {
-
     if (key_pressed(positive)) {
-
         if (key_pressed(negative)) {
             val = 0.0f;
-        }
-        else {
+        } else {
             val = 1.0f;
         }
-    }
-    else if (key_pressed(negative)) {
+    } else if (key_pressed(negative)) {
         val = -1.0f;
-    }
-    else {
+    } else {
         val = 0.0f;
     }
-
 }

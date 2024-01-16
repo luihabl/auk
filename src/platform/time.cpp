@@ -1,6 +1,7 @@
 
-#include <SDL.h>
 #include "auk/platform/time.h"
+
+#include <SDL.h>
 
 using namespace auk;
 
@@ -9,7 +10,7 @@ uint32_t Time::get_time_ms() {
 }
 
 float Time::get_time_high_precision_ms() {
-    return 1000.0f * (float) SDL_GetPerformanceCounter() / (float) SDL_GetPerformanceFrequency();
+    return 1000.0f * (float)SDL_GetPerformanceCounter() / (float)SDL_GetPerformanceFrequency();
 }
 
 void Time::wait(uint32_t ms) {
@@ -17,8 +18,10 @@ void Time::wait(uint32_t ms) {
 }
 
 uint32_t SimpleTimer::get_time_ms() {
-    if (is_paused) return pause_time;
-    else return Time::get_time_ms() - start_time;
+    if (is_paused)
+        return pause_time;
+    else
+        return Time::get_time_ms() - start_time;
 }
 
 void SimpleTimer::start() {
@@ -38,5 +41,3 @@ void SimpleTimer::reset() {
     start_time = 0;
     pause_time = 0;
 }
-
-

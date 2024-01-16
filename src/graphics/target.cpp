@@ -1,7 +1,7 @@
+#include "auk/graphics/target.h"
 
 #include <glad/glad.h>
 
-#include "auk/graphics/target.h"
 #include "auk/graphics/texture.h"
 
 using namespace auk;
@@ -12,14 +12,13 @@ RenderTarget::RenderTarget(int w, int h) {
 
     this->tex = Texture::empty(w, h);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id, 0);
-    glDrawBuffer(GL_COLOR_ATTACHMENT0); //needed if you have more than one draw buffer
+    glDrawBuffer(GL_COLOR_ATTACHMENT0);  // needed if you have more than one draw buffer
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-RenderTarget::~RenderTarget()
-{
-    if(tex)
+RenderTarget::~RenderTarget() {
+    if (tex)
         delete tex;
 }
 
@@ -28,5 +27,5 @@ void RenderTarget::begin() {
 }
 
 void RenderTarget::end() {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0); 
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
