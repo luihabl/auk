@@ -19,6 +19,14 @@ set(SDL_TEST OFF CACHE BOOL "Build the SDL2_test library" FORCE)
 set(SDL_SHARED OFF CACHE BOOL "Build the SDL2 shared library" FORCE)
 FetchContent_MakeAvailable(sdl2)
 
+FetchContent_Declare(
+    rect_pack
+    GIT_REPOSITORY https://github.com/luihabl/rect_pack.h.git
+    GIT_PROGRESS TRUE
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(rect_pack)
+
 # adding files
 add_library(auk 
 
@@ -51,6 +59,6 @@ PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/auk/external>
 )
 
-target_link_libraries(auk PUBLIC SDL2main SDL2-static)
+target_link_libraries(auk PUBLIC SDL2main SDL2-static rect_pack)
 
 
