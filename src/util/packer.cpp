@@ -122,6 +122,10 @@ BoolVec2 Packer::pack_bin_tree() {
     bool none_fit = true;
 
     for (auto& r : nodes) {
+        if (r.packed) {
+            continue;
+        }
+
         BNode* node = find_bin_tree(root, r.w, r.h);
         if (node) {
             r.x = node->x;
