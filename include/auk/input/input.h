@@ -4,6 +4,7 @@
 
 #include "auk/input/keys.h"
 #include "auk/numerics/matrix.h"
+#include "auk/platform/window.h"
 
 namespace auk {
 
@@ -32,6 +33,6 @@ void register_button(VirtualInput* button);
 void unregister_button(VirtualInput* button);
 size_t reg_size();
 
-void update(InputHandler& handler);
+void update(const Window& wnd, InputHandler& handler);
 }  // namespace Input
 }  // namespace auk

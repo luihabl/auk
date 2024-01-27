@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "SDL_events.h"
+#include "SDL_video.h"
 
 using namespace auk;
 
@@ -30,10 +31,10 @@ IVec2 window_position = IVec2::zeros;
 std::list<VirtualInput*> registered_buttons;
 }  // namespace
 
-void Input::update(InputHandler& handler) {
+void Input::update(const Window& wnd, InputHandler& handler) {
     std::memcpy(&(previous_keyboard_state[0]), current_keyboard_state, sizeof(uint8_t) * n_keys);
 
-    SDL_GetWindowPosition(Window::get_window(), &window_position[0], &window_position[1]);
+    SDL_GetWindowPosition((SDL_Window*)wnd.get_window(), &window_position[0], &window_position[1]);
     SDL_GetGlobalMouseState(&mouse_global_position[0], &mouse_global_position[1]);
     mouse_window_position = mouse_global_position - window_position;
 
@@ -48,7 +49,7 @@ void Input::update(InputHandler& handler) {
             if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
                 int w, h;
 
-                Window::get_drawable_size(&w, &h);
+                wnd.get_drawable_size(&w, &h);
                 handler.on_window_resize(w, h);
             }
         }

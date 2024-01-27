@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 
+#include "SDL_video.h"
 #include "auk/graphics/graphics.h"
 #include "auk/platform/log.h"
 
@@ -10,13 +11,21 @@
 
 using namespace auk;
 
-namespace {
-SDL_Window* window = nullptr;
-SDL_GLContext context;
-}  // namespace
+struct Window::PlatformImpl {
+    SDL_Window* window = nullptr;
+    SDL_GLContext context = nullptr;
+};
 
-SDL_Window*
-Window::init(const char* name, int w, int h, int x, int y, uint32_t flags, bool use_vsync) {
+Window::Window() : impl(std::make_unique<PlatformImpl>()){};
+Window::~Window() = default;
+
+Window& Window::operator=(Window&& other) noexcept {
+    impl = std::move(other.impl);
+    return *this;
+}
+
+Window::Window(const char* name, int w, int h, int x, int y, uint32_t flags, bool use_vsync)
+    : impl(std::make_unique<PlatformImpl>()) {
     // Setting up logging so that it has colors on Windows
     Log::setup(Log::Level::Debug);
 
@@ -28,46 +37,54 @@ Window::init(const char* name, int w, int h, int x, int y, uint32_t flags, bool 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 
-    window = SDL_CreateWindow(name, x, y, w, h, flags);
+    x = x < 0 ? SDL_WINDOWPOS_UNDEFINED : x;
+    y = y < 0 ? SDL_WINDOWPOS_UNDEFINED : y;
+
+    uint32_t wnd_flags = 0;
+    if (flags & WindowFlags::Resizable)
+        wnd_flags |= SDL_WINDOW_RESIZABLE;
+    if (flags & WindowFlags::OpenGL)
+        wnd_flags |= SDL_WINDOW_OPENGL;
+
+    impl->window = SDL_CreateWindow(name, x, y, w, h, wnd_flags);
 
     SDL_version sdl_version;
     SDL_GetVersion(&sdl_version);
     Log::info("SDL %i.%i.%i", sdl_version.major, sdl_version.minor, sdl_version.patch);
 
     // Initializing Open GL
-    context = SDL_GL_CreateContext(window);
-    SDL_GL_MakeCurrent(window, context);
+    impl->context = SDL_GL_CreateContext(impl->window);
+    SDL_GL_MakeCurrent(impl->window, impl->context);
     Graphics::load_functions(SDL_GL_GetProcAddress);
 #ifdef DEBUG_OPENGL
     Graphics::setup_debug();
 #endif
     SDL_GL_SetSwapInterval(use_vsync);  // using VSync
-
-    return window;
 }
 
 void Window::swap_buffers() {
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(impl->window);
 }
 
 void Window::close() {
-    SDL_DestroyWindow(window);
-    window = nullptr;
-    SDL_GL_DeleteContext(context);
+    SDL_DestroyWindow(impl->window);
+    impl->window = nullptr;
+    SDL_GL_DeleteContext(impl->context);
     SDL_Quit();
 }
 
-SDL_Window* Window::get_window() {
-    return window;
+WindowPtr Window::get_window() const {
+    return static_cast<WindowPtr>(impl->window);
 }
 
-void Window::get_drawable_size(int* w, int* h) {
-    SDL_GL_GetDrawableSize(window, w, h);
+GLContextPtr Window::get_context() const {
+    return static_cast<GLContextPtr>(impl->context);
 }
 
-SDL_GLContext* Window::get_context() {
-    return &context;
+void Window::get_drawable_size(int* w, int* h) const {
+    SDL_GL_GetDrawableSize(impl->window, w, h);
 }
+
 void Window::set_window_title(const char* name) {
-    SDL_SetWindowTitle(window, name);
+    SDL_SetWindowTitle(impl->window, name);
 }
