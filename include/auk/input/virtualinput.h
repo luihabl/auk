@@ -1,6 +1,5 @@
 #pragma once
 
-#include "auk.h"
 #include "input.h"
 #include "keys.h"
 

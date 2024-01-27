@@ -1,11 +1,20 @@
+#include "auk/input/input.h"
+
 #include <auk.h>
 
 #include <cstring>
 #include <list>
-#include <memory>
 #include <vector>
 
+#include "SDL_events.h"
+
 using namespace auk;
+
+struct SDLInputEvent : public auk::InputEvent {
+    SDLInputEvent(SDL_Event* sdl_event) : event_(sdl_event) {}
+    void* event() override { return event_; }
+    SDL_Event* event_ = nullptr;
+};
 
 namespace {
 int n_keys = 512;
@@ -30,8 +39,10 @@ void Input::update(InputHandler& handler) {
 
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
-        if (handler.on_event)
-            handler.on_event(event);
+        if (handler.on_event) {
+            auto sdl_event = SDLInputEvent(&event);
+            handler.on_event(&sdl_event);
+        }
 
         if (event.type == SDL_WINDOWEVENT) {
             if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {

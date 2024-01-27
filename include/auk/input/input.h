@@ -1,16 +1,20 @@
 #pragma once
 
-#include <auk.h>
-
 #include <functional>
 
 #include "auk/input/keys.h"
+#include "auk/numerics/matrix.h"
 
 namespace auk {
+
+struct InputEvent {
+    virtual void* event() = 0;
+};
+
 struct InputHandler {
     std::function<void()> on_quit;
     std::function<void(int, int)> on_window_resize;
-    std::function<void(SDL_Event&)> on_event;
+    std::function<void(InputEvent*)> on_event;
 };
 
 class VirtualInput;
