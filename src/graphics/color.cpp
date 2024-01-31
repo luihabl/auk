@@ -1,8 +1,6 @@
 
 #include "auk/graphics/color.h"
 
-#include <inttypes.h>
-
 #include <cmath>
 
 #include "auk/numerics/matrix.h"
