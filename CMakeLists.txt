@@ -5,29 +5,8 @@ project(auk)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(FetchContent)
-set(FETCHCONTENT_QUIET FALSE)
+include(cmake/external.cmake)
 
-FetchContent_Declare(
-    sdl2
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL
-    GIT_TAG origin/release-2.26.x # grab latest stable release
-    GIT_PROGRESS TRUE
-)
-set(SDL_TEST_ENABLED_BY_DEFAULT OFF CACHE BOOL "Build the SDL2_test library by default" FORCE)
-set(SDL_TEST OFF CACHE BOOL "Build the SDL2_test library" FORCE)
-set(SDL_SHARED OFF CACHE BOOL "Build the SDL2 shared library" FORCE)
-FetchContent_MakeAvailable(sdl2)
-
-FetchContent_Declare(
-    rect_pack
-    GIT_REPOSITORY https://github.com/luihabl/rect_pack.h.git
-    GIT_PROGRESS TRUE
-    GIT_TAG main
-)
-FetchContent_MakeAvailable(rect_pack)
-
-# adding files
 add_library(auk 
 
 src/platform/window.cpp
