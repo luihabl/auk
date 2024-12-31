@@ -537,8 +537,8 @@ void BatchRenderer::render() {
 }
 
 void BatchRenderer::clear() {
-    vertices.clear();
-    indices.clear();
+    vertices.resize(0);
+    indices.resize(0);
 
     transform_stack.clear();
     transform = Mat3x2::identity;
