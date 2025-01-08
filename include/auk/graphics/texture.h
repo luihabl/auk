@@ -18,6 +18,8 @@ struct Image {
 
 struct Texture {
     Texture(int w, int h, int n_comp, unsigned char* data);
+    Texture(int w, int h, float* data);
+
     ~Texture();
 
     unsigned int id = 0;
@@ -29,6 +31,8 @@ struct Texture {
     Rect full_rect;
 
     void bind() const;
+    void update(float* data);
+
     static Texture* from_file(const char* path);
     static Texture* from_sprite(Image* spr);
     static Texture* empty(int w, int h);

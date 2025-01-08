@@ -46,6 +46,30 @@ Texture::Texture(int w, int h, int n_comp, unsigned char* data) : w(w), h(h) {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+Texture::Texture(int w, int h, float* data) : w(w), h(h) {
+    glGenTextures(1, &this->id);
+
+    glBindTexture(GL_TEXTURE_2D, this->id);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, w, h, 0, GL_RED, GL_FLOAT, data);
+
+    full_rect = {0, 0, (float)w, (float)h};
+
+    // add a way to set these parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Texture::update(float* data) {
+    glBindTexture(GL_TEXTURE_2D, this->id);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w, h, GL_RED, GL_FLOAT, data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 Texture::~Texture() {
     glDeleteTextures(1, &id);
 }
