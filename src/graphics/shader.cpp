@@ -142,7 +142,7 @@ void Shader::set_int(const char* name, const int& value) const {
 }
 
 void Shader::set_bool(const char* name, const bool value) const {
-    glUniform1d(glGetUniformLocation(this->id, name), value);
+    glUniform1i(glGetUniformLocation(this->id, name), value);
 }
 
 void Shader::set_mat4x4(const char* name, const Mat4x4& mat) const {
