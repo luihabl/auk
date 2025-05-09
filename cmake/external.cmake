@@ -4,7 +4,7 @@ include(cmake/cpm.cmake)
 CPMAddPackage(
   NAME sdl2
   GITHUB_REPOSITORY libsdl-org/SDL
-  GIT_TAG release-2.26.x
+  GIT_TAG release-2.32.x
   OPTIONS 
     "SDL_TEST_ENABLED_BY_DEFAULT Off" 
     "SDL_TEST Off"
