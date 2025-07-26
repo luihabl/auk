@@ -4,6 +4,7 @@
 #include "auk/graphics/graphics.h"
 #include "auk/graphics/renderer.h"
 #include "auk/graphics/shader.h"
+#include "auk/graphics/sprite_batch.h"
 #include "auk/graphics/target.h"
 #include "auk/graphics/texture.h"
 #include "auk/input/input.h"
