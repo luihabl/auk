@@ -16,6 +16,7 @@
 #include "auk/numerics/mathf.h"
 #include "auk/numerics/matrix.h"
 #include "auk/numerics/rect.h"
+#include "auk/platform/app.h"
 #include "auk/platform/file.h"
 #include "auk/platform/log.h"
 #include "auk/platform/time.h"
