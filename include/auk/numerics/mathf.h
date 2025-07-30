@@ -26,6 +26,11 @@ float lerp(float v0, float v1, float t);
 Vec2 lerp(Vec2 v0, Vec2 v1, float t);
 
 template <typename T>
+inline T lerp(T v0, T v1, float t) {
+    return (1.0f - t) * v0 + t * v1;
+}
+
+template <typename T>
 T ease(float (*f)(float), const T& v0, const T& v1, float t) {
     // return v0 + (v1 - v0) * f(t);
     // if ((v1 - v0).length() < f(t))
